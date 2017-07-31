@@ -189,9 +189,33 @@
     <link href="http://thief.one/2017/06/27/1/"/>
     <id>http://thief.one/2017/06/27/1/</id>
     <published>2017-06-27T02:17:09.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
+    <updated>2017-07-31T02:30:11.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Keep on going never give up！<br>勇往直前，决不放弃！</blockquote><br>　　黑苹果用了将近半年，我也开始慢慢熟悉使用mac操作系统。然而之前我并没有真正发挥出mac高效率的一面，而只是停留于最基础的使用，为了能更高效的使用mac，近期我搜集了一些高效优雅地使用mac的案例，准备实操一番并做些记录。<br>　　如何高效地使用Mac？面对这个问题，我们可以从如何优雅地使用shell（也就是终端）开始探讨。首先不得不说mac自带的shell功能已经很强大了，但为了更好地办公，我们能做得还有很多。本篇将介绍几款Mac下shell增强工具（插件），使得Macshell的功能更加强大。<br><a id="more"></a></p>
+<h3 id="iterm2"><a href="#iterm2" class="headerlink" title="iterm2"></a>iterm2</h3><p>安装比较简单，官网下载一个安装包即可。</p>
+<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><p>智能选中：</p>
+<ul>
+<li>双击选中字符串；</li>
+<li>三击选中整行；</li>
+<li>四击智能选中；</li>
+</ul>
+<p>按住⌘键：</p>
+<ul>
+<li>可以拖拽选中的字符串；</li>
+<li>点击url，调用默认浏览器访问该网址；</li>
+</ul>
+<p>快捷键：</p>
+<ul>
+<li>切换tab：⌘+←, ⌘+→, ⌘+{, ⌘+}；⌘+数字直接定位到该tab；</li>
+<li>新建tab：⌘+t；</li>
+<li>顺序切换 pane：⌘+[, ⌘+]；</li>
+<li>按方向切换 pane：⌘+Option+方向键；</li>
+<li>切分屏幕：⌘+d水平切分，⌘+Shift+d垂直切分；</li>
+<li>智能查找，支持正则查找：⌘+f；</li>
+<li>自动补齐，按⌘+;；</li>
+<li>弹出历史记录窗口，按⌘+Shift+h；</li>
+<li>找到当前鼠标，⌘+/；</li>
+</ul>
 <h3 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh my zsh"></a>oh my zsh</h3><p>　　我们平常在mac上使用的shell通常都是bash-shell，而mac以及linux有另一款自带的shell异常强大，它就是zsh-shell。bash-shell的配置通常可以在用户目录下.bash_profile文件内设置，而zsh-shell同样可以在用户目录下.zshrc文件内设置。<br>　　由于zsh-shell是完全可定制化的，因此出现了一款开源工具–oh my zsh，它是一个开源的、社区驱动的框架，用来管理ZSH配置。</p>
 <h4 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="external">https://github.com/robbyrussell/oh-my-zsh</a><br><a href="http://ohmyz.sh" target="_blank" rel="external">http://ohmyz.sh</a></p>
 <h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></div></pre></td></tr></table></figure>
