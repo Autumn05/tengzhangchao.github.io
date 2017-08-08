@@ -282,8 +282,8 @@
         <category>系统安全</category>
       </categories>
       <tags>
-        <tag>windows</tag>
         <tag>系统漏洞</tag>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
@@ -341,8 +341,8 @@
         <category>安全工具</category>
       </categories>
       <tags>
-        <tag>渗透神器</tag>
         <tag>nc</tag>
+        <tag>渗透神器</tag>
       </tags>
   </entry>
   <entry>
