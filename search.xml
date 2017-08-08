@@ -522,6 +522,9 @@
     <title><![CDATA[Linux常用命令]]></title>
     <url>%2F2017%2F03%2F08%2FLinux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
     <content type="text"><![CDATA[Nothing great was ever achieved without enthusiasm无热情成就不了伟业 本篇内容已经移植到：【玩转Linux系列】Linux基础命令]]></content>
+      <tags>
+        <tag>linux</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[Struts2_045漏洞]]></title>
