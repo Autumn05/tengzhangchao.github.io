@@ -192,7 +192,7 @@
     <link href="http://thief.one/2017/08/08/1/"/>
     <id>http://thief.one/2017/08/08/1/</id>
     <published>2017-08-08T12:21:20.000Z</published>
-    <updated>2017-08-09T12:35:49.000Z</updated>
+    <updated>2017-08-10T03:42:56.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">即使跌倒了，你要懂得抓一把沙子在手里。<br></blockquote><br>　　随着对安全技术探索的逐步深入，我深刻体会到掌握linux系统对于安全研究的重要性。而掌握Linux系统首先必须得学会一些常用的linux命令，其次再去掌握一些linux常用工具，最后再是深入理解linux系统内核等。因此本篇作为该系列的第一篇，主要用来记录分享一些自己常用且基础的Linux命令。<br><a id="more"></a></p>
 <h3 id="命令帮助"><a href="#命令帮助" class="headerlink" title="命令帮助"></a>命令帮助</h3><h4 id="解析命令的意思-whatis、info"><a href="#解析命令的意思-whatis、info" class="headerlink" title="解析命令的意思(whatis、info)"></a>解析命令的意思(whatis、info)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">whatis whoami 解析命令的意思</div><div class="line">info whoami   详细解析命令的意思</div></pre></td></tr></table></figure>
@@ -241,6 +241,7 @@
 <h3 id="性能管理"><a href="#性能管理" class="headerlink" title="性能管理"></a>性能管理</h3><h4 id="CPU-sar"><a href="#CPU-sar" class="headerlink" title="CPU(sar)"></a>CPU(sar)</h4><p>查看CPU使用率<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sar -u</div></pre></td></tr></table></figure></p>
 <p>查看CPU平均负载<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sar -q 1 2</div></pre></td></tr></table></figure></p>
 <h4 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h4><p>查看内存使用情况<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sar -r 1 2</div><div class="line">或者</div><div class="line">free -m</div></pre></td></tr></table></figure></p>
+<h4 id="网络流量监控-iftop"><a href="#网络流量监控-iftop" class="headerlink" title="网络流量监控(iftop)"></a>网络流量监控(iftop)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo iftop -i eth1 -B <span class="comment">#-i 指定网卡，-B以byte显示，可以使用-h查看帮助信息</span></div></pre></td></tr></table></figure>
 <h3 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h3><h4 id="管道和重定向-、-、-amp-amp-、-gt-、-gt-gt"><a href="#管道和重定向-、-、-amp-amp-、-gt-、-gt-gt" class="headerlink" title="管道和重定向(|、||、&amp;&amp;、&gt;、&gt;&gt;)"></a>管道和重定向(|、||、&amp;&amp;、&gt;、&gt;&gt;)</h4><ul>
 <li>批处理命令连接执行，使用 |</li>
 <li>串联使用分号 ;</li>
