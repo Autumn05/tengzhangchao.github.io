@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-08-11T04:12:16.000Z</updated>
+  <updated>2017-08-11T10:18:14.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【玩转linux系列】awk、grep、sed</title>
+    <link href="http://thief.one/2017/08/12/1/"/>
+    <id>http://thief.one/2017/08/12/1/</id>
+    <published>2017-08-12T02:41:19.000Z</published>
+    <updated>2017-08-11T10:18:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Learn and live<br>活着，为了学习<br></blockquote><br>　　awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linux命令之一。三者的功能都是处理文本，但侧重点各不相同，其中属awk功能最强大，但也最复杂。grep更适合单纯的查找或匹配文本，sed更适合编辑匹配到的文本，awk更适合格式化文本，对文本进行较复杂格式处理。<br><a id="more"></a><br>以下所有实验输出，均以测试文件test.log内容为基准：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">20170102 admin,password Open</div><div class="line">20170801 nmask,nmask close</div><div class="line">20180902 nm4k,<span class="built_in">test</span> filter</div></pre></td></tr></table></figure></p>
+<h3 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h3><p>AWK是一种处理文本文件的语言，是一个强大的文本分析工具;awk是以列为划分计数的，$0表示所有列，$1表示第一列，$2表示第二列。</p>
+<h4 id="awk参数"><a href="#awk参数" class="headerlink" title="awk参数"></a>awk参数</h4><ul>
+<li>-F 指定输入文件折分隔符，如-F:</li>
+<li>-v 赋值一个用户定义变量，如-va=1</li>
+<li>-f 从脚本文件中读取awk命令</li>
+</ul>
+<p>注：只列举最常用的参数</p>
+<h4 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h4><p>每行按空格分割列，并输出第1、4列<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ awk <span class="string">'&#123;print $1,$4&#125;'</span> test.log</div><div class="line">或者</div><div class="line">$ cat test.log | awk <span class="string">'&#123;print $1,$4&#125;'</span></div></pre></td></tr></table></figure></p>
+<h4 id="自定义分隔符"><a href="#自定义分隔符" class="headerlink" title="自定义分隔符"></a>自定义分隔符</h4><p>使用”,”进行分割，参数用-F<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">awk -F, <span class="string">'&#123;print $1,$2&#125;'</span> test.log</div></pre></td></tr></table></figure></p>
+<p>使用多个分隔符，先使用空格分割，然后对分割结果再使用”,”分割<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ awk -F <span class="string">'[ ,]'</span>  <span class="string">'&#123;print $1,$2,$3&#125;'</span>  test.log  <span class="comment">#注意逗号前面有一个空格</span></div></pre></td></tr></table></figure></p>
+<p><img src="/upload_image/20170812/1.png" alt=""></p>
+<h4 id="设置变量"><a href="#设置变量" class="headerlink" title="设置变量"></a>设置变量</h4><p>设置awk自定义变量，用参数-v<br>例子：设置变量a为1<br><img src="/upload_image/20170812/2.png" alt=""></p>
+<h4 id="逻辑判断"><a href="#逻辑判断" class="headerlink" title="逻辑判断"></a>逻辑判断</h4><p>输出第一列为20170801的记录<br><img src="/upload_image/20170812/3.png" alt=""></p>
+<p>输出第二列不是nmask,nmask的记录<br><img src="/upload_image/20170812/4.png" alt=""></p>
+<h4 id="内建变量"><a href="#内建变量" class="headerlink" title="内建变量"></a>内建变量</h4><p>NR参数：输出行号<br><img src="/upload_image/20170812/5.png" alt=""></p>
+<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><p>输出第二列中包含nm开头的所有记录<br><img src="/upload_image/20170812/6.png" alt=""><br>输出包含2017开头的记录<br><img src="/upload_image/20170812/7.png" alt=""><br>注意：这里没有～，因为没有指定是哪一列</p>
+<p>忽略大小写{INGORECASE=1}<br><img src="/upload_image/20170812/8.png" alt=""><br>匹配取反 !~<br><img src="/upload_image/20170812/9.png" alt=""></p>
+<h4 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h4><h5 id="substr字符串截取"><a href="#substr字符串截取" class="headerlink" title="substr字符串截取"></a>substr字符串截取</h5><p>截取第一列的第一到第四个字符<br><img src="/upload_image/20170812/10.png" alt=""></p>
+<h5 id="split切分字符串"><a href="#split切分字符串" class="headerlink" title="split切分字符串"></a>split切分字符串</h5><p>以逗号分隔第2列的数据，并输出分别输出第2列的内容<br><img src="/upload_image/20170812/11.png" alt=""></p>
+<h5 id="gsub替换"><a href="#gsub替换" class="headerlink" title="gsub替换"></a>gsub替换</h5><p>将第2列中的nmask替换成nMask<br><img src="/upload_image/20170812/12.png" alt=""></p>
+<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>Linux grep命令用于查找文件里符合条件的字符串。</p>
+<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><p>递归查询<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -r nmask /etc/  <span class="comment">#查看/etc目录下内容包含nmask的文件</span></div></pre></td></tr></table></figure></p>
+<p>查询取反<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -v <span class="built_in">test</span>  test.log</div></pre></td></tr></table></figure></p>
+<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>Linux sed命令是利用script来处理文本文件。</p>
+<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>-e 以选项中指定的script来处理输入的文本文件。<br>-f 以选项中指定的script文件来处理输入的文本文件。<br>-h 显示帮助。<br>-n 仅显示script处理后的结果。<br>-V 显示版本信息。</p>
+<h4 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h4><p>a ：新增， a 的后面可以接字串，而这些字串会在下一行出现<br>i ：插入， i 的后面可以接字串，而这些字串会在上一行出现<br>c ：取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行<br>d ：删除<br>s ：取代，通常这个s的动作可以搭配正规表示法！如 s/old/new/g</p>
+<h4 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h4><p>在test.log文件的第4行后插入一行，内容为nmask<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -e 4a\nmask test.log</div></pre></td></tr></table></figure></p>
+<h4 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h4><p>删除test.log的第2行、第3行数据<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat test.log | sed <span class="string">'2,3d'</span></div></pre></td></tr></table></figure></p>
+<p>匹配删除，删除行中有nmask字符串的<br><img src="/upload_image/20170812/13.png" alt=""></p>
+<h4 id="替换操作"><a href="#替换操作" class="headerlink" title="替换操作"></a>替换操作</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed <span class="string">'s/要被取代的字串/新的字串/g'</span></div></pre></td></tr></table></figure>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.runoob.com/linux/linux-comm-awk.html" target="_blank" rel="external">http://www.runoob.com/linux/linux-comm-awk.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Learn and live&lt;br&gt;活着，为了学习&lt;br&gt;&lt;/blockquote&gt;&lt;br&gt;　　awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linux命令之一。三者的功能都是处理文本，但侧重点各不相同，其中属awk功能最强大，但也最复杂。grep更适合单纯的查找或匹配文本，sed更适合编辑匹配到的文本，awk更适合格式化文本，对文本进行较复杂格式处理。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="linux" scheme="http://thief.one/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>【玩转linux系列】shell编程</title>
@@ -1697,70 +1751,6 @@
     
     
       <category term="445端口" scheme="http://thief.one/tags/445%E7%AB%AF%E5%8F%A3/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈DDos攻击与防御</title>
-    <link href="http://thief.one/2017/05/10/1/"/>
-    <id>http://thief.one/2017/05/10/1/</id>
-    <published>2017-05-10T01:22:52.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">水能载舟，亦能覆舟</blockquote><br>　　最近重新拜读了道哥的经典力作《白帽子讲Web安全》一书，发觉好书看一遍是不够的，每次品味都有不同的味道。道哥此书侧重于企业安全，即所讲所写偏重企业内部的安全建设，而不是针对某些漏洞大书特书。再次细读，深感需要做点笔记加强加强记忆，于是便以本篇开始，记录一些曾经看过的经典书籍的笔记。本篇主要用于记录《白帽子讲Web安全》读后感之DDos攻击与防御相关的知识。本篇记录的绝大部分内容来自《白帽子讲Web安全》，感谢道哥！<br><a id="more"></a></p>
-<h3 id="DDos简介"><a href="#DDos简介" class="headerlink" title="DDos简介"></a>DDos简介</h3><p>　　DDos又叫分布式拒绝服务，全称Distributed Denial of Service，利用DDos造成的攻击称为拒绝服务攻击，其原理就是利用大量的请求造成资源过载，导致服务不可用。<br>　　DDos攻击从层次上可分为网络层攻击与应用层攻击，从攻击手法上可分为快型流量攻击与慢型流量攻击，但其原理都是造成资源过载，导致服务不可用。</p>
-<h3 id="网络层DDos攻击"><a href="#网络层DDos攻击" class="headerlink" title="网络层DDos攻击"></a>网络层DDos攻击</h3><p>网络层DDos攻击包括SYN flood、UDP flood、ICMP flood等。</p>
-<h4 id="SYN-flood攻击"><a href="#SYN-flood攻击" class="headerlink" title="SYN flood攻击"></a>SYN flood攻击</h4><p>　　SYN flood攻击主要利用了TCP三次握手过程中的bug，我们知道TCP三次握手过程是要建立连接的双方发送SYN，SYN+ACK，ACK数据包，而当攻击方随意构造源ip去发送SYN包时，服务器返回的SYN+ACK就不能得到应答（因为ip是随意构造的），此时服务器就会尝试重新发送，并且会有至少30s的等待时间，导致资源饱和服务不可用，此攻击属于慢型dos攻击。</p>
-<h4 id="UDP-flood攻击"><a href="#UDP-flood攻击" class="headerlink" title="UDP flood攻击"></a>UDP flood攻击</h4><p>　　由于udp是一种无连接的协议，因此攻击者可以伪造大量的源IP地址去发送udp包，此种攻击属于大流量攻击。正常应用情况下，UDP包双向流量会基本相等，因此在消耗对方资源的时候也在消耗自己的资源。</p>
-<h4 id="ICMP-flood攻击"><a href="#ICMP-flood攻击" class="headerlink" title="ICMP flood攻击"></a>ICMP flood攻击</h4><p>　　此攻击属于大流量攻击，其原理就是不断发送不正常的ICMP包（所谓不正常就是ICMP包内容很大），导致目标带宽被占用，但其本身资源也会被消耗。并且目前很多服务器都是禁ping的（在防火墙在可以屏蔽icmp包），因此这种方式已经落伍。</p>
-<h3 id="网络层DDos防御"><a href="#网络层DDos防御" class="headerlink" title="网络层DDos防御"></a>网络层DDos防御</h3><ul>
-<li>网络架构上做好优化，采用负载均衡分流。</li>
-<li>添加抗DDos设备，流量清洗。</li>
-<li>限制单ip请求频率。</li>
-<li>防火墙等防护设置禁止icmp包等</li>
-</ul>
-<p>网络层的DDos攻击究其本质其实是无法防御的，我们能做得就是不断优化自身的网络架构，以及提升网络带宽。</p>
-<h3 id="应用层DDos攻击"><a href="#应用层DDos攻击" class="headerlink" title="应用层DDos攻击"></a>应用层DDos攻击</h3><p>应用层DDos攻击不是发生在网络层，是发生在TCP建立握手成功之后，应用程序处理请求的时候。</p>
-<h4 id="CC攻击"><a href="#CC攻击" class="headerlink" title="CC攻击"></a>CC攻击</h4><p>　　CC攻击还有一段比较有趣的来历，据说当时绿盟为了防御DDos攻击研发了一款产品，叫做“Collapasar”，能够有效的防御SYN flood攻击。然而黑客为了挑衅，研发了一款Challenge Collapasar工具（简称CC）。<br>　　CC攻击的原理，就是针对消耗资源比较大的页面不断发起不正常的请求，导致资源耗尽。因此在发送CC攻击前，我们需要寻找加载比较慢，消耗资源比较多的网页，比如需要查询数据库的页面、读写硬盘文件的等。通过cc攻击，使用爬虫对某些加载需要消耗大量资源的页面发起http请求。</p>
-<h4 id="slowloris"><a href="#slowloris" class="headerlink" title="slowloris"></a>slowloris</h4><p>　　这是由于webserver中间件漏洞引发的拒绝服务攻击，其原理是以极低的速度往服务器发送HTTP请求。apache等中间件默认会设置最大并发链接数，而这种攻击就是会持续保持连接，导致服务饱和不可用。slowloris有点类似基于HTTP协议的SYN flood攻击。</p>
-<h5 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h5><p>构造以下畸形http请求包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">GET / HTTP/1.1\r\n</div><div class="line">Host: Victim host\r\n</div><div class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n</div><div class="line">Content-Length: 42\r\n</div></pre></td></tr></table></figure></p>
-<p>完整的http请求头结尾应该是两次的\r\n\r\n，这里少了一次，因此服务器将会一直等待。</p>
-<h4 id="HTTP-POST-DOS"><a href="#HTTP-POST-DOS" class="headerlink" title="HTTP POST DOS"></a>HTTP POST DOS</h4><p>　　其原理是在发送HTTP POST包时，指定一个非常大的Content-Length值，然后以极低的速度发包，保持连接不断，导致服务饱和不可用。</p>
-<h5 id="poc-1"><a href="#poc-1" class="headerlink" title="poc"></a>poc</h5><p>构造以下畸形http请求包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">GET / HTTP/1.1\r\n</div><div class="line">Host: Victim host\r\n</div><div class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.503l3; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; MSOffice 12)\r\n</div><div class="line">Content-Length: 9999999999\r\n\r\n</div></pre></td></tr></table></figure></p>
-<h4 id="Slow-Read-attack"><a href="#Slow-Read-attack" class="headerlink" title="Slow Read attack"></a>Slow Read attack</h4><p>　　Slow Read attack攻击方式是采用调整TCP协议中的滑动窗口大小，来对服务器单次发送发送的数据大小进行控制，使得服务器需要对一个回应分成很多个包来发送。</p>
-<h4 id="Server-Limit-Dos"><a href="#Server-Limit-Dos" class="headerlink" title="Server Limit Dos"></a>Server Limit Dos</h4><p>　　这是由于cookie导致的dos攻击，当然其原理还是基于webserver的特性。apache默认最大的http包头长度为8192字节，如果超出此长度，则会返回4xx错误。如果我们利用存储型xss漏洞，将一个超长的cookie写入客户端页面，则用户再访问此页面后，由于请求头加载了恶意的超长cookie，导致其不能访问该站的页面（除非清空cookie）</p>
-<h4 id="ReDos"><a href="#ReDos" class="headerlink" title="ReDos"></a>ReDos</h4><p>　　这是由于代码写得有缺陷，导致使用正则时，会出现大量占用资源的情况，导致服务不可用，这是利用了正则表达式在匹配时的某些特性决定的。</p>
-<h3 id="应用层DDos防御"><a href="#应用层DDos防御" class="headerlink" title="应用层DDos防御"></a>应用层DDos防御</h3><ul>
-<li>判断User-Agent字段（不可靠，因为可以随意构造）</li>
-<li>网页中镶嵌js代码（不可靠，因为爬虫也可携带浏览器引擎，或者执行js代码）</li>
-<li>针对ip+cookie，限制访问频率（由于cookie可以更改，ip可以使用代理，或者肉鸡，也不可靠)</li>
-<li>关闭apache最大连接数等，合理配置中间件，缓解ddos攻击。</li>
-<li>页面中添加验证码，比如搜索数据库时。</li>
-<li>编写代码时，尽量实现优化，并合理使用缓存技术，减少数据库的读取操作。</li>
-</ul>
-<p>　　应用层的防御有时比网络层的更难，因为导致应用层被dos攻击的因素非常多，有时往往是因为程序员的失误，导致某个页面加载需要消耗大量资源，有时是因为中间件配置不当等等。而应用层DDos防御的核心就是区分人与机器（爬虫），因为大量的请求不可能是人为的，肯定是机器构造的。因此如果能有效的区分人与爬虫行为，则可以很好地防御此攻击。</p>
-<h3 id="无线DDOS"><a href="#无线DDOS" class="headerlink" title="无线DDOS"></a>无线DDOS</h3><p>@更新于2017年5月31日<br>参考：<a href="http://www.freebuf.com/articles/wireless/135598.html" target="_blank" rel="external">http://www.freebuf.com/articles/wireless/135598.html</a></p>
-<h4 id="Auth-Flood攻击"><a href="#Auth-Flood攻击" class="headerlink" title="Auth Flood攻击"></a>Auth Flood攻击</h4><p>Auth Flood攻击：即身份验证洪水攻击。该攻击目标主要针对那些处于通过验证、和AP建立关联的关联客户端，攻击者将向AP发送大量伪造的身份验证请求帧（伪造的身份验证服务和状态代码），当收到大量伪造的身份验证请求超过所能承受的能力时，AP将断开其他无线服务连接。</p>
-<h4 id="Deauth-Flood攻击"><a href="#Deauth-Flood攻击" class="headerlink" title="Deauth Flood攻击"></a>Deauth Flood攻击</h4><p>Deauth Flood攻击即为取消验证洪水攻击，它旨在通过欺骗从AP到客户端单播地址的取消身份验证帧来将客户端转为未关联/未认证的状态。对于目前的工具来说，这种形式的攻击在打断客户无线服务方面非常有效和快捷。一般来说，在攻击者发送另一个取消身份验证帧之前，客户端会重新关联和认证以再次获取服务。攻击者反复欺骗取消身份验证帧才能使所有客户端持续拒绝服务。</p>
-<h4 id="Association-Flood攻击"><a href="#Association-Flood攻击" class="headerlink" title="Association Flood攻击"></a>Association Flood攻击</h4><p>Association Flood攻击即为关联洪水攻击。在无线路由器或者接入点内置一个列表即为连接状态表，里面可显示出所有与该AP建立连接的无线客户端状态。它试图通过利用大量模仿和伪造的无线客户端关联来填充AP的客户端关联表，从而达到淹没AP的目的。<br>由于开放身份验证（空身份验证）允许任何客户端通过身份验证后关联。利用这种漏洞的攻击者可以通过创建多个到达已连接或已关联的客户端来模仿很多客户端，从而淹没目标AP的客户端关联表。</p>
-<h4 id="Disassociation-Flood攻击"><a href="#Disassociation-Flood攻击" class="headerlink" title="Disassociation Flood攻击"></a>Disassociation Flood攻击</h4><p>Disassociation Flood攻击即为取消关联洪水攻击，和deauthenticaiton flood攻击表现方式很相似。它通过欺骗从AP到客户端的取消关联帧来强制客户端成为未关联/未认证的状态。一般来说，在攻击者发送另一个取消关联帧之前，客户端会重新关联以再次获取服务。攻击者反复欺骗取消关联帧才能使客户端持续拒绝服务。<br>Disassociation Broadcast攻击和Disassociation Flood攻击原理基本一致，只是在发送程度及使用工具上有所区别，前者很多时候用于配合进行无线中间人攻击，而后者常用于目标确定的点对点无线DOS，比如破坏或干扰指定机构或部门的无线接入点等。</p>
-<h4 id="RF-Jamming攻击"><a href="#RF-Jamming攻击" class="headerlink" title="RF Jamming攻击"></a>RF Jamming攻击</h4><p>RF Jamming攻击即为RF干扰攻击。该攻击是通过发出干扰射频达到破坏正常无线通信的目的。而前面几种攻击主要是基于无线通信过程及协议的。RF为射频，主要包括无线信号发射机及收信机等。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;水能载舟，亦能覆舟&lt;/blockquote&gt;&lt;br&gt;　　最近重新拜读了道哥的经典力作《白帽子讲Web安全》一书，发觉好书看一遍是不够的，每次品味都有不同的味道。道哥此书侧重于企业安全，即所讲所写偏重企业内部的安全建设，而不是针对某些漏洞大书特书。再次细读，深感需要做点笔记加强加强记忆，于是便以本篇开始，记录一些曾经看过的经典书籍的笔记。本篇主要用于记录《白帽子讲Web安全》读后感之DDos攻击与防御相关的知识。本篇记录的绝大部分内容来自《白帽子讲Web安全》，感谢道哥！&lt;br&gt;
-    
-    </summary>
-    
-      <category term="网络安全" scheme="http://thief.one/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="DDos" scheme="http://thief.one/tags/DDos/"/>
-    
-      <category term="网络安全" scheme="http://thief.one/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="拒绝服务" scheme="http://thief.one/tags/%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1/"/>
     
   </entry>
   
