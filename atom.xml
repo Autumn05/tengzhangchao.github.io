@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-08-11T10:18:14.000Z</updated>
+  <updated>2017-08-21T12:51:21.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,72 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx+uwsgi部署Django</title>
+    <link href="http://thief.one/2017/08/21/1/"/>
+    <id>http://thief.one/2017/08/21/1/</id>
+    <published>2017-08-21T12:31:59.000Z</published>
+    <updated>2017-08-21T12:51:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Constant dropping wears the stone<br>滴水穿石</blockquote><br>　　本文用来记录Django部署的一些笔记，文中描述的系统环境为Ubuntu，采用的服务器为nginx以及用uwsgi来连接Django，这也是目前Django比较主流的部署套餐。<br><a id="more"></a></p>
+<h3 id="部署连接原理"><a href="#部署连接原理" class="headerlink" title="部署连接原理"></a>部署连接原理</h3><p>浏览器发起web请求&lt;——&gt;nginx接收请求&lt;——&gt;uwsgi处理请求&lt;—–&gt;django程序</p>
+<h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><h4 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h4><p>安装nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install nginx</div></pre></td></tr></table></figure></p>
+<p>运行并查看状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div><div class="line">/etc/init.d/nginx status</div></pre></td></tr></table></figure></p>
+<h4 id="Uwsgi"><a href="#Uwsgi" class="headerlink" title="Uwsgi"></a>Uwsgi</h4><p>先安装python-dev，否则uwsgi安装可能会报错<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install python-dev</div></pre></td></tr></table></figure></p>
+<p>安装uwsgi<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install uwsgi</div></pre></td></tr></table></figure></p>
+<p>安装完后添加环境变量:<br>打开文件：sudo vim .bashrc，添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> PATH=/home/nmask/.<span class="built_in">local</span>/bin/:<span class="variable">$PATH</span></div></pre></td></tr></table></figure></p>
+<p>然后运行source .bashrc使之生效，就可以在命令行直接运行uwsgi</p>
+<h3 id="环境测试"><a href="#环境测试" class="headerlink" title="环境测试"></a>环境测试</h3><h4 id="测试nginx"><a href="#测试nginx" class="headerlink" title="测试nginx"></a>测试nginx</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div></pre></td></tr></table></figure>
+<p>打开<em><a href="http://localhost:80" target="_blank" rel="external">http://localhost:80</a></em>，能看到nginx说明nginx安装成功。</p>
+<h4 id="测试uwsgi"><a href="#测试uwsgi" class="headerlink" title="测试uwsgi"></a>测试uwsgi</h4><p>项目根目录下创建test.py文件，写入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def application(env, start_response):</div><div class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</div><div class="line">    <span class="built_in">return</span> <span class="string">"Hello World”</span></div></pre></td></tr></table></figure></p>
+<p>项目根目录下运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :8001 --wsgi-file test.py</div></pre></td></tr></table></figure></p>
+<p>访问<em><a href="http://localhost:8001" target="_blank" rel="external">http://localhost:8001</a></em>，如果能看到hello world，说明uwsgi安装成功。</p>
+<h5 id="利用uwsgi运行django项目"><a href="#利用uwsgi运行django项目" class="headerlink" title="利用uwsgi运行django项目"></a>利用uwsgi运行django项目</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :8001 --<span class="built_in">chdir</span> /home/nmask/mydjango --wsgi-file mydjango/wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.1:8080</div></pre></td></tr></table></figure>
+<p>常用选项：</p>
+<ul>
+<li>http ： 协议类型和端口号</li>
+<li>processes ： 开启的进程数量</li>
+<li>workers ： 开启的进程数量，等同于processes（官网的说法是spawn the specified number ofworkers / processes）</li>
+<li>chdir ： 指定运行目录（chdir to specified directory before apps loading）</li>
+<li>wsgi-file ： 载入wsgi-file（load .wsgi file）</li>
+<li>stats ： 在指定的地址上，开启状态服务（enable the stats server on the specified address）</li>
+<li>threads ： 运行线程。由于GIL的存在，我觉得这个真心没啥用。（run each worker in prethreaded mode with the specified number of threads）</li>
+<li>master ： 允许主进程存在（enable master process）</li>
+<li>daemonize ： 使进程在后台运行，并将日志打到指定的日志文件或者udp服务器（daemonize uWSGI）。实际上最常用的，还是把运行记录输出到一个本地文件上。</li>
+<li>pidfile ： 指定pid文件的位置，记录主进程的pid号。</li>
+<li>vacuum ： 当服务器退出的时候自动清理环境，删除unix socket文件和pid文件（try to remove all of the generated file/sockets）</li>
+</ul>
+<h3 id="文件配置"><a href="#文件配置" class="headerlink" title="文件配置"></a>文件配置</h3><h4 id="myweb-uwsgi-ini"><a href="#myweb-uwsgi-ini" class="headerlink" title="myweb_uwsgi.ini"></a>myweb_uwsgi.ini</h4><p>项目根目录下创建：myweb_uwsgi.ini文件，写入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># myweb_uwsgi.ini file</span></div><div class="line">[uwsgi]</div><div class="line"></div><div class="line"><span class="comment"># Django-related settings</span></div><div class="line"></div><div class="line">socket = :8000</div><div class="line"></div><div class="line"><span class="comment"># the base directory (full path)</span></div><div class="line"><span class="built_in">chdir</span>           = /home/nmask/mydjango</div><div class="line"><span class="comment"># Django s wsgi file</span></div><div class="line">module          = mydjango.wsgi</div><div class="line"></div><div class="line"><span class="comment"># process-related settings</span></div><div class="line"><span class="comment"># master</span></div><div class="line">master          = <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># maximum number of worker processes</span></div><div class="line">processes       = 4</div><div class="line"></div><div class="line"><span class="comment"># ... with appropriate permissions - may be needed</span></div><div class="line"><span class="comment"># chmod-socket    = 664</span></div><div class="line"><span class="comment"># clear environment on exit</span></div><div class="line">vacuum          = <span class="literal">true</span></div></pre></td></tr></table></figure></p>
+<p>利用uwsgi运行django：（与前面命令行的方式一样，这样为了方便写成了文件）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --ini myweb_uwsgi.ini</div></pre></td></tr></table></figure></p>
+<p>配置文件参数：</p>
+<ul>
+<li>socket:指uwsgi运行的端口</li>
+<li>Chdir:运行的目录</li>
+<li>Module：运行的文件</li>
+</ul>
+<h4 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h4><p>打开/etc/nginx/nginx.conf，http内添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen         8890; </div><div class="line">    server_name    127.0.0.1 </div><div class="line">    charset UTF-8;</div><div class="line">    access_log      /var/<span class="built_in">log</span>/nginx/myweb_access.log;</div><div class="line">    error_log       /var/<span class="built_in">log</span>/nginx/myweb_error.log;</div><div class="line"></div><div class="line">    client_max_body_size 75M;</div><div class="line"></div><div class="line">    location / &#123; </div><div class="line">        include uwsgi_params;</div><div class="line">        uwsgi_pass 127.0.0.1:8000;</div><div class="line">        uwsgi_read_timeout 2;</div><div class="line">    &#125;   </div><div class="line">    location /static &#123;</div><div class="line">        expires 30d;</div><div class="line">        autoindex on; </div><div class="line">        add_header Cache-Control private;</div><div class="line">        <span class="built_in">alias</span> /home/fnngj/pydj/myweb/static/;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>说明：这里的8000端口是uwsgi的端口，nginx运行将开启8890端口，也就是nginx的8890端口与uwsgi的8000端口相互通信。</p>
+<h3 id="部署运行"><a href="#部署运行" class="headerlink" title="部署运行"></a>部署运行</h3><p>运行uwsgi：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup uwsgi --ini myweb_uwsgi.ini &amp;</div></pre></td></tr></table></figure></p>
+<p>运行nginx:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div></pre></td></tr></table></figure></p>
+<p>最后访问<em><a href="http://localhost:8890" target="_blank" rel="external">http://localhost:8890</a></em>，可以看到django项目已经被运行在nginx上了。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.cnblogs.com/fnng/p/5268633.html" target="_blank" rel="external">http://www.cnblogs.com/fnng/p/5268633.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Constant dropping wears the stone&lt;br&gt;滴水穿石&lt;/blockquote&gt;&lt;br&gt;　　本文用来记录Django部署的一些笔记，文中描述的系统环境为Ubuntu，采用的服务器为nginx以及用uwsgi来连接Django，这也是目前Django比较主流的部署套餐。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="nginx" scheme="http://thief.one/tags/nginx/"/>
+    
+      <category term="Django" scheme="http://thief.one/tags/Django/"/>
+    
+  </entry>
   
   <entry>
     <title>【玩转linux系列】awk、grep、sed</title>
@@ -149,7 +215,7 @@
     <link href="http://thief.one/2017/08/09/2/"/>
     <id>http://thief.one/2017/08/09/2/</id>
     <published>2017-08-09T08:24:01.000Z</published>
-    <updated>2017-08-11T04:04:49.000Z</updated>
+    <updated>2017-08-21T12:45:51.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Nothing great was ever achieved without enthusiasm<br>无热情成就不了伟业<br></blockquote><br>　　前段时间做了一次不算成功也不算完整的linux内网渗透，不算成功是因为并没有拿下内网中其他服务器的权限，不算完整是因为由于某些原因测试被迫暂时中止。虽然这次linux内网渗透不算是一个很好的教学案例，但我还是决定把过程记录一下，尤其重点记录linux内网渗透的思路，以防遗忘。<br><a id="more"></a><br>　　网上关于内网渗透的资料很多，我在做测试之前也是翻阅了很多资料。本篇标题突出linux，是因为本次测试不涉及windows系统，当然linux与windows内网渗透的原理差不多，只不过使用的工具有所区别。</p>
 <h3 id="收集测试网络环境"><a href="#收集测试网络环境" class="headerlink" title="收集测试网络环境"></a>收集测试网络环境</h3><p>　　当我们拿到一台目标内网服务器，或者说肉鸡服务器，首先要做的就是收集信息。而在我看来需要收集的信息中，最重要的之一便是肉鸡的网络环境。</p>
@@ -1707,50 +1773,6 @@
       <category term="ms17-010" scheme="http://thief.one/tags/ms17-010/"/>
     
       <category term="windows补丁" scheme="http://thief.one/tags/windows%E8%A1%A5%E4%B8%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>windows关闭445端口</title>
-    <link href="http://thief.one/2017/05/13/2/"/>
-    <id>http://thief.one/2017/05/13/2/</id>
-    <published>2017-05-13T01:44:49.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">一二三四五，上山打老虎</blockquote><br>　　由于大规模蠕虫来袭，目前最紧急的事情就是关闭windows445端口，在此分享下windows关闭445端口的几种方案，适用于window2003/xp/windows7/windows8/windows10系统。<br><a id="more"></a></p>
-<h3 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h3><p>需要打ms17-010系统补丁的朋友可以参考教程:　<a href="http://thief.one/2017/05/15/1">windows系统打MS17-010补丁</a></p>
-<h3 id="修改注册表法"><a href="#修改注册表法" class="headerlink" title="修改注册表法"></a>修改注册表法</h3><p>为注册表添加一个键值，具体步骤：</p>
-<ul>
-<li>单击”开始”，”运行”，输入”regedit”打开注册表。</li>
-<li>找到注册表项”HKEY_LOCAL_MACHINE\System\Controlset\Services\NetBT\Parameters”</li>
-<li>选择”Parameters”右键新建”DWORD值”</li>
-<li>将DWORD值重命名为”SMBDeviceEnabled”</li>
-<li>右键单击”SMBDeviceEnabled”选择”修改”,在”数值数据”下，输入”0”</li>
-</ul>
-<p><img src="/upload_image/2017051302/3.png" alt=""></p>
-<p>键具体内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Hive: HKEY_LOCAL_MACHINE</div><div class="line">Key: System\CurrentControlSet\Services\NetBT\Parameters</div><div class="line">Name: SMBDeviceEnabled</div><div class="line">Type: REG_DWORD</div><div class="line">Value: 0</div></pre></td></tr></table></figure></p>
-<p>修改完注册表后重启计算机，然后CMD运行”netstat -an | findstr 445”查看445端口是否关闭。</p>
-<h3 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h3><p>此方法不在于关闭自身445端口，而是为了阻断外界对本机445端口的连接访问。</p>
-<p>防火墙高级设置—入站规则—右击新建规则—在对话框中选择UDP，端口号写上445—阻止链接。</p>
-<p>新建完规则查看如下：<br><img src="/upload_image/2017051302/4.png" alt=""></p>
-<h3 id="关闭server服务"><a href="#关闭server服务" class="headerlink" title="关闭server服务"></a>关闭server服务</h3><p>以管理员身份打开cmd，运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">net stop server</div></pre></td></tr></table></figure></p>
-<p>配置需要重新计算机生效，因为共享服务需要开启server，因此关闭server服务就不能使用共享服务（445端口服务）。</p>
-<h3 id="网卡设置"><a href="#网卡设置" class="headerlink" title="网卡设置"></a>网卡设置</h3><h4 id="禁止Windows共享"><a href="#禁止Windows共享" class="headerlink" title="禁止Windows共享"></a>禁止Windows共享</h4><p>卸载下图两个组件，此操作的目的是禁止445端口。<br><img src="/upload_image/2017051302/1.png" alt=""></p>
-<h4 id="禁止netbios服务"><a href="#禁止netbios服务" class="headerlink" title="禁止netbios服务"></a>禁止netbios服务</h4><p>此操作的目的是禁止137,139端口，关闭netbios服务。<br><img src="/upload_image/2017051302/2.png" alt=""></p>
-<p>以上2步操作需要重启计算机生效。</p>
-<h3 id="修改本地组策略"><a href="#修改本地组策略" class="headerlink" title="修改本地组策略"></a>修改本地组策略</h3><p>　　运行输入gpedit.msc打开本地组策略编辑器，计算机配置–windows设置–安全设置–ip安全策略，在本地计算机。通过修改本地组策略方式虽然比较麻烦，但是比较推荐此方法。<br>具体操作可参考：<a href="https://jingyan.baidu.com/article/d621e8da0abd192865913f1f.html" target="_blank" rel="external">https://jingyan.baidu.com/article/d621e8da0abd192865913f1f.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;一二三四五，上山打老虎&lt;/blockquote&gt;&lt;br&gt;　　由于大规模蠕虫来袭，目前最紧急的事情就是关闭windows445端口，在此分享下windows关闭445端口的几种方案，适用于window2003/xp/windows7/windows8/windows10系统。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="系统安全" scheme="http://thief.one/categories/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="445端口" scheme="http://thief.one/tags/445%E7%AB%AF%E5%8F%A3/"/>
     
   </entry>
   
