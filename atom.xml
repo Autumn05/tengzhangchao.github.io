@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-08-21T12:51:21.000Z</updated>
+  <updated>2017-08-22T06:45:31.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -16,11 +16,59 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>nginx负载均衡</title>
+    <link href="http://thief.one/2017/08/22/1/"/>
+    <id>http://thief.one/2017/08/22/1/</id>
+    <published>2017-08-22T06:08:36.000Z</published>
+    <updated>2017-08-22T06:45:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Give more than you planned to<br>多多给予，不必计较</blockquote><br>　　nginx功能强大且常用作反向代理或者负载均衡，当我们部署了一个web系统之后，面对日益增多的访问流量，采用nginx做负载均衡是一个实惠的方案，本文用来记录nginx实现负载均衡的一些操作。<br><a id="more"></a></p>
+<h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>　　为了能够更符合真实环境，我在本机host上绑定了一个域名phantomjs.me，其ip地址为192.168.1.2，是一台安装了nginx的linux服务器，用来模拟负载均衡服务器；另外同一内网中还有3台web服务器，其ip分别是192.168.1.3，192.168.1.4，192.168.1.5。</p>
+<h3 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的　　"></a>实验目的　　</h3><p>　　当我们访问phantomjs.me域名时，负载均衡服务器能够将流量负载到3台web服务器中，负载的方式可以自由选择。</p>
+<h3 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h3><ul>
+<li>（A）192.168.1.2负载均衡服务器监听80端口，用作负载。</li>
+<li>（B）192.168.1.3Web服务器监听80端口。</li>
+<li>（C）192.168.1.4Web服务器监听80端口。</li>
+<li>（D）192.168.1.5Web服务器监听80端口。</li>
+</ul>
+<p>说明：A服务器作为负载均衡服务器，域名直接解析到A服务器（192.168.1.2:80）上。由A服务器将流量负载均衡到B服务器（192.168.1.3:80）、C服务器（192.168.1.4:80）和D服务器（192.168.1.5:80）上。负载均衡可以针对不同的服务器，也可以针对同一台服务器的不同端口，主要看实际需求。</p>
+<h3 id="nginx具体配置"><a href="#nginx具体配置" class="headerlink" title="nginx具体配置"></a>nginx具体配置</h3><p>　　编辑A服务器的nginx.conf，文件位置在nginx安装目录下，一般在/etc/nginx/nginx.conf。在http段加入以下代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">upstream server_pools&#123;</div><div class="line">      server 192.168.1.3:80; <span class="comment">#分别对应三台web服务器</span></div><div class="line">      server 192.168.1.4:80;</div><div class="line">      server 192.168.1.5:80;</div><div class="line">&#125;</div><div class="line"></div><div class="line">server&#123; </div><div class="line">    listen 80; <span class="comment">#nginx开启的端口</span></div><div class="line">    server_name phantoms.me; <span class="comment">#测试域名</span></div><div class="line">    location / &#123; </div><div class="line">        proxy_pass         http://phantomjs.me; </div><div class="line">        proxy_set_header   Host             <span class="variable">$host</span>; </div><div class="line">        proxy_set_header   X-Real-IP        <span class="variable">$remote_addr</span>; </div><div class="line">        proxy_set_header   X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>; </div><div class="line">    &#125; </div><div class="line">    access_log /var/<span class="built_in">log</span>/nginx.log;  <span class="comment">#添加日志记录</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>重启nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx restart</div></pre></td></tr></table></figure></p>
+<p>最后访问<a href="http://phantomjs.me" target="_blank" rel="external">http://phantomjs.me</a></p>
+<h4 id="server中可用的参数"><a href="#server中可用的参数" class="headerlink" title="server中可用的参数"></a>server中可用的参数</h4><p>默认upstream server后的参数 weight=1 max_fails=1 fail_timeout=10s。</p>
+<ul>
+<li>weight：服务器权重</li>
+<li>max_fails=number:最大失败尝试次数</li>
+<li>fail_timeout=time:设置服务器不可用的时长</li>
+<li>backup：备用主机</li>
+<li>down：手动标记不再处理任何用户请求</li>
+</ul>
+<h3 id="nginx反向代理"><a href="#nginx反向代理" class="headerlink" title="nginx反向代理"></a>nginx反向代理</h3><p>这里顺便记录一下，用nginx配置反向代理的方法，这种方法也被大量用在网页劫持（黑产）中，这里不详细介绍了。</p>
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>将以下内容添加到nginx配置文件的server中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /update/&#123;<span class="comment">#将本地update目录代理到baidu.com/update目录下，即访问本地update其实是在访问baidu的update。</span></div><div class="line">        proxy_pass         http://baidu.com/update; </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>重启nginx，尝试访问<em><a href="http://phantomjs.me/update/" target="_blank" rel="external">http://phantomjs.me/update/</a></em>，其实际获取的是baidu的update目录资源。</p>
+<p>关于nginx负载均衡更详细的内容，可以访问：<a href="http://www.jusene.me/2017/05/24/nginx-proxy/" target="_blank" rel="external">http://www.jusene.me/2017/05/24/nginx-proxy/</a></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.jianshu.com/p/ac8956f79206" target="_blank" rel="external">http://www.jianshu.com/p/ac8956f79206</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Give more than you planned to&lt;br&gt;多多给予，不必计较&lt;/blockquote&gt;&lt;br&gt;　　nginx功能强大且常用作反向代理或者负载均衡，当我们部署了一个web系统之后，面对日益增多的访问流量，采用nginx做负载均衡是一个实惠的方案，本文用来记录nginx实现负载均衡的一些操作。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="linux" scheme="http://thief.one/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>nginx+uwsgi部署Django</title>
     <link href="http://thief.one/2017/08/21/1/"/>
     <id>http://thief.one/2017/08/21/1/</id>
     <published>2017-08-21T12:31:59.000Z</published>
-    <updated>2017-08-21T12:51:21.000Z</updated>
+    <updated>2017-08-22T06:03:31.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Constant dropping wears the stone<br>滴水穿石</blockquote><br>　　本文用来记录Django部署的一些笔记，文中描述的系统环境为Ubuntu，采用的服务器为nginx以及用uwsgi来连接Django，这也是目前Django比较主流的部署套餐。<br><a id="more"></a></p>
 <h3 id="部署连接原理"><a href="#部署连接原理" class="headerlink" title="部署连接原理"></a>部署连接原理</h3><p>浏览器发起web请求&lt;——&gt;nginx接收请求&lt;——&gt;uwsgi处理请求&lt;—–&gt;django程序</p>
@@ -63,6 +111,7 @@
 <h3 id="部署运行"><a href="#部署运行" class="headerlink" title="部署运行"></a>部署运行</h3><p>运行uwsgi：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup uwsgi --ini myweb_uwsgi.ini &amp;</div></pre></td></tr></table></figure></p>
 <p>运行nginx:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div></pre></td></tr></table></figure></p>
 <p>最后访问<em><a href="http://localhost:8890" target="_blank" rel="external">http://localhost:8890</a></em>，可以看到django项目已经被运行在nginx上了。</p>
+<p>注意：<em>在更新Django代码后，最好重启一下uwsgi进程，避免出现不可预知的Bug！</em></p>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.cnblogs.com/fnng/p/5268633.html" target="_blank" rel="external">http://www.cnblogs.com/fnng/p/5268633.html</a></p>
 ]]></content>
     
@@ -1723,56 +1772,6 @@
       <category term="钟馗之眼" scheme="http://thief.one/tags/%E9%92%9F%E9%A6%97%E4%B9%8B%E7%9C%BC/"/>
     
       <category term="google" scheme="http://thief.one/tags/google/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>windows系统打MS17-010补丁</title>
-    <link href="http://thief.one/2017/05/15/1/"/>
-    <id>http://thief.one/2017/05/15/1/</id>
-    <published>2017-05-15T11:45:31.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">你转身的一瞬，我萧条的一生</blockquote><br>　　周一大早全民开始打补丁，由此可见此次蠕虫病毒影响空前绝后。而我在给自己电脑打补丁的时候，发现了一些问题，在此分享以帮助还未及时打补丁的朋友。<br><a id="more"></a></p>
-<h3 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h3><p>需要关闭445端口的朋友可以参考教程:　<a href="http://thief.one/2017/05/13/2">windows关闭445端口</a></p>
-<h3 id="微软漏洞信息官网挂了？"><a href="#微软漏洞信息官网挂了？" class="headerlink" title="微软漏洞信息官网挂了？"></a>微软漏洞信息官网挂了？</h3><p>　　今早我在访问　<a href="https://technet.microsoft.com/en-us/library/security/MS17-010" target="_blank" rel="external">微软漏洞信息官方网站</a>　准备下载补丁时，发现其网站出现502错误，不知道是不是由于访问量太高的缘由。我猜想此时微软高层的心情肯定是苦笑不得，从来没有被民众重视过的微软补丁在今日达到了一个下载高潮。由于官方渠道下载受阻，很多人无法得到补丁文件，从而没能顺利得安装好补丁，在此我给出网盘链接，里面是各个操作系统对应的补丁程序。</p>
-<p>百度网盘链接：<a href="http://pan.baidu.com/s/1slfitD7" target="_blank" rel="external">http://pan.baidu.com/s/1slfitD7</a> 密码：dkoe</p>
-<p>说明：网盘内每个操作系统对应一个压缩包，请下载后自行解压安装即可，如失效请留言告知！</p>
-<h3 id="开启windows自动更新就ok了？"><a href="#开启windows自动更新就ok了？" class="headerlink" title="开启windows自动更新就ok了？"></a>开启windows自动更新就ok了？</h3><p>　　起初我在处理ms17-010补丁的时候，是选择开启windows自动更新功能，并且安装了最新的一些补丁。然而当我安装完后进行查看时，并没有发现KB4012212(windows7)补丁信息。无奈，只能自行下载ms17-010补丁安装包进行单独安装，安装完以后可以看到已安装的补丁中存在了KB4012212，所以我猜想自动更新是不包含ms17-010漏洞补丁的。</p>
-<h3 id="如何查看已安装补丁信息？"><a href="#如何查看已安装补丁信息？" class="headerlink" title="如何查看已安装补丁信息？"></a>如何查看已安装补丁信息？</h3><p>查看已安装的补丁信息(cmd下输入以下命令)：</p>
-<h4 id="方案一："><a href="#方案一：" class="headerlink" title="方案一："></a>方案一：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systeminfo | findstr <span class="string">"KB4012212"</span></div></pre></td></tr></table></figure>
-<p>如果有输出内容，说明打补丁成功；否则说明该补丁没有被成功安装。</p>
-<h4 id="方案二："><a href="#方案二：" class="headerlink" title="方案二："></a>方案二：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systeminfo &gt; systeminfo.txt</div></pre></td></tr></table></figure>
-<p>打开生成的systeminfo.txt文件查看，里面包含了已安装补丁的KB编号信息。<br><img src="/upload_image/2017051501/1.png" alt=""></p>
-<h3 id="ms17-010对应的KB编号"><a href="#ms17-010对应的KB编号" class="headerlink" title="ms17-010对应的KB编号"></a>ms17-010对应的KB编号</h3><p>各版本操作系统对应的KB号：</p>
-<ul>
-<li>windows Vista （KB4012598）</li>
-<li>windows xp（KB4012598）</li>
-<li>Windows Server 2008（KB4012598）</li>
-<li>Windows 7（KB4012212、KB4012215）</li>
-<li>Windows Server 2008 R2（KB4012212、KB4012215）</li>
-<li>Windows 8.1（KB4012213、KB4012216）</li>
-<li>Windows Server 2012 and Windows Server 2012 R2（KB4012213、KB4012214、KB4012216、KB4012217）</li>
-<li>Windows RT 8.1（KB4012216）</li>
-<li>Windows 10（KB4012216、KB4013198）</li>
-<li>Windows Server 2016（KB4013198）</li>
-</ul>
-<p>安装完补丁后，请查看校验系统是否存在对应的KB号。</p>
-<h3 id="MS对应的KB号"><a href="#MS对应的KB号" class="headerlink" title="MS对应的KB号"></a>MS对应的KB号</h3><p>请移步项目：<a href="https://github.com/tengzhangchao/microsoftSpider" target="_blank" rel="external">https://github.com/tengzhangchao/microsoftSpider</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;你转身的一瞬，我萧条的一生&lt;/blockquote&gt;&lt;br&gt;　　周一大早全民开始打补丁，由此可见此次蠕虫病毒影响空前绝后。而我在给自己电脑打补丁的时候，发现了一些问题，在此分享以帮助还未及时打补丁的朋友。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="系统安全" scheme="http://thief.one/categories/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="ms17-010" scheme="http://thief.one/tags/ms17-010/"/>
-    
-      <category term="windows补丁" scheme="http://thief.one/tags/windows%E8%A1%A5%E4%B8%81/"/>
     
   </entry>
   
