@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://thief.one/2017/08/23/1/</loc>
+    
+    <lastmod>2017-08-23T09:13:09.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://thief.one/2017/07/26/1/</loc>
+    
+    <lastmod>2017-08-23T08:44:55.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://thief.one/2017/08/22/1/</loc>
     
     <lastmod>2017-08-22T06:45:31.000Z</lastmod>
@@ -131,13 +145,6 @@
     <loc>http://thief.one/2017/06/27/1/</loc>
     
     <lastmod>2017-07-31T02:30:11.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://thief.one/2017/07/26/1/</loc>
-    
-    <lastmod>2017-07-28T09:13:18.000Z</lastmod>
     
   </url>
   
@@ -583,14 +590,14 @@
   </url>
   
   <url>
-    <loc>http://thief.one/categories/index.html</loc>
+    <loc>http://thief.one/2017/05/25/1/</loc>
     
     <lastmod>2017-07-25T12:05:00.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://thief.one/2017/05/25/1/</loc>
+    <loc>http://thief.one/categories/index.html</loc>
     
     <lastmod>2017-07-25T12:05:00.000Z</lastmod>
     

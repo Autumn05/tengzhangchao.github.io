@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-08-22T06:45:31.000Z</updated>
+  <updated>2017-08-23T09:13:09.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,37 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>bootstrap前端框架</title>
+    <link href="http://thief.one/2017/08/23/1/"/>
+    <id>http://thief.one/2017/08/23/1/</id>
+    <published>2017-08-23T08:47:34.000Z</published>
+    <updated>2017-08-23T09:13:09.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Let bygones be bygones<br>过去的就让它过去吧</blockquote><br>　　现在Web前端的技术发展得很快，web页面做得越来越炫目。然而作为一名”后端程序员”，不会写css，写不好javascript，不懂jquery怎么办？没关系，本篇将介绍前端开发神器–bootstrap，学会它立马变身前端达人。（题外话：我也是被前端开发搞得心力憔悴后，才发现有这个框架，用起来简直爽！）<br><a id="more"></a></p>
+<h3 id="Who-is-bootstrap"><a href="#Who-is-bootstrap" class="headerlink" title="Who is bootstrap?"></a>Who is bootstrap?</h3><p>　　Bootstrap是由Twitter的Mark Otto和Jacob Thornton开发的，在2011年八月发布的开源产品。Bootstrap是一个用于快速开发Web应用程序和网站的前端框架，其基于 HTML、CSS、JAVASCRIPT。<br>　　简单来说，Bootstrap相当于一个封装好的前端模块，而模块中的方法（函数）涵盖了html、css、javascript，封装的功能包含常用的布局、颜色等，直接调用即可。</p>
+<h3 id="How-to-install-bootstrap"><a href="#How-to-install-bootstrap" class="headerlink" title="How to install bootstrap?"></a>How to install bootstrap?</h3><h4 id="（一）官网下载编译好的压缩包"><a href="#（一）官网下载编译好的压缩包" class="headerlink" title="（一）官网下载编译好的压缩包"></a>（一）官网下载编译好的压缩包</h4><p>官网：<a href="http://getbootstrap.com/" target="_blank" rel="external">http://getbootstrap.com/</a><br>找到下图位置，并下载压缩包，解压后获取css与js文件夹。<br><img src="/upload_image/20170823/1.png" alt=""></p>
+<h4 id="（二）Github源码下载"><a href="#（二）Github源码下载" class="headerlink" title="（二）Github源码下载"></a>（二）Github源码下载</h4><p>Github：<a href="https://github.com/twbs/bootstrap" target="_blank" rel="external">https://github.com/twbs/bootstrap</a><br>说明一下，官方也可以直接下载源码，下载后获取dist里面的css与js文件夹；当然也可以自己编译，参照github上面的教程</p>
+<h4 id="（三）使用cdn文件"><a href="#（三）使用cdn文件" class="headerlink" title="（三）使用cdn文件"></a>（三）使用cdn文件</h4><p>简单来说，使用bootstrap主要就是使用已经封装好的js与css文件，因此也可以不用下载，直接使用官方提供的cdn文件，将以下代码添加到html的head中。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"</span>&gt;  </div><div class="line">&lt;script src=<span class="string">"https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"</span>&gt;&lt;/script&gt;</div><div class="line">&lt;script src=<span class="string">"https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"</span>&gt;&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="How-to-use-bootstrap"><a href="#How-to-use-bootstrap" class="headerlink" title="How to use bootstrap?"></a>How to use bootstrap?</h3><p>具体使用手册可以参考：<br><a href="http://www.runoob.com/bootstrap/bootstrap-tutorial.html" target="_blank" rel="external">http://www.runoob.com/bootstrap/bootstrap-tutorial.html</a><br><a href="http://www.bootcss.com/" target="_blank" rel="external">http://www.bootcss.com/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;head&gt;</div><div class="line">  &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"</span>&gt;  </div><div class="line">  &lt;script src=<span class="string">"https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"</span>&gt;&lt;/script&gt;</div><div class="line">  &lt;script src=<span class="string">"https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"</span>&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;table class=<span class="string">"table table-striped"</span>&gt; </div><div class="line">&lt;tr&gt;</div><div class="line">&lt;th&gt;<span class="built_in">test</span>&lt;/th&gt;</div><div class="line">&lt;th&gt;<span class="built_in">test</span>&lt;/th&gt;</div><div class="line">&lt;th&gt;<span class="built_in">test</span>&lt;/th&gt;</div><div class="line">&lt;/tr&gt;</div><div class="line">&lt;tr&gt;</div><div class="line">&lt;td&gt;<span class="built_in">test</span>&lt;/td&gt;</div><div class="line">&lt;td&gt;<span class="built_in">test</span>&lt;/td&gt;</div><div class="line">&lt;td&gt;<span class="built_in">test</span>&lt;/td&gt;</div><div class="line">&lt;/tr&gt;</div><div class="line">&lt;/table&gt;</div><div class="line">    &lt;button <span class="built_in">type</span>=<span class="string">"button"</span> class=<span class="string">"btn btn-success"</span>&gt;成功按钮&lt;/button&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+<p><img src="/upload_image/20170823/2.png" alt=""></p>
+<p>说明：head中导入js与css，模版很多不过一般这三个就够用了，然后具体的标签中就可以使用class来加载css与js。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Let bygones be bygones&lt;br&gt;过去的就让它过去吧&lt;/blockquote&gt;&lt;br&gt;　　现在Web前端的技术发展得很快，web页面做得越来越炫目。然而作为一名”后端程序员”，不会写css，写不好javascript，不懂jquery怎么办？没关系，本篇将介绍前端开发神器–bootstrap，学会它立马变身前端达人。（题外话：我也是被前端开发搞得心力憔悴后，才发现有这个框架，用起来简直爽！）&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
+    
+    
+      <category term="bootstrap" scheme="http://thief.one/tags/bootstrap/"/>
+    
+  </entry>
   
   <entry>
     <title>nginx负载均衡</title>
@@ -634,7 +665,7 @@
     <link href="http://thief.one/2017/07/26/1/"/>
     <id>http://thief.one/2017/07/26/1/</id>
     <published>2017-07-26T06:45:30.000Z</published>
-    <updated>2017-07-28T09:13:18.000Z</updated>
+    <updated>2017-08-23T08:44:55.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Take control of your own desting<br>命运掌握在自己手上</blockquote><br>　　最近由于项目需要，特地研究了下mysql数据库。虽然大学期间曾学习过mysql，但由于之前开发一直用rethinkdb以及mongodb数据库，因此对mysql已经有些生疏了。最近在使用期间也遇到了很多坑，但幸好最终还是靠着强大的Google解决了所有问题。因此在此记录下mysql相关问题的一些笔记，其中可能会涉及Mysql安全相关的问题，比如利用mysql导出shell、mysql提权等，权当备份。<br><a id="more"></a></p>
 <h2 id="Mysql基础命令"><a href="#Mysql基础命令" class="headerlink" title="Mysql基础命令"></a>Mysql基础命令</h2><p>想要mysql玩得6，mysql命令行必须会用，或者说sql必须会，一起复习一下吧。</p>
@@ -661,6 +692,20 @@
 <p>修改数据：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">UPDATE 表名 SET 字段1名=值,字段2名=值,字段3名=值 <span class="built_in">where</span> 字段名=值;</div></pre></td></tr></table></figure></p>
 <p>删除数据：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DELETE FROM 表名;</div></pre></td></tr></table></figure></p>
 <p><em>以上命令是最最基础的，但也是最常用的</em></p>
+<h2 id="常用Sql语句"><a href="#常用Sql语句" class="headerlink" title="常用Sql语句"></a>常用Sql语句</h2><h3 id="获取固定数量的结果"><a href="#获取固定数量的结果" class="headerlink" title="获取固定数量的结果"></a>获取固定数量的结果</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from table <span class="built_in">limit</span> m,n</div></pre></td></tr></table></figure>
+<p>说明：其中m是指记录开始的index，从0开始，表示第一条记录；n是指从第m+1条开始，取n条。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from table <span class="built_in">limit</span> 0,n</div></pre></td></tr></table></figure></p>
+<p>说明：查询前n条结果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from table <span class="built_in">limit</span> m,-1</div></pre></td></tr></table></figure></p>
+<p>说明：查询m行以后的结果。</p>
+<h3 id="查询字符串"><a href="#查询字符串" class="headerlink" title="查询字符串"></a>查询字符串</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM table WHERE name like <span class="string">'%PHP%'</span></div></pre></td></tr></table></figure>
+<p>说明：%表示模糊查询，%php表示以php结尾的所有结果，%php%表示包含php的所有结果。</p>
+<h3 id="非空查询"><a href="#非空查询" class="headerlink" title="非空查询"></a>非空查询</h3><p>查询address字段不为空的结果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM table WHERE address &lt;&gt;<span class="string">''</span></div></pre></td></tr></table></figure></p>
+<h3 id="判断查询"><a href="#判断查询" class="headerlink" title="判断查询"></a>判断查询</h3><p>查询age在0-18之间的结果。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM table WHERE age BETWEEN 0 AND 18</div></pre></td></tr></table></figure></p>
+<h3 id="查询结果的数量"><a href="#查询结果的数量" class="headerlink" title="查询结果的数量"></a>查询结果的数量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select count(*) from table</div></pre></td></tr></table></figure>
+<h3 id="查询结果不显示重复记录"><a href="#查询结果不显示重复记录" class="headerlink" title="查询结果不显示重复记录"></a>查询结果不显示重复记录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DISTINCT 字段名 FROM 表名 WHERE 查询条件</div></pre></td></tr></table></figure>
+<p>注:SQL语句中的DISTINCT必须与WHERE子句联合使用，否则输出的信息不会有变化 ,且字段不能用*代替。</p>
+<h3 id="查询排序"><a href="#查询排序" class="headerlink" title="查询排序"></a>查询排序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT 字段名 FROM tb_stu WHERE 条件 ORDER BY 字段 DESC 降序</div><div class="line">SELECT 字段名 FROM tb_stu WHERE 条件 ORDER BY 字段 ASC  升序</div></pre></td></tr></table></figure>
+<p>注:对字段进行排序时若不指定排序方式，则默认为ASC升序。</p>
+<h3 id="多条件查询排序"><a href="#多条件查询排序" class="headerlink" title="多条件查询排序"></a>多条件查询排序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT 字段名 FROM tb_stu WHERE 条件 ORDER BY 字段1 ASC 字段2 DESC</div></pre></td></tr></table></figure>
 <h2 id="Mysql使用权限问题"><a href="#Mysql使用权限问题" class="headerlink" title="Mysql使用权限问题"></a>Mysql使用权限问题</h2><h3 id="只能本地连接mysql，远程机器连接不了？"><a href="#只能本地连接mysql，远程机器连接不了？" class="headerlink" title="只能本地连接mysql，远程机器连接不了？"></a>只能本地连接mysql，远程机器连接不了？</h3><p>当我在服务器上搭建好mysql，输入以下命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[root@ ~]<span class="comment"># mysql -u root -p</span></div><div class="line">Enter password:</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
 <p>当输入mysql密码，出现mysql&gt;提示后，说明已经成功登陆mysql。</p>
 <p>我满心欢喜地打开自己的mac，准备远程连接服务器上的mysql，结果如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">[Mac~]mysql -u root -p -h 192.168.2.2</div><div class="line">Enter password: </div><div class="line">ERROR 1045 (28000): Access denied <span class="keyword">for</span> user <span class="string">'root'</span>@<span class="string">'192.168.2.2'</span> (using password: YES)</div></pre></td></tr></table></figure></p>
@@ -1659,119 +1704,6 @@
       <category term="中间件漏洞" scheme="http://thief.one/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E/"/>
     
       <category term="中间件安全" scheme="http://thief.one/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%89%E5%85%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【渗透神器系列】搜索引擎</title>
-    <link href="http://thief.one/2017/05/19/1/"/>
-    <id>http://thief.one/2017/05/19/1/</id>
-    <published>2017-05-19T03:23:05.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">动动指尖，弹指一挥间</blockquote><br>　　搜索引擎是我日常工作中用得最多的一款工具，国内常用的搜索引擎包括Baidu，sougou，bing等。但我本篇要纪录的并不是这些常用的搜索引擎，而是信息安全从业人员必备的几款网络搜索引擎。本篇要介绍的搜索引擎包括：Shodan，censys，钟馗之眼，Google，FoFa，Dnsdb等。介绍的内容主要是这几款搜索引擎的一些高级语法，掌握高级语法会让搜索结果更准确。<br><a id="more"></a><br><em>对搜索引擎语法有所遗忘的，本文可当参考，仅此而已</em></p>
-<h3 id="Google搜索引擎"><a href="#Google搜索引擎" class="headerlink" title="Google搜索引擎"></a>Google搜索引擎</h3><p>　　这里之所以要介绍google搜索引擎，是因为它有别于百度、搜狗等内容搜索引擎，其在安全界有着非同一般的地位，甚至专门有一名词为google hacking用来形容google与安全非同寻常的关系。</p>
-<h4 id="google基本语法"><a href="#google基本语法" class="headerlink" title="google基本语法"></a>google基本语法</h4><p>Index of/　　使用它可以直接进入网站首页下的所有文件和文件夹中。<br>intext:　　将返回所有在网页正文部分包含关键词的网页。<br>intitle:　　将返回所有网页标题中包含关键词的网页。<br>cache:　　搜索google里关于某些内容的缓存。<br>define:　　搜索某个词语的定义。<br>filetype:　　搜索指定的文件类型，如：.bak，.mdb，.inc等。<br>info:　　查找指定站点的一些基本信息。<br>inurl:　　搜索我们指定的字符是否存在于URL中。<br>Link:　　link:thief.one可以返回所有和thief.one做了链接的URL。<br>site:　　site:thief.one将返回所有和这个站有关的URL。</p>
-<p>+　　把google可能忽略的字列如查询范围。<br>-　　把某个字忽略，例子：新加 -坡。<br>~　　同意词。<br>.　　单一的通配符。<br>*　　通配符，可代表多个字母。<br>“”　　精确查询。</p>
-<h4 id="搜索不同国家网站"><a href="#搜索不同国家网站" class="headerlink" title="搜索不同国家网站"></a>搜索不同国家网站</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">inurl:tw　　台湾</div><div class="line">inurl:jp　　日本</div></pre></td></tr></table></figure>
-<h4 id="利用google暴库"><a href="#利用google暴库" class="headerlink" title="利用google暴库"></a>利用google暴库</h4><p>利用goole可以搜索到互联网上可以直接下载到的数据库文件，语法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">inurl:editor/db/ </div><div class="line">inurl:eWebEditor/db/ </div><div class="line">inurl:bbs/data/ </div><div class="line">inurl:databackup/ </div><div class="line">inurl:blog/data/ </div><div class="line">inurl:\boke\data </div><div class="line">inurl:bbs/database/ </div><div class="line">inurl:conn.asp </div><div class="line">inc/conn.asp</div><div class="line">Server.mapPath(“.mdb”)</div><div class="line">allinurl:bbs data</div><div class="line">filetype:mdb inurl:database</div><div class="line">filetype:inc conn</div><div class="line">inurl:data filetype:mdb</div><div class="line">intitle:<span class="string">"index of"</span> data</div></pre></td></tr></table></figure></p>
-<h4 id="利用goole搜索敏感信息"><a href="#利用goole搜索敏感信息" class="headerlink" title="利用goole搜索敏感信息"></a>利用goole搜索敏感信息</h4><p>利用google可以搜索一些网站的敏感信息，语法如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">intitle:<span class="string">"index of"</span> etc</div><div class="line">intitle:<span class="string">"Index of"</span> .sh_history</div><div class="line">intitle:<span class="string">"Index of"</span> .bash_history</div><div class="line">intitle:<span class="string">"index of"</span> passwd</div><div class="line">intitle:<span class="string">"index of"</span> people.lst</div><div class="line">intitle:<span class="string">"index of"</span> pwd.db</div><div class="line">intitle:<span class="string">"index of"</span> etc/shadow</div><div class="line">intitle:<span class="string">"index of"</span> spwd</div><div class="line">intitle:<span class="string">"index of"</span> master.passwd</div><div class="line">intitle:<span class="string">"index of"</span> htpasswd</div><div class="line">inurl:service.pwd</div></pre></td></tr></table></figure></p>
-<h4 id="利用google搜索C段服务器信息"><a href="#利用google搜索C段服务器信息" class="headerlink" title="利用google搜索C段服务器信息"></a>利用google搜索C段服务器信息</h4><p>此技巧来自<a href="http://wolvez.club/" target="_blank" rel="external">lostwolf</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">site:218.87.21.*</div></pre></td></tr></table></figure></p>
-<p>可通过google可获取218.87.21.0/24网络的服务信息。</p>
-<h3 id="shodan搜索引擎"><a href="#shodan搜索引擎" class="headerlink" title="shodan搜索引擎"></a>shodan搜索引擎</h3><p>shodan网络搜索引擎偏向网络设备以及服务器的搜索，具体内容可上网查阅，这里给出它的高级搜索语法。<br>地址：<a href="https://www.shodan.io/" target="_blank" rel="external">https://www.shodan.io/</a></p>
-<h4 id="搜索语法"><a href="#搜索语法" class="headerlink" title="搜索语法"></a>搜索语法</h4><ul>
-<li>hostname：　　搜索指定的主机或域名，例如 hostname:”google”</li>
-<li>port：　　搜索指定的端口或服务，例如 port:”21”</li>
-<li>country：　　搜索指定的国家，例如 country:”CN”</li>
-<li>city：　　搜索指定的城市，例如 city:”Hefei”</li>
-<li>org：　　搜索指定的组织或公司，例如 org:”google”</li>
-<li>isp：　　搜索指定的ISP供应商，例如 isp:”China Telecom”</li>
-<li>product：　　搜索指定的操作系统/软件/平台，例如 product:”Apache httpd”</li>
-<li>version：　　搜索指定的软件版本，例如 version:”1.6.2”</li>
-<li>geo：　　搜索指定的地理位置，例如 geo:”31.8639, 117.2808”</li>
-<li>before/after：　　搜索指定收录时间前后的数据，格式为dd-mm-yy，例如 before:”11-11-15”</li>
-<li>net：　　搜索指定的IP地址或子网，例如 net:”210.45.240.0/24”</li>
-</ul>
-<p>以上内容参考：<a href="http://xiaix.me/shodan-xin-shou-ru-keng-zhi-nan/" target="_blank" rel="external">http://xiaix.me/shodan-xin-shou-ru-keng-zhi-nan/</a></p>
-<h3 id="censys搜索引擎"><a href="#censys搜索引擎" class="headerlink" title="censys搜索引擎"></a>censys搜索引擎</h3><p>censys搜索引擎功能与shodan类似，以下几个文档信息。<br>地址：<a href="https://www.censys.io/" target="_blank" rel="external">https://www.censys.io/</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">https://www.censys.io/certificates/<span class="built_in">help</span> 帮助文档</div><div class="line">https://www.censys.io/ipv4?q=  ip查询</div><div class="line">https://www.censys.io/domain?q=  域名查询</div><div class="line">https://www.censys.io/certificates?q= 证书查询</div></pre></td></tr></table></figure></p>
-<h4 id="搜索语法-1"><a href="#搜索语法-1" class="headerlink" title="搜索语法"></a>搜索语法</h4><p>默认情况下censys支持全文检索。</p>
-<ul>
-<li>23.0.0.0/8 or 8.8.8.0/24　　可以使用and or not</li>
-<li>80.http.get.status_code: 200　　指定状态</li>
-<li>80.http.get.status_code:[200 TO 300]　　200-300之间的状态码</li>
-<li>location.country_code: DE　　国家</li>
-<li>protocols: (“23/telnet” or “21/ftp”)　　协议</li>
-<li>tags: scada　　标签</li>
-<li>80.http.get.headers.server：nginx　　服务器类型版本</li>
-<li>autonomous_system.description: University　　系统描述</li>
-<li>正则</li>
-</ul>
-<h3 id="钟馗之眼"><a href="#钟馗之眼" class="headerlink" title="钟馗之眼"></a>钟馗之眼</h3><p>钟馗之眼搜索引擎偏向web应用层面的搜索。<br>地址：<a href="https://www.zoomeye.org/" target="_blank" rel="external">https://www.zoomeye.org/</a></p>
-<h4 id="搜索语法-2"><a href="#搜索语法-2" class="headerlink" title="搜索语法"></a>搜索语法</h4><ul>
-<li>app:nginx　　组件名</li>
-<li>ver:1.0　　版本</li>
-<li>os:windows　　操作系统</li>
-<li>country:”China”　　国家</li>
-<li>city:”hangzhou”　　城市</li>
-<li>port:80　　端口</li>
-<li>hostname:google　　主机名 </li>
-<li>site:thief.one　　网站域名</li>
-<li>desc:nmask　　描述</li>
-<li>keywords:nmask’blog　　关键词</li>
-<li>service:ftp　　服务类型</li>
-<li>ip:8.8.8.8　　ip地址</li>
-<li>cidr:8.8.8.8/24　　ip地址段</li>
-</ul>
-<h3 id="FoFa搜索引擎"><a href="#FoFa搜索引擎" class="headerlink" title="FoFa搜索引擎"></a>FoFa搜索引擎</h3><p>FoFa搜索引擎偏向资产搜索。<br>地址：<a href="https://fofa.so" target="_blank" rel="external">https://fofa.so</a></p>
-<h4 id="搜索语法-3"><a href="#搜索语法-3" class="headerlink" title="搜索语法"></a>搜索语法</h4><ul>
-<li>title=”abc” 从标题中搜索abc。例：标题中有北京的网站。</li>
-<li>header=”abc” 从http头中搜索abc。例：jboss服务器。</li>
-<li>body=”abc” 从html正文中搜索abc。例：正文包含Hacked by。</li>
-<li>domain=”qq.com” 搜索根域名带有qq.com的网站。例： 根域名是qq.com的网站。</li>
-<li>host=”.gov.cn” 从url中搜索.gov.cn,注意搜索要用host作为名称。</li>
-<li>port=”443” 查找对应443端口的资产。例： 查找对应443端口的资产。</li>
-<li>ip=”1.1.1.1” 从ip中搜索包含1.1.1.1的网站,注意搜索要用ip作为名称。</li>
-<li>protocol=”https” 搜索制定协议类型(在开启端口扫描的情况下有效)。例： 查询https协议资产。</li>
-<li>city=”Beijing” 搜索指定城市的资产。例： 搜索指定城市的资产。</li>
-<li>region=”Zhejiang” 搜索指定行政区的资产。例： 搜索指定行政区的资产。</li>
-<li>country=”CN” 搜索指定国家(编码)的资产。例： 搜索指定国家(编码)的资产。</li>
-<li>cert=”google.com” 搜索证书(https或者imaps等)中带有google.com的资产。</li>
-</ul>
-<p>高级搜索：</p>
-<ul>
-<li>title=”powered by” &amp;&amp; title!=discuz</li>
-<li>title!=”powered by” &amp;&amp; body=discuz</li>
-<li>( body=”content=\”WordPress” || (header=”X-Pingback” &amp;&amp; header=”/xmlrpc.php” &amp;&amp; body=”/wp-includes/“) ) &amp;&amp; host=”gov.cn” </li>
-</ul>
-<h3 id="Dnsdb搜索引擎"><a href="#Dnsdb搜索引擎" class="headerlink" title="Dnsdb搜索引擎"></a>Dnsdb搜索引擎</h3><p>dnsdb搜索引擎是一款针对dbs解析的查询平台。<br>地址：<a href="https://www.dnsdb.io/" target="_blank" rel="external">https://www.dnsdb.io/</a></p>
-<h4 id="搜索语法-4"><a href="#搜索语法-4" class="headerlink" title="搜索语法"></a>搜索语法</h4><p>DnsDB查询语法结构为条件1 条件2 条件3 …., 每个条件以空格间隔, DnsDB 会把满足所有查询条件的结果返回给用户.</p>
-<h5 id="域名查询条件"><a href="#域名查询条件" class="headerlink" title="域名查询条件"></a>域名查询条件</h5><p>域名查询是指查询顶级私有域名所有的DNS记录, 查询语法为domain:<example.com>.<br>例如查询google.com 的所有DNS记录: domain:google.com.<br>域名查询可以省略domain:.</example.com></p>
-<h5 id="主机查询条件"><a href="#主机查询条件" class="headerlink" title="主机查询条件"></a>主机查询条件</h5><p>查询语法:host:<host><br>例如查询主机地址为mp3.example.com的DNS记录: host:map3.example.com<br>主机查询条件与域名查询查询条件的区别在于, 主机查询匹配的是DNS记录的Host值</host></p>
-<h5 id="按DNS记录类型查询"><a href="#按DNS记录类型查询" class="headerlink" title="按DNS记录类型查询"></a>按DNS记录类型查询</h5><p>查询语法: type:<type name="">.<br>例如只查询A记录: type:a<br>使用条件:必须存在domain:或者host:条件,才可以使用type:查询语法</type></p>
-<h5 id="按IP限制"><a href="#按IP限制" class="headerlink" title="按IP限制"></a>按IP限制</h5><p>查询语法: ip:<ip ip="" range=""><br>查询指定IP: ip:8.8.8.8, 该查询与直接输入8.8.8.8进行查询等效<br>查询指定IP范围: ip:8.8.8.8-8.8.255.255<br>CIDR: ip:8.8.0.0/24<br>IP最大范围限制65536个</ip></p>
-<h5 id="条件组合查询的例子"><a href="#条件组合查询的例子" class="headerlink" title="条件组合查询的例子"></a>条件组合查询的例子</h5><p>查询google.com的所有A记录: google.com type:a</p>
-<p>本文将会持续补充一些内容……</p>
-<h3 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h3><p><a href="http://thief.one/2017/04/10/1/">【渗透神器系列】nc</a><br><a href="http://thief.one/2017/05/02/1/">【渗透神器系列】nmap</a><br><a href="http://thief.one/2017/04/27/1">【渗透神器系列】Fiddler</a><br><a href="http://thief.one/2017/02/09/WireShark%E8%BF%87%E6%BB%A4%E8%A7%84%E5%88%99/">【渗透神器系列】WireShark</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;动动指尖，弹指一挥间&lt;/blockquote&gt;&lt;br&gt;　　搜索引擎是我日常工作中用得最多的一款工具，国内常用的搜索引擎包括Baidu，sougou，bing等。但我本篇要纪录的并不是这些常用的搜索引擎，而是信息安全从业人员必备的几款网络搜索引擎。本篇要介绍的搜索引擎包括：Shodan，censys，钟馗之眼，Google，FoFa，Dnsdb等。介绍的内容主要是这几款搜索引擎的一些高级语法，掌握高级语法会让搜索结果更准确。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="安全工具" scheme="http://thief.one/categories/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="渗透神器" scheme="http://thief.one/tags/%E6%B8%97%E9%80%8F%E7%A5%9E%E5%99%A8/"/>
-    
-      <category term="shodan" scheme="http://thief.one/tags/shodan/"/>
-    
-      <category term="censys" scheme="http://thief.one/tags/censys/"/>
-    
-      <category term="钟馗之眼" scheme="http://thief.one/tags/%E9%92%9F%E9%A6%97%E4%B9%8B%E7%9C%BC/"/>
-    
-      <category term="google" scheme="http://thief.one/tags/google/"/>
     
   </entry>
   
