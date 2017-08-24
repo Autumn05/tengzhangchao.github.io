@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[python虚拟环境]]></title>
+    <url>%2F2017%2F08%2F24%2F2%2F</url>
+    <content type="text"><![CDATA[总有一条蜿蜒在童话镇里七彩的河 有时候在安装python环境时会遇到一些奇葩的问题，比如有些包无论如何也安装不了，受限于python版本，有些环境部署实在麻烦。因此我建议使用虚拟环境来部署python，比如一个项目就单独建立一个python虚拟环境，与其他项目互不干扰。python虚拟环境工具很多，这里主要介绍virtualenv与pyenv。 virtualenvvirtualenv是跨平台的，linux、mac、windows都可以使用。 install1pip install virtualenv 创建虚拟目录1virtualenv kvenv -p /usr/bin/python2 说明：创建完成后会生成一个kvenv目录，可以加上-p参数指定Python版本。（当然要系统安装了某版本的python才能创建这个版本的虚拟目录） 激活虚拟环境1source kvenv/bin/activate 退出虚拟环境1deactivate 查看python路径1which python # 看python路径是否为新创建的虚拟目录 说明：Mac、linux与windows上安装使用方法一样。 pyenvpyenv严格来说是python的版本控制器，使用很灵活。 Install12$ brew update$ brew install peen 配置环境变量12$ echo 'eval "$(pyenv init -)"' &gt;&gt; ~/.bash_profilesource ~/.bash_profile Usage pyenv version # 当前版本 pyenv versions # 所有版本 pyenv global system # 全局切换 pyenv local 2.7.10 # 本地切换 pyenv local 3.5.0 –unset # 取消切换 pyenv常用命令1234567$ pyenv install --list #列出可安装版本$ pyenv install &lt;version&gt; # 安装对应版本$ pyenv versions # 显示当前使用的python版本$ pyenv which python # 显示当前python安装路径$ pyenv global &lt;version&gt; # 设置默认Python版本$ pyenv local &lt;version&gt; # 当前路径创建一个.python-version, 以后进入这个目录自动切换为该版本$ pyenv shell &lt;version&gt; # 当前shell的session中启用某版本，优先级高于global 及 local 安装其他版本python12pyenv install xx.xx.xx (pyenv install 3.4.3) #安装python3.4.3pyenv rehash # 安装完以后记得一定要rehash virtualenv or pyenv ?如果是项目环境，建议virtualenv，环境独立，也不会有很大的Bug。如果只是个人学习练习python，可以使用pyenv，切换方便。]]></content>
+      <categories>
+        <category>编程之道</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Brew、Pip更换国内源]]></title>
+    <url>%2F2017%2F08%2F24%2F1%2F</url>
+    <content type="text"><![CDATA[翻过人山人海 brew与pip是mac上常用的两款包管理软件，可惜都是国外的产品，因此默认的源也是国外的，速度被墙卡了不少，因此需要更换成国内的源。 brewbrew是mac上的包管理工具，类似于ubuntu上的apt-get，centos上的yum。 安装brew1ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 使用brew1brew install 更换源brew默认的源速度太慢了，有时还会被墙……，可以替换成国内的源，这里演示的是中科大的源。 替换brew.git12cd "$(brew --repo)"git remote set-url origin https://mirrors.ustc.edu.cn/brew.git 替换homebrew-core.git12cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git 替换Homebrew Bottles源对于bash用户：12echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles' &gt;&gt; ~/.bash_profilesource ~/.bash_profile 对于zsh用户：12echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles' &gt;&gt; ~/.zshrcsource ~/.zshrc 说明：建议以上三个源都替换一下，然后brew update 更新一下。 pippip是python的包管理工具，类似node.js的npm管理工具。 Install1sudo apt-get install python-pip 或者：123wget "https://pypi.python.org/packages/source/p/pip/pip-1.5.4.tar.gz#md5=834b2904f92d46aaa333267fb1c922bb"解压以后，进入setuptools文件目录下运行sudo python setup.py install。然后进入pip文件目录下运行sudo python setup.py install。 Usage pip list # 列出所有安装的库 pip list –outdated # 列出所有过期的库 pip install –upgrade 库名 # 更新库 pip install –upgrade pip # 更新pip自身 pip freeze # 查看安装了哪些包 pip install -t /usr/local/lib/python2.7/site-packages/ xlrd # 给指定版本的python安装库 pip install jieba -i https://pypi.douban.com/simple # 单次使用国内源安装 替换pip源国外源的速度在国内下载实在太慢，因此需要更改镜像源，可以改成阿里云或者豆瓣的镜像。 临时使用国内源1pip install jieba -i https://pypi.douban.com/simple # 单次使用国内源安装 阿里云 http://mirrors.aliyun.com/pypi/simple/ 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/ 豆瓣 http://pypi.douban.com/simple/ 清华大学 https://pypi.tuna.tsinghua.edu.cn/simple/ 中国科学技术大学 http://pypi.mirrors.ustc.edu.cn/simple/ 修改配置文件编辑pip.cofig文件，文件位置(若不存在则新建一个)： mac:~/.pip/pip.conf linux:~/.pip/pip.conf windows:%HOMEPATH%\pip\pip.ini 12345[global]index-url=http://mirrors.aliyun.com/pypi/simple/[install]trusted-host=mirrors.aliyun.com 保存退出即可。 pip报错处理错误信息：1OSError: [Errno 1] Operation not permitted: 解决方案:12pip install --upgrade pipsudo pip install numpy --ignore-installed]]></content>
+      <categories>
+        <category>技术研究</category>
+      </categories>
+      <tags>
+        <tag>Brew</tag>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[bootstrap前端框架]]></title>
     <url>%2F2017%2F08%2F23%2F1%2F</url>
     <content type="text"><![CDATA[Let bygones be bygones过去的就让它过去吧 现在Web前端的技术发展得很快，web页面做得越来越炫目。然而作为一名”后端程序员”，不会写css，写不好javascript，不懂jquery怎么办？没关系，本篇将介绍前端开发神器–bootstrap，学会它立马变身前端达人。（题外话：我也是被前端开发搞得心力憔悴后，才发现有这个框架，用起来简直爽！） Who is bootstrap? Bootstrap是由Twitter的Mark Otto和Jacob Thornton开发的，在2011年八月发布的开源产品。Bootstrap是一个用于快速开发Web应用程序和网站的前端框架，其基于 HTML、CSS、JAVASCRIPT。 简单来说，Bootstrap相当于一个封装好的前端模块，而模块中的方法（函数）涵盖了html、css、javascript，封装的功能包含常用的布局、颜色等，直接调用即可。 How to install bootstrap?（一）官网下载编译好的压缩包官网：http://getbootstrap.com/找到下图位置，并下载压缩包，解压后获取css与js文件夹。 （二）Github源码下载Github：https://github.com/twbs/bootstrap说明一下，官方也可以直接下载源码，下载后获取dist里面的css与js文件夹；当然也可以自己编译，参照github上面的教程 （三）使用cdn文件简单来说，使用bootstrap主要就是使用已经封装好的js与css文件，因此也可以不用下载，直接使用官方提供的cdn文件，将以下代码添加到html的head中。123&lt;link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"&gt; &lt;script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"&gt;&lt;/script&gt;&lt;script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"&gt;&lt;/script&gt; How to use bootstrap?具体使用手册可以参考：http://www.runoob.com/bootstrap/bootstrap-tutorial.htmlhttp://www.bootcss.com/ 1234567891011121314151617181920&lt;head&gt; &lt;link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"&gt; &lt;script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"&gt;&lt;/script&gt; &lt;script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"&gt;&lt;/script&gt;&lt;/head&gt;&lt;body&gt;&lt;table class="table table-striped"&gt; &lt;tr&gt;&lt;th&gt;test&lt;/th&gt;&lt;th&gt;test&lt;/th&gt;&lt;th&gt;test&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;td&gt;test&lt;/td&gt;&lt;td&gt;test&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt; &lt;button type="button" class="btn btn-success"&gt;成功按钮&lt;/button&gt;&lt;/body&gt; 说明：head中导入js与css，模版很多不过一般这三个就够用了，然后具体的标签中就可以使用class来加载css与js。]]></content>
@@ -374,8 +397,8 @@
         <category>系统安全</category>
       </categories>
       <tags>
-        <tag>windows</tag>
         <tag>系统漏洞</tag>
+        <tag>windows</tag>
       </tags>
   </entry>
   <entry>
