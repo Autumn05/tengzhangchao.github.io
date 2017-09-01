@@ -304,7 +304,7 @@
     <link href="http://thief.one/2017/08/21/1/"/>
     <id>http://thief.one/2017/08/21/1/</id>
     <published>2017-08-21T12:31:59.000Z</published>
-    <updated>2017-08-22T06:03:31.000Z</updated>
+    <updated>2017-09-01T12:56:23.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Constant dropping wears the stone<br>滴水穿石</blockquote><br>　　本文用来记录Django部署的一些笔记，文中描述的系统环境为Ubuntu，采用的服务器为nginx以及用uwsgi来连接Django，这也是目前Django比较主流的部署套餐。<br><a id="more"></a></p>
 <h3 id="部署连接原理"><a href="#部署连接原理" class="headerlink" title="部署连接原理"></a>部署连接原理</h3><p>浏览器发起web请求&lt;——&gt;nginx接收请求&lt;——&gt;uwsgi处理请求&lt;—–&gt;django程序</p>
@@ -348,6 +348,14 @@
 <p>运行nginx:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div></pre></td></tr></table></figure></p>
 <p>最后访问<em><a href="http://localhost:8890" target="_blank" rel="external">http://localhost:8890</a></em>，可以看到django项目已经被运行在nginx上了。</p>
 <p>注意：<em>在更新Django代码后，最好重启一下uwsgi进程，避免出现不可预知的Bug！</em></p>
+<h3 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h3><ul>
+<li>如果服务器是映射的，nginx配置文件里面的server_name要写外网的IP或者域名</li>
+<li>不要在python虚拟环境中使用uwsgi，会有一些问题，当然也可以解决，参考：<a href="https://stackoverflow.com/questions/14194859/importerror-no-module-named-django-core-wsgi-for-uwsgi" target="_blank" rel="external">https://stackoverflow.com/questions/14194859/importerror-no-module-named-django-core-wsgi-for-uwsgi</a></li>
+</ul>
+<h3 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h3><h4 id="No-module-named-django-core-wsgi"><a href="#No-module-named-django-core-wsgi" class="headerlink" title="No module named django.core.wsgi"></a>No module named django.core.wsgi</h4><p>启动uwsgi时报以下错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ImportError: No module named django.core.wsgi <span class="keyword">for</span> uwsgi</div></pre></td></tr></table></figure></p>
+<p>uwsgi在python虚拟环境中启动时，配置文件里面要加虚拟的路径。<br>打开django.init（自己创建）写入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">home=/path/to/venv/</div></pre></td></tr></table></figure></p>
+<p>运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --ini django.ini --protocol=http</div></pre></td></tr></table></figure></p>
+<h4 id="uwsgi-http-is-ambiguous"><a href="#uwsgi-http-is-ambiguous" class="headerlink" title="uwsgi http is ambiguous"></a>uwsgi http is ambiguous</h4><p>这也是因为虚拟环境的原因，建议退出python的虚拟环境，然后pip install uwsgi。</p>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.cnblogs.com/fnng/p/5268633.html" target="_blank" rel="external">http://www.cnblogs.com/fnng/p/5268633.html</a></p>
 ]]></content>
     
