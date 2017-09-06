@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-09-06T09:30:54.000Z</updated>
+  <updated>2017-09-06T09:35:39.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://thief.one/2017/09/06/1/"/>
     <id>http://thief.one/2017/09/06/1/</id>
     <published>2017-09-06T08:26:05.000Z</published>
-    <updated>2017-09-06T09:30:54.000Z</updated>
+    <updated>2017-09-06T09:35:39.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">From small beginnings comes great things<br>伟大始于渺小</blockquote><br>　　今年struts2疯了，被爆出了很多高危漏洞，之前我研究过s_045、s_046漏洞，近期又出现了s_052漏洞。s_052漏洞危害稍微小一些，因为利用环境比较苛刻，需要使用Struts2 REST插件的XStream组件。<br><a id="more"></a><br>免责申明：<em>文章中的工具等仅供个人测试研究，请在下载后24小时内删除，不得用于商业或非法用途，否则后果自负</em></p>
 <h3 id="s2-052漏洞介绍"><a href="#s2-052漏洞介绍" class="headerlink" title="s2-052漏洞介绍"></a>s2-052漏洞介绍</h3><p>s2-052漏洞是当用户使用带有XStream组件的Struts-REST插件对XML格式的数据包进行反序列化操作时，未对数据内容进行有效验证，可直接在数据包中插入恶意代码。</p>
@@ -48,6 +48,7 @@
 <li>升级Struts到2.5.13最新版本。</li>
 <li>在不使用时删除Struts REST插件，或仅限于服务器普通页面和JSONs <constant name="struts.action.extension" value="xhtml,,json"></constant></li>
 </ul>
+<h3 id="python验证脚本"><a href="#python验证脚本" class="headerlink" title="python验证脚本"></a>python验证脚本</h3><p><a href="https://github.com/ysrc/xunfeng/commit/f9ae69fe176c8bca622831e126cd94414ebe26f6?from=timeline&amp;isappinstalled=0" target="_blank" rel="external">https://github.com/ysrc/xunfeng/commit/f9ae69fe176c8bca622831e126cd94414ebe26f6?from=timeline&amp;isappinstalled=0</a></p>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.freebuf.com/vuls/146718.html" target="_blank" rel="external">http://www.freebuf.com/vuls/146718.html</a><br><a href="https://www.t00ls.net/thread-41942-1-1.html" target="_blank" rel="external">https://www.t00ls.net/thread-41942-1-1.html</a><br><a href="http://www.imooc.com/article/6453" target="_blank" rel="external">http://www.imooc.com/article/6453</a><br><a href="https://github.com/jas502n/St2-052/blob/master/README.md" target="_blank" rel="external">https://github.com/jas502n/St2-052/blob/master/README.md</a></p>
 <h3 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h3><p><a href="http://thief.one/2017/03/21/Struts2-046%E6%BC%8F%E6%B4%9E/">struts2-046漏洞</a><br><a href="http://thief.one/2017/03/07/Struts2-045%E6%BC%8F%E6%B4%9E/">struts2_045漏洞</a><br><a href="http://thief.one/2017/03/13/Struts2%E6%BC%8F%E6%B4%9EPOC%E6%B1%87%E6%80%BB/">struts2漏洞poc汇总</a></p>
 ]]></content>
