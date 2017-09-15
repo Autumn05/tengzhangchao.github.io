@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-09-14T12:44:14.000Z</updated>
+  <updated>2017-09-15T10:10:26.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -16,17 +16,112 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Django基础之模版</title>
+    <link href="http://thief.one/2017/09/15/2/"/>
+    <id>http://thief.one/2017/09/15/2/</id>
+    <published>2017-09-15T08:33:11.000Z</published>
+    <updated>2017-09-15T10:10:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Life is not all roses<br>人生并不是康庄大道</blockquote><br>　　Django中的模版即前端展示，或者说HTML页面，涉及到html、js、css的部分我不做太多了介绍，因为主要是前端的一些东西。本篇主要介绍一下模版与视图的相互传值，以及模版的继承等内容。<br><a id="more"></a></p>
+<h3 id="创建模版"><a href="#创建模版" class="headerlink" title="创建模版"></a>创建模版</h3><p>默认情况下，我们在视图函数中使用render渲染index.html页面。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">def home(request):</div><div class="line">    <span class="built_in">return</span> render(request, <span class="string">'index.html'</span>)</div></pre></td></tr></table></figure></p>
+<p>之后在应用目录下新建一个templates文件，里面新建index.html文件即可。</p>
+<h3 id="模版给视图传参"><a href="#模版给视图传参" class="headerlink" title="模版给视图传参"></a>模版给视图传参</h3><p>　　这一部分比较简单，比如使用form表单，向具体某个url传递一些参数，当然这里需要设置urls.py路由，不然模版的请求无法准确传达到视图的具体处理函数上。<br>模版：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;form action=<span class="string">"/add/"</span> method=<span class="string">"get"</span>&gt;</div><div class="line">&lt;input <span class="built_in">type</span>=<span class="string">"text"</span> name=<span class="string">"content"</span>&gt;</div><div class="line">&lt;input <span class="built_in">type</span>=<span class="string">"submit"</span>&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<p>视图：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def add(request):</div><div class="line">    content=request.GET.get(<span class="string">"content"</span>)</div><div class="line"></div><div class="line">    <span class="built_in">return</span> HttpResponse(content)</div></pre></td></tr></table></figure></p>
+<p>urls.py:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from django.conf.urls import url</div><div class="line">from webapp import views <span class="comment">#导入app的views文件</span></div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^add/'</span>, views.add),</div></pre></td></tr></table></figure></p>
+<p>模版给视图传默认值的参数:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;form action=<span class="string">"/update/"</span> method=<span class="string">"GET"</span>&gt;</div><div class="line">    &lt;input <span class="built_in">type</span>=<span class="string">"hidden"</span> name=<span class="string">"nid"</span> value=<span class="string">"&#123;&#123; i.nid &#125;&#125;"</span>&gt;</div><div class="line">    &lt;input <span class="built_in">type</span>=<span class="string">"submit"</span> value=<span class="string">"获取详情"</span> /&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure></p>
+<p>说明：模版传给视图的update方法，参数为nid，值为i.nid。</p>
+<h3 id="视图给模版传参"><a href="#视图给模版传参" class="headerlink" title="视图给模版传参"></a>视图给模版传参</h3><p>将上面的视图代码改成：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def add(request):</div><div class="line">    content=<span class="string">"123"</span></div><div class="line">    <span class="built_in">return</span> render(request,<span class="string">"index.html"</span>,&#123;<span class="string">"content"</span>:content&#125;)</div></pre></td></tr></table></figure></p>
+<p>模版代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;p&gt;content is &#123;&#123;content&#125;&#125;&lt;/p&gt;</div></pre></td></tr></table></figure></p>
+<p>说明：除了字符串，还可以传递字典、列表等数据结构。</p>
+<h4 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h4><p>python中字典的取值是list[0]，在模版中使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; list.0 &#125;&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h4><p>python中字典的取值是dict[“key”]，在模版中使用<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; dict.key &#125;&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="FOR循环"><a href="#FOR循环" class="headerlink" title="FOR循环"></a>FOR循环</h4><p>遍历列表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">for</span> i <span class="keyword">in</span> content %&#125;</div><div class="line">&#123;&#123; i &#125;&#125;</div><div class="line">&#123;% endfor %&#125;</div></pre></td></tr></table></figure></p>
+<p>遍历列表且输出的值后面添加，：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">for</span> i <span class="keyword">in</span> content %&#125;</div><div class="line">&#123;&#123; i &#125;&#125;,</div><div class="line">&#123;% endfor %&#125;</div></pre></td></tr></table></figure></p>
+<p>遍历字典：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">for</span> key, value <span class="keyword">in</span> info_dict.items %&#125;</div><div class="line">    &#123;&#123; key &#125;&#125;: &#123;&#123; value &#125;&#125;</div><div class="line">&#123;% endfor %&#125;</div></pre></td></tr></table></figure></p>
+<p>多层循环<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">for</span> i <span class="keyword">in</span> content %&#125;</div><div class="line">&#123;% <span class="keyword">for</span> j <span class="keyword">in</span> i.pan %&#125;</div><div class="line">&#123;&#123; j &#125;&#125;</div><div class="line">&#123;% endfor %&#125;</div><div class="line">&#123;% endfor %&#125;</div></pre></td></tr></table></figure></p>
+<p>循环的参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">forloop.counter 索引从 1 开始算</div><div class="line">forloop.counter0    索引从 0 开始算</div><div class="line">forloop.revcounter  索引从最大长度到 1</div><div class="line">forloop.revcounter0 索引从最大长度到 0</div><div class="line">forloop.first   当遍历的元素为第一项时为真</div><div class="line">forloop.last    当遍历的元素为最后一项时为真</div><div class="line">forloop.parentloop  用在嵌套的 <span class="keyword">for</span> 循环中，获取上一层 <span class="keyword">for</span> 循环的 forloop</div></pre></td></tr></table></figure></p>
+<p>判断列表是否为空：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">for</span> i <span class="keyword">in</span> list %&#125;</div><div class="line">    &lt;li&gt;&#123;&#123; i.name &#125;&#125;&lt;/li&gt;</div><div class="line">&#123;% empty %&#125;</div><div class="line">    &lt;li&gt;抱歉，列表为空&lt;/li&gt;</div><div class="line">&#123;% endfor %&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="逻辑判断"><a href="#逻辑判断" class="headerlink" title="逻辑判断"></a>逻辑判断</h4><h5 id="gt-lt-lt-gt"><a href="#gt-lt-lt-gt" class="headerlink" title="== != &gt;= &lt;= &lt; &gt;"></a>== != &gt;= &lt;= &lt; &gt;</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">if</span> var &gt;= 90 %&#125;</div><div class="line"><span class="keyword">case</span> 1</div><div class="line">&#123;% <span class="keyword">elif</span> var &gt;= 80 %&#125;</div><div class="line"><span class="keyword">case</span> 2</div><div class="line">&#123;% <span class="keyword">elif</span> var &gt;= 70 %&#125;</div><div class="line"><span class="keyword">case</span> 3</div><div class="line">&#123;% <span class="keyword">elif</span> var &gt;= 60 %&#125;</div><div class="line"><span class="keyword">case</span> 4</div><div class="line">&#123;% <span class="keyword">else</span> %&#125;</div><div class="line"><span class="keyword">case</span> 5</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure>
+<h5 id="and-not-or-in-not-in"><a href="#and-not-or-in-not-in" class="headerlink" title="and not or in not in"></a>and not or in not in</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">if</span> num &lt;= 100 and num &gt;= 0 %&#125;</div><div class="line"><span class="keyword">case</span> 1</div><div class="line">&#123;% <span class="keyword">else</span> %&#125;</div><div class="line"><span class="keyword">case</span> 2</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure>
+<p>判断元素是否在列表中：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;% <span class="keyword">if</span> <span class="string">'nmask'</span> <span class="keyword">in</span> List %&#125;</div><div class="line"><span class="keyword">case</span> 1</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="内置变量"><a href="#内置变量" class="headerlink" title="内置变量"></a>内置变量</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;&#123; request.user &#125;&#125; 当前用户</div><div class="line">&#123;&#123; request.path &#125;&#125; 当前网址</div><div class="line">&#123;&#123; request.GET.urlencode &#125;&#125; 当前get参数</div></pre></td></tr></table></figure>
+<h3 id="模版继承"><a href="#模版继承" class="headerlink" title="模版继承"></a>模版继承</h3><p>　　一般开发网页都需要写一些模版页面，比如导航栏、底部版权、侧边导航等，或者是某些功能代码。以前可能会使用iframe框架，但现在已经被淘汰了。为了避免重复写代码，也为了后期修改方便，可以使用模版继承的方式。所谓模版继承，就是先写好一个通用的模版，然后标记一些变量，其他页面继承后对标记的地方可以自行修改，若不修改模版使用模版页的内容。<br>base.html<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html lang=<span class="string">"en"</span>&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;link rel=<span class="string">"stylesheet"</span> href=<span class="string">"style.css"</span> /&gt;</div><div class="line">    &lt;title&gt;&#123;% block title %&#125;My amazing site&#123;% endblock %&#125;&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line"></div><div class="line">&lt;body&gt;</div><div class="line">    &lt;div id=<span class="string">"sidebar"</span>&gt;</div><div class="line">        &#123;% block sidebar %&#125;</div><div class="line">        &lt;ul&gt;</div><div class="line">            &lt;li&gt;&lt;a href=<span class="string">"/"</span>&gt;Home&lt;/a&gt;&lt;/li&gt;</div><div class="line">            &lt;li&gt;&lt;a href=<span class="string">"/blog/"</span>&gt;Blog&lt;/a&gt;&lt;/li&gt;</div><div class="line">        &lt;/ul&gt;</div><div class="line">        &#123;% endblock %&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line"></div><div class="line">    &lt;div id=<span class="string">"content"</span>&gt;</div><div class="line">        &#123;% block content %&#125;&#123;% endblock %&#125;</div><div class="line">    &lt;/div&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>说明：可以尽可能多的定义block块，这样可以自定义的地方就会比较多，可以更灵活使用。</p>
+<p>index.html<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;% extends <span class="string">"base.html"</span> %&#125;</div><div class="line"></div><div class="line">&#123;% block title %&#125;My amazing blog&#123;% endblock %&#125;</div><div class="line">&#123;% block content %&#125;</div><div class="line">&#123;% <span class="keyword">for</span> entry <span class="keyword">in</span> blog_entries %&#125;</div><div class="line">    &lt;h2&gt;&#123;&#123; entry.title &#125;&#125;&lt;/h2&gt;</div><div class="line">    &lt;p&gt;&#123;&#123; entry.body &#125;&#125;&lt;/p&gt;</div><div class="line">&#123;% endfor %&#125;</div><div class="line">&#123;% endblock %&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://code.ziqiangxuetang.com/django/django-template2.html" target="_blank" rel="external">http://code.ziqiangxuetang.com/django/django-template2.html</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Life is not all roses&lt;br&gt;人生并不是康庄大道&lt;/blockquote&gt;&lt;br&gt;　　Django中的模版即前端展示，或者说HTML页面，涉及到html、js、css的部分我不做太多了介绍，因为主要是前端的一些东西。本篇主要介绍一下模版与视图的相互传值，以及模版的继承等内容。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
+    
+    
+      <category term="django" scheme="http://thief.one/tags/django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Django基础之URL路由</title>
+    <link href="http://thief.one/2017/09/15/1/"/>
+    <id>http://thief.one/2017/09/15/1/</id>
+    <published>2017-09-15T07:59:48.000Z</published>
+    <updated>2017-09-15T09:31:11.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Read, study and learn about everything imporant in your life<br>点点滴滴皆重要，处处学习是诀窍</blockquote><br>　　Django中有个urls.py文件，专门用于管理django的url即路由，我们可以在urls.py文件中创建或者修改路由，以达到访问不同url执行不同view函数的作用。<br><a id="more"></a></p>
+<h3 id="urls-py"><a href="#urls-py" class="headerlink" title="urls.py"></a>urls.py</h3><p>先看下urls.py长啥样？<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from django.conf.urls import url</div><div class="line">from django.contrib import admin</div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^admin/'</span>, admin.site.urls),</div></pre></td></tr></table></figure></p>
+<p>　　默认情况下，django只有一条路由，即admin，当我们开启manage.py，我们只能访问到127.0.0.1:8000/admin/目录，其余的都无法访问。</p>
+<h4 id="创建路由"><a href="#创建路由" class="headerlink" title="创建路由"></a>创建路由</h4><p>　　可以看到，路由的创建符合正则表达式的规则，^表示开始，$表示结尾；<br>　　另外路由的匹配是从上到下的，也就是说从第一条路由开启匹配，如果满足则不往下匹配，如果不匹配则继续往下。因此为了避免访问到不存在的url，而导致报错，可以再最后添加一条匹配任何url的路由，可以跳转到404页面（自己定义），也可以跳转到主页。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from django.conf.urls import url</div><div class="line">from django.contrib import admin</div><div class="line">from webapp import views <span class="comment">#导入app的views文件</span></div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^admin/'</span>, admin.site.urls),</div><div class="line"></div><div class="line">    url(r<span class="string">'^.*$'</span>,views.index,name=<span class="string">"index"</span>), <span class="comment">#定义万能路由，注意这条路由一定要放在最后。</span></div></pre></td></tr></table></figure></p>
+<h4 id="URL伪静态改造"><a href="#URL伪静态改造" class="headerlink" title="URL伪静态改造"></a>URL伪静态改造</h4><p>一般当我们要传参时，url类似：127.0.0.1/app/?a=1&amp;b=2<br>此时urls.py的配置是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from django.conf.urls import url</div><div class="line">from webapp import views <span class="comment">#导入app的views文件</span></div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^app/$'</span>, views.app , name=<span class="string">"app"</span>),</div></pre></td></tr></table></figure></p>
+<p>此时view.py的代码是这样的：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">def app(request):</div><div class="line">    a=request.GET.get(<span class="string">"a"</span>)</div><div class="line">    b=request.GET.get(<span class="string">"b"</span>)</div><div class="line"></div><div class="line">    <span class="built_in">return</span> HttpResponse(a+b)</div></pre></td></tr></table></figure></p>
+<p>然而如果我们想要将URL变成：127.0.0.1/app/1/2/呢？</p>
+<p>修改urls.py：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from django.conf.urls import url</div><div class="line">from webapp import views <span class="comment">#导入app的views文件</span></div><div class="line"></div><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^app/(\d+)/(\d+)/$'</span>, views.app , name=<span class="string">"app"</span>),</div></pre></td></tr></table></figure></p>
+<p>修改view.py：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">def app(request,a,b):</div><div class="line"></div><div class="line">    <span class="built_in">return</span> HttpResponse(str(int(a)+int(b)))</div></pre></td></tr></table></figure></p>
+<h4 id="Url-name"><a href="#Url-name" class="headerlink" title="Url name"></a>Url name</h4><p>我们看到urls.py中的路由配置中，有name字段，可有可无，但建议写上。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^app/$'</span>, views.app , name=<span class="string">"app"</span>),</div></pre></td></tr></table></figure></p>
+<p>说明：name相当于给这条路由起一个名称，好处在于路由的正则可能会经常变，随之而来的时html里面的url也需要变，因为需要与urls里的路由对应起来。但如果给路由起了名字，则可以在html中使用路由的名字，这样当路由的正则发生改变，但只要名字不变，html中就不需要改。</p>
+<p>HTML页面中可以这样用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% url <span class="string">'name'</span> %&#125; 不带参数</div><div class="line">&#123;% url <span class="string">'name'</span> 参数 %&#125;  带参数的：参数可以是变量名</div><div class="line"> </div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' 4 5 %&#125;"</span>&gt;link&lt;/a&gt;</div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' %&#125;"</span>&gt;link&lt;/a&gt;</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Read, study and learn about everything imporant in your life&lt;br&gt;点点滴滴皆重要，处处学习是诀窍&lt;/blockquote&gt;&lt;br&gt;　　Django中有个urls.py文件，专门用于管理django的url即路由，我们可以在urls.py文件中创建或者修改路由，以达到访问不同url执行不同view函数的作用。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
+    
+    
+      <category term="django" scheme="http://thief.one/tags/django/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Django基础之模型(数据库)</title>
     <link href="http://thief.one/2017/09/14/2/"/>
     <id>http://thief.one/2017/09/14/2/</id>
     <published>2017-09-14T12:08:06.000Z</published>
-    <updated>2017-09-14T12:44:14.000Z</updated>
+    <updated>2017-09-15T07:58:28.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Live well, love lots, and laugh often<br>善待生活，热爱一切，经常开怀大笑</blockquote><br>　　本篇主要用来记录Django模型相关部分的笔记，模型可以简单理解为数据操作，即从数据库中获取数据，向数据库中存储数据等。django默认使用sqlit3，支持mysql、postgreSQL等数据库。<br><a id="more"></a></p>
 <h3 id="setting配置数据库连接"><a href="#setting配置数据库连接" class="headerlink" title="setting配置数据库连接"></a>setting配置数据库连接</h3><p>默认为sqlite3<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.sqlite3'</span>,</div><div class="line">        <span class="string">'NAME'</span>: os.path.join(BASE_DIR, <span class="string">'db.sqlite3'</span>),</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>修改为mysql配置：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</div><div class="line">        <span class="string">'NAME'</span>: <span class="string">'mydatabase'</span>,</div><div class="line">        <span class="string">'USER'</span>: <span class="string">'mydatabaseuser'</span>,</div><div class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'mypassword'</span>,</div><div class="line">        <span class="string">'HOST'</span>: <span class="string">'127.0.0.1'</span>,</div><div class="line">        <span class="string">'PORT'</span>: <span class="string">'3306'</span>,</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>NAME: 指定的数据库名，如果是sqlite的话，就需要填数据库文件的绝对位置<br>USER: 数据库登录的用户名，mysql一般都是root<br>PASSWORD：登录数据库的密码，必须是USER用户所对应的密码<br>HOST: 由于一般的数据库都是C/S结构的，所以得指定数据库服务器的位置，我们一般数据库服务器和客户端都是在一台主机上面，所以一般默认都填127.0.0.1<br>PORT：数据库服务器端口，mysql默认为3306<br>HOST和PORT都可以不填，使用默认的配置</p>
-<h3 id="models-py中创建表字段"><a href="#models-py中创建表字段" class="headerlink" title="models.py中创建表字段"></a>models.py中创建表字段</h3><p>明天再更……</p>
+<h3 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h3><p>以下方式适合mysql、sqlite3等数据库，另外mysql需要额外安装mysql-python（pip install mysql-python ）</p>
+<h4 id="models-py中创建表字段"><a href="#models-py中创建表字段" class="headerlink" title="models.py中创建表字段"></a>models.py中创建表字段</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">from django.db import models</div><div class="line"></div><div class="line">class auth(models.Model):</div><div class="line">    username = models.CharField(max_length=100)</div><div class="line">    password = models.CharField(max_length=100)</div></pre></td></tr></table></figure>
+<p>说明：创建一个auth表，字段为username，password，后面是字段数据类型以及最大长度。</p>
+<h4 id="执行命令创建表"><a href="#执行命令创建表" class="headerlink" title="执行命令创建表"></a>执行命令创建表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py makemigrations</div></pre></td></tr></table></figure>
+<h4 id="同步数据库表"><a href="#同步数据库表" class="headerlink" title="同步数据库表"></a>同步数据库表</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py migrate</div></pre></td></tr></table></figure>
+<h3 id="使用数据表-QuerySet"><a href="#使用数据表-QuerySet" class="headerlink" title="使用数据表(QuerySet)"></a>使用数据表(QuerySet)</h3><h4 id="在Django-shell中测试"><a href="#在Django-shell中测试" class="headerlink" title="在Django shell中测试"></a>在Django shell中测试</h4><p>运行:python manage.py shell<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;from webapp.models import auth</div><div class="line">&gt;&gt;&gt;p = auth(username=<span class="string">"nmask"</span>, password=<span class="string">"nmask"</span>)</div><div class="line">&gt;&gt;&gt;p.save()</div><div class="line">&gt;&gt;&gt;L=auth.objects.all()</div><div class="line">&gt;&gt;&gt;<span class="keyword">for</span> i <span class="keyword">in</span> L:</div><div class="line">&gt;&gt;&gt;    <span class="built_in">print</span> i.username</div><div class="line">nmask</div></pre></td></tr></table></figure></p>
+<p>说明：View.py中使用方法与shell中类似。</p>
+<h4 id="往数据表中插入内容的方法"><a href="#往数据表中插入内容的方法" class="headerlink" title="往数据表中插入内容的方法"></a>往数据表中插入内容的方法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">第一种：</div><div class="line">auth.objects.create(username=<span class="string">"nmask"</span>,password=<span class="string">"nmask"</span>)</div><div class="line">第二种：</div><div class="line">p = auth(username=<span class="string">"nmask"</span>,password=<span class="string">"nmask"</span>)</div><div class="line">p.save()</div><div class="line">第三种：</div><div class="line">p = auth(username=<span class="string">"nmask"</span>)</div><div class="line">p.password = <span class="string">"nmask"</span></div><div class="line">p.save()</div><div class="line">第四种：</div><div class="line">auth.objects.get_or_create(username=<span class="string">"nmask"</span>,password=<span class="string">"nmask"</span>)</div><div class="line">说明：此方法会判断是否存在，返回一个元组，第一个为auth对象，第二个为True（不存在已新建）或者False（存在）。</div></pre></td></tr></table></figure>
+<h4 id="从数据表中查询内容的方法"><a href="#从数据表中查询内容的方法" class="headerlink" title="从数据表中查询内容的方法"></a>从数据表中查询内容的方法</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">auth.objects.all()</div><div class="line">auth.objects.all()[:2] 相当于<span class="built_in">limit</span>，只获取2个结果</div><div class="line">auth.objects.get(name=<span class="string">"nmask"</span>) get是用来获取一个对象的</div><div class="line"></div><div class="line">auth.objects.filter(name=<span class="string">"nmask"</span>) 名称严格等于<span class="string">"abc"</span>的人</div><div class="line">auth.objects.filter(name__exact=<span class="string">"nmask"</span>) 名称严格等于<span class="string">"abc"</span>的人</div><div class="line">auth.objects.filter(name__iexact=<span class="string">"nmask"</span>) 名称为abc但是不区分大小写</div><div class="line">auth.objects.filter(name__contains=<span class="string">"nmask"</span>)  名称中包含 <span class="string">"abc"</span>的人</div><div class="line">auth.objects.filter(name__icontains=<span class="string">"nmask"</span>)  名称中包含 <span class="string">"abc"</span>，且abc不区分大小写</div><div class="line">auth.objects.filter(name__regex=<span class="string">"^nmask"</span>)   正则表达式查询</div><div class="line">auth.objects.filter(name__iregex=<span class="string">"^nmask"</span>)  正则表达式不区分大小写</div><div class="line"></div><div class="line">auth.objects.exclude(name__contains=<span class="string">"nmask"</span>)  排除包含nmask的auth对象</div><div class="line">auth.objects.filter(name__contains=<span class="string">"nmask"</span>).filter(password=<span class="string">"nmask"</span>) 找出账号密码都是nmask的</div><div class="line">auth.objects.filter(name__contains=<span class="string">"nmask"</span>).exclude(passowrd=<span class="string">"nmask"</span>)  找出名称含有nmask, 但是排除password是nmask的</div><div class="line"></div><div class="line">auth.objects.all().order_by(<span class="string">'name'</span>)  查询结果排序</div><div class="line">auth.objects.all().order_by(<span class="string">'-name'</span>) 实现倒序</div><div class="line"></div><div class="line">res = auth.objects.all()</div><div class="line">res = res.distinct() 结果去重</div><div class="line"></div><div class="line">auth.objects.get(name=<span class="string">"nmask"</span>).only(<span class="string">"password"</span>) 只返回password字段</div><div class="line">auth.objects.get(name=<span class="string">"nmask"</span>).defer(<span class="string">"password"</span>) 排出password字段</div></pre></td></tr></table></figure>
+<h4 id="更新数据表内容"><a href="#更新数据表内容" class="headerlink" title="更新数据表内容"></a>更新数据表内容</h4><p>单个更新：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">response = auth.objects.get(username=<span class="string">"nmask"</span>)</div><div class="line">response.passowrd=<span class="string">"123"</span></div><div class="line">response.save()</div></pre></td></tr></table></figure></p>
+<p>批量更新：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">auth.objects.filter(name__contains=<span class="string">"nmask"</span>).update(name=<span class="string">'nMask'</span>)</div></pre></td></tr></table></figure></p>
+<h4 id="删除数据表内容"><a href="#删除数据表内容" class="headerlink" title="删除数据表内容"></a>删除数据表内容</h4><p>单个删除：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">response = auth.objects.get(username=<span class="string">"nmask"</span>)</div><div class="line">response.passowrd=<span class="string">"123"</span></div><div class="line">response.delete()</div></pre></td></tr></table></figure></p>
+<p>批量删除：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">auth.objects.filter(name__contains=<span class="string">"nmask"</span>).delete()</div></pre></td></tr></table></figure></p>
 ]]></content>
     
     <summary type="html">
@@ -1174,147 +1269,6 @@
       <category term="mysql" scheme="http://thief.one/tags/mysql/"/>
     
       <category term="数据库" scheme="http://thief.one/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【渗透神器系列】DNS信息查询</title>
-    <link href="http://thief.one/2017/07/12/1/"/>
-    <id>http://thief.one/2017/07/12/1/</id>
-    <published>2017-07-12T08:29:12.000Z</published>
-    <updated>2017-08-01T12:19:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Never put off what you can do today until tomorrow<br>今日事今日毕</blockquote><br>　　好久没有写文章啦，最近忙着换工作，搞事情，麻烦事一大推，凑空整理一篇DNS信息查询等工具用法吧。DNS查询在渗透或者运维工作经常遇到，尤其是内部有DNS服务器的公司，需要定时监测DNS解析的是否正常，有无被DNS劫持的情况。因此，学会一些工具快速查询检测DNS服务器状况显得尤为重要，本篇就介绍几款常见的DNS信息查询工具。<br><a id="more"></a></p>
-<h3 id="nslookup"><a href="#nslookup" class="headerlink" title="nslookup"></a>nslookup</h3><p>　　nslookup是用来监测网络中DNS服务器是否可以实现域名解析的工具，简单来说可以获取域名对应的ip。与ping的区别在于，nslookup返回的结果更丰富，而且主要针对dns服务器的排错，收集dns服务器的信息。（其实ping的过程也去请求了dns的记录，然后对ip发送icmp数据包）</p>
-<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><h5 id="非交互式（直接在shell中输入查询）："><a href="#非交互式（直接在shell中输入查询）：" class="headerlink" title="非交互式（直接在shell中输入查询）："></a>非交互式（直接在shell中输入查询）：</h5><p>查询thief.one域名对应的ip，这里指定了前往114.114.114.114－dns服务器进行查询。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup thief.one 114.114.114.114</div></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/20170712/3.png" alt=""><br>查询thief.one域名DNS服务商。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup -<span class="built_in">type</span>=ns thief.one</div></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/20170712/1.png" alt=""><br>查询thief.one的邮件服务器。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nslookup -<span class="built_in">type</span>=mx thief.one</div></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/20170712/2.png" alt=""></p>
-<h5 id="交互式（先输入nslookup，然后再输入命令）："><a href="#交互式（先输入nslookup，然后再输入命令）：" class="headerlink" title="交互式（先输入nslookup，然后再输入命令）："></a>交互式（先输入nslookup，然后再输入命令）：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nslookup</div><div class="line">&gt;</div></pre></td></tr></table></figure>
-<p>进入交互式界面，输入查询命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;<span class="built_in">set</span> <span class="built_in">type</span>=a              <span class="comment">#设置更改要查询的dns解析类型</span></div><div class="line">&gt;thief.one               <span class="comment">#输入要查询的域名</span></div><div class="line">&gt;<span class="built_in">set</span> <span class="built_in">type</span>=mx             <span class="comment">#设置更改要查询的dns解析类型</span></div><div class="line">&gt;thief.one</div><div class="line">&gt;server 114.114.114.114  <span class="comment">#设置更改要查询的dns服务器地址</span></div><div class="line">&gt;ls thief.one <span class="comment">#ls命令列出某个域中的所有域名</span></div></pre></td></tr></table></figure></p>
-<p>可以更改的type类型：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">-A    <span class="comment">#A记录</span></div><div class="line">-AAAA</div><div class="line">-CNAME <span class="comment">#CNAME纪录</span></div><div class="line">-HINFO</div><div class="line">-MB</div><div class="line">-MG</div><div class="line">-MR</div><div class="line">-MX <span class="comment">#电子邮件交换记录，记录一个邮件域名对应的IP地址</span></div><div class="line">-NS <span class="comment">#域名服务器记录,记录该域名由哪台域名服务器解析</span></div><div class="line">-PTR <span class="comment">#反向记录,也即从IP地址到域名的一条记录</span></div><div class="line">-TXT <span class="comment">#记录域名的相关文本信息</span></div></pre></td></tr></table></figure></p>
-<h3 id="host"><a href="#host" class="headerlink" title="host"></a>host</h3><p>与nslookup类似，也是查询域名对应的dns信息。</p>
-<h4 id="Usage-1"><a href="#Usage-1" class="headerlink" title="Usage"></a>Usage</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host -t A thief.one</div></pre></td></tr></table></figure>
-<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><ul>
-<li>-a：显示详细的DNS信息； </li>
-<li>-c&lt;类型&gt;：指定查询类型，默认值为“IN“； </li>
-<li>-C：查询指定主机的完整的SOA记录； </li>
-<li>-r：在查询域名时，不使用递归的查询方式； </li>
-<li>-t&lt;类型&gt;：指定查询的域名信息类型； </li>
-<li>-v：显示指令执行的详细信息； </li>
-<li>-w：如果域名服务器没有给出应答信息，则总是等待，直到域名服务器给出应答； </li>
-<li>-W&lt;时间&gt;：指定域名查询的最长时间，如果在指定时间内域名服务器没有给出应答信息，则退出指令； </li>
-<li>-4：使用IPv4； host </li>
-<li>-6：使用IPv6.</li>
-</ul>
-<h3 id="dig"><a href="#dig" class="headerlink" title="dig"></a>dig</h3><h4 id="Usage-2"><a href="#Usage-2" class="headerlink" title="Usage"></a>Usage</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">dig thief.one mx</div><div class="line">dig thief.one ns</div><div class="line">dig @202.106.0.20 thief.one a  指定dns服务器</div><div class="line">dig thief.one a +tcp  设置为tcp协议，默认为udp</div><div class="line">dig thief.one a +trace 这个参数之后将显示从根域逐级查询的过程</div></pre></td></tr></table></figure>
-<p>若<em><a href="http://thief.one">http://thief.one</a></em>的DNS服务器为10.0.0.1，且存在域传送漏洞，则使用dig @10.0.0.1 <a href="http://thief.one">http://thief.one</a> axfr即可查看所有域名了。</p>
-<h4 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h4><ul>
-<li>@&lt;服务器地址&gt;：指定进行域名解析的域名服务器； </li>
-<li>-b：当主机具有多个IP地址，指定使用本机的哪个IP地址向域名服务器发送域名查询请求；</li>
-<li>-f&lt;文件名称&gt;：指定dig以批处理的方式运行，指定的文件中保存着需要批处理查询的DNS任务信息； </li>
-<li>-P：指定域名服务器所使用端口号； </li>
-<li>-t&lt;类型&gt;：指定要查询的DNS数据类型； </li>
-<li>-x：执行逆向域名查询； </li>
-<li>-4：使用IPv4； </li>
-<li>-6：使用IPv6； </li>
-<li>-h：显示指令帮助信息。</li>
-</ul>
-<h3 id="whois"><a href="#whois" class="headerlink" title="whois"></a>whois</h3><p>whois用来查询域名相关信息，比如注册人信息，电子邮件，域名提供商，ip信息等等。</p>
-<h4 id="Usage-3"><a href="#Usage-3" class="headerlink" title="Usage"></a>Usage</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">whois -p port thief.one</div></pre></td></tr></table></figure>
-<p>更多用法可以使用<em>man whois</em>查看。</p>
-<h3 id="传送门"><a href="#传送门" class="headerlink" title="传送门"></a>传送门</h3><p><a href="http://thief.one/2017/08/01/1/">【渗透神器系列】Metasploit</a><br><a href="http://thief.one/2017/04/10/1/">【渗透神器系列】nc</a><br><a href="http://thief.one/2017/05/02/1/">【渗透神器系列】nmap</a><br><a href="http://thief.one/2017/04/27/1">【渗透神器系列】Fiddler</a><br><a href="http://thief.one/2017/05/19/1">【渗透神器系列】搜索引擎</a><br><a href="http://thief.one/2017/02/09/WireShark%E8%BF%87%E6%BB%A4%E8%A7%84%E5%88%99/">【渗透神器系列】WireShark</a></p>
-<p>DNS信息在线查询的网站很多，可以参考下：<a href="https://thief.one/SecWeb">SecWeb安全导航</a>另外网上类似的文章很多很多啦，大家可以全去搜索下，这里只是列举了一些常见的工具，若有好的后面会持续补充。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Never put off what you can do today until tomorrow&lt;br&gt;今日事今日毕&lt;/blockquote&gt;&lt;br&gt;　　好久没有写文章啦，最近忙着换工作，搞事情，麻烦事一大推，凑空整理一篇DNS信息查询等工具用法吧。DNS查询在渗透或者运维工作经常遇到，尤其是内部有DNS服务器的公司，需要定时监测DNS解析的是否正常，有无被DNS劫持的情况。因此，学会一些工具快速查询检测DNS服务器状况显得尤为重要，本篇就介绍几款常见的DNS信息查询工具。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="安全工具" scheme="http://thief.one/categories/%E5%AE%89%E5%85%A8%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="渗透神器" scheme="http://thief.one/tags/%E6%B8%97%E9%80%8F%E7%A5%9E%E5%99%A8/"/>
-    
-      <category term="DNS" scheme="http://thief.one/tags/DNS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>定制化MacShell</title>
-    <link href="http://thief.one/2017/06/27/1/"/>
-    <id>http://thief.one/2017/06/27/1/</id>
-    <published>2017-06-27T02:17:09.000Z</published>
-    <updated>2017-07-31T02:30:11.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Keep on going never give up！<br>勇往直前，决不放弃！</blockquote><br>　　黑苹果用了将近半年，我也开始慢慢熟悉使用mac操作系统。然而之前我并没有真正发挥出mac高效率的一面，而只是停留于最基础的使用，为了能更高效的使用mac，近期我搜集了一些高效优雅地使用mac的案例，准备实操一番并做些记录。<br>　　如何高效地使用Mac？面对这个问题，我们可以从如何优雅地使用shell（也就是终端）开始探讨。首先不得不说mac自带的shell功能已经很强大了，但为了更好地办公，我们能做得还有很多。本篇将介绍几款Mac下shell增强工具（插件），使得Macshell的功能更加强大。<br><a id="more"></a></p>
-<h3 id="iterm2"><a href="#iterm2" class="headerlink" title="iterm2"></a>iterm2</h3><p>安装比较简单，官网下载一个安装包即可。</p>
-<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><p>智能选中：</p>
-<ul>
-<li>双击选中字符串；</li>
-<li>三击选中整行；</li>
-<li>四击智能选中；</li>
-</ul>
-<p>按住⌘键：</p>
-<ul>
-<li>可以拖拽选中的字符串；</li>
-<li>点击url，调用默认浏览器访问该网址；</li>
-</ul>
-<p>快捷键：</p>
-<ul>
-<li>切换tab：⌘+←, ⌘+→, ⌘+{, ⌘+}；⌘+数字直接定位到该tab；</li>
-<li>新建tab：⌘+t；</li>
-<li>顺序切换 pane：⌘+[, ⌘+]；</li>
-<li>按方向切换 pane：⌘+Option+方向键；</li>
-<li>切分屏幕：⌘+d水平切分，⌘+Shift+d垂直切分；</li>
-<li>智能查找，支持正则查找：⌘+f；</li>
-<li>自动补齐，按⌘+;；</li>
-<li>弹出历史记录窗口，按⌘+Shift+h；</li>
-<li>找到当前鼠标，⌘+/；</li>
-</ul>
-<h3 id="oh-my-zsh"><a href="#oh-my-zsh" class="headerlink" title="oh my zsh"></a>oh my zsh</h3><p>　　我们平常在mac上使用的shell通常都是bash-shell，而mac以及linux有另一款自带的shell异常强大，它就是zsh-shell。bash-shell的配置通常可以在用户目录下.bash_profile文件内设置，而zsh-shell同样可以在用户目录下.zshrc文件内设置。<br>　　由于zsh-shell是完全可定制化的，因此出现了一款开源工具–oh my zsh，它是一个开源的、社区驱动的框架，用来管理ZSH配置。</p>
-<h4 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/robbyrussell/oh-my-zsh" target="_blank" rel="external">https://github.com/robbyrussell/oh-my-zsh</a><br><a href="http://ohmyz.sh" target="_blank" rel="external">http://ohmyz.sh</a></p>
-<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></div></pre></td></tr></table></figure>
-<p>或者：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sh -c <span class="string">"<span class="variable">$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)</span>"</span></div></pre></td></tr></table></figure></p>
-<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><p>切换到zsh-shell，可以通过命令行输入zsh进行查看。<br><img src="/upload_image/20170627/1.png" alt=""><br>或者设置shell启动开启zsh而不是bash：<br><img src="/upload_image/20170627/2.png" alt=""><br>oh-my-zsh有许多插件和主题，可以去 ~/.zshrc 配置。</p>
-<h3 id="autojump"><a href="#autojump" class="headerlink" title="autojump"></a>autojump</h3><p>autojump是一款可以快速切换到指定目录的shell插件，支持模糊匹配，tab补全等功能。</p>
-<h4 id="项目地址-1"><a href="#项目地址-1" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/wting/autojump" target="_blank" rel="external">https://github.com/wting/autojump</a></p>
-<h4 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install autojump</div></pre></td></tr></table></figure>
-<h4 id="配置-1"><a href="#配置-1" class="headerlink" title="配置"></a>配置</h4><p>安装完以后终端直接输入autojump，如果没有报错，则说明安装成功。<br>如果遇到：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">please <span class="built_in">source</span> the correct autojump file <span class="keyword">in</span> your shell\<span class="string">'s startup file.</span></div></pre></td></tr></table></figure></p>
-<p>则将以下内容添加到~/.zshrc文件末尾：（安装完oh my zsh会在用户目录下出现一个.zshrc文件）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[ -f /usr/<span class="built_in">local</span>/etc/profile.d/autojump.sh ] &amp;&amp; . /usr/<span class="built_in">local</span>/etc/profile.d/autojump.sh</div></pre></td></tr></table></figure></p>
-<p>然后设置.zshrc文件中的plugins=(git autojump)。<br>配置完以后在终端输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> .zshrc</div></pre></td></tr></table></figure></p>
-<p>用来启用.zshrc配置，或者注销用户重启shell来生效。</p>
-<h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">j 关键字</div></pre></td></tr></table></figure>
-<p><img src="/upload_image/20170627/3.png" alt=""><br>注意：只有曾经访问过的目录，才能用autojump快速进入。</p>
-<h3 id="zsh-autosuggestions"><a href="#zsh-autosuggestions" class="headerlink" title="zsh-autosuggestions"></a>zsh-autosuggestions</h3><p>这是一款可提示历史命令的shell插件。</p>
-<h4 id="项目地址-2"><a href="#项目地址-2" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="external">https://github.com/zsh-users/zsh-autosuggestions</a></p>
-<h4 id="安装-2"><a href="#安装-2" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions</div></pre></td></tr></table></figure>
-<h4 id="配置-2"><a href="#配置-2" class="headerlink" title="配置"></a>配置</h4><p>vim .zshrc写入以下内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh</div></pre></td></tr></table></figure></p>
-<p>配置完以后在终端输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> .zshrc</div></pre></td></tr></table></figure></p>
-<p>启用.zshrc配置，或者注销用户重启shell来生效。</p>
-<h4 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h4><p><img src="/upload_image/20170627/4.png" alt=""></p>
-<h3 id="icdiff"><a href="#icdiff" class="headerlink" title="icdiff"></a>icdiff</h3><p>diff的美化增强版，文件差异对比工具。</p>
-<h4 id="项目地址-3"><a href="#项目地址-3" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/jeffkaufman/icdiff" target="_blank" rel="external">https://github.com/jeffkaufman/icdiff</a></p>
-<h4 id="安装-3"><a href="#安装-3" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install git+https://github.com/jeffkaufman/icdiff.git</div></pre></td></tr></table></figure>
-<h4 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h4><p><img src="/upload_image/20170627/5.png" alt=""></p>
-<h3 id="httpie"><a href="#httpie" class="headerlink" title="httpie"></a>httpie</h3><p>curl美化版，格式化输出结果。</p>
-<h4 id="项目地址-4"><a href="#项目地址-4" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/jakubroztocil/httpie/" target="_blank" rel="external">https://github.com/jakubroztocil/httpie/</a></p>
-<h4 id="安装-4"><a href="#安装-4" class="headerlink" title="安装"></a>安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">brew install httpie</div></pre></td></tr></table></figure>
-<h4 id="使用-3"><a href="#使用-3" class="headerlink" title="使用"></a>使用</h4><p><img src="/upload_image/20170627/6.png" alt=""></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Keep on going never give up！&lt;br&gt;勇往直前，决不放弃！&lt;/blockquote&gt;&lt;br&gt;　　黑苹果用了将近半年，我也开始慢慢熟悉使用mac操作系统。然而之前我并没有真正发挥出mac高效率的一面，而只是停留于最基础的使用，为了能更高效的使用mac，近期我搜集了一些高效优雅地使用mac的案例，准备实操一番并做些记录。&lt;br&gt;　　如何高效地使用Mac？面对这个问题，我们可以从如何优雅地使用shell（也就是终端）开始探讨。首先不得不说mac自带的shell功能已经很强大了，但为了更好地办公，我们能做得还有很多。本篇将介绍几款Mac下shell增强工具（插件），使得Macshell的功能更加强大。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
-    
-    
-      <category term="Mac" scheme="http://thief.one/tags/Mac/"/>
     
   </entry>
   
