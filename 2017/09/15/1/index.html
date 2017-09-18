@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="nMask&#39;s Blog">
 <meta property="og:description" content="Read, study and learn about everything imporant in your life点点滴滴皆重要，处处学习是诀窍　　Django中有个urls.py文件，专门用于管理django的url即路由，我们可以在urls.py文件中创建或者修改路由，以达到访问不同url执行不同view函数的作用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-15T09:31:11.000Z">
+<meta property="og:updated_time" content="2017-09-18T09:28:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django基础之URL路由">
 <meta name="twitter:description" content="Read, study and learn about everything imporant in your life点点滴滴皆重要，处处学习是诀窍　　Django中有个urls.py文件，专门用于管理django的url即路由，我们可以在urls.py文件中创建或者修改路由，以达到访问不同url执行不同view函数的作用。">
@@ -441,7 +441,7 @@
 <p>修改view.py：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">def app(request,a,b):</div><div class="line"></div><div class="line">    <span class="built_in">return</span> HttpResponse(str(int(a)+int(b)))</div></pre></td></tr></table></figure></p>
 <h4 id="Url-name"><a href="#Url-name" class="headerlink" title="Url name"></a>Url name</h4><p>我们看到urls.py中的路由配置中，有name字段，可有可无，但建议写上。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^app/$'</span>, views.app , name=<span class="string">"app"</span>),</div></pre></td></tr></table></figure></p>
 <p>说明：name相当于给这条路由起一个名称，好处在于路由的正则可能会经常变，随之而来的时html里面的url也需要变，因为需要与urls里的路由对应起来。但如果给路由起了名字，则可以在html中使用路由的名字，这样当路由的正则发生改变，但只要名字不变，html中就不需要改。</p>
-<p>HTML页面中可以这样用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;% url <span class="string">'name'</span> %&#125; 不带参数</div><div class="line">&#123;% url <span class="string">'name'</span> 参数 %&#125;  带参数的：参数可以是变量名</div><div class="line"> </div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' 4 5 %&#125;"</span>&gt;link&lt;/a&gt;</div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' %&#125;"</span>&gt;link&lt;/a&gt;</div></pre></td></tr></table></figure></p>
+<p>HTML页面中可以这样用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;% url <span class="string">'name'</span> %&#125; 不带参数</div><div class="line">&#123;% url <span class="string">'name'</span> 参数 %&#125;  带参数的：参数可以是变量名</div><div class="line"> </div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' 4 5 %&#125;"</span>&gt;link&lt;/a&gt;</div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' %&#125;"</span>&gt;link&lt;/a&gt;</div><div class="line">&lt;a href=<span class="string">"&#123;% url 'app' %&#125;?a=1&amp;b=2"</span>&gt;link&lt;/a&gt;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -459,7 +459,7 @@
   <p><span>本文标题:</span><a href="/2017/09/15/1/">Django基础之URL路由</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 nMask 的个人博客">nMask</a></p>
   <p><span>发布时间:</span>2017年09月15日 - 15:09</p>
-  <p><span>最后更新:</span>2017年09月15日 - 17:09</p>
+  <p><span>最后更新:</span>2017年09月18日 - 17:09</p>
   <p><span>原始链接:</span><a href="/2017/09/15/1/" title="Django基础之URL路由">http://thief.one/2017/09/15/1/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://thief.one/2017/09/15/1/"  aria-label="复制成功！"></i></span>
   </p>
