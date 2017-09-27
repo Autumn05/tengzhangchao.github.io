@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-09-27T03:58:28.000Z</updated>
+  <updated>2017-09-27T05:56:34.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -20,13 +20,13 @@
     <link href="http://thief.one/2017/09/27/1/"/>
     <id>http://thief.one/2017/09/27/1/</id>
     <published>2017-09-27T03:26:04.000Z</published>
-    <updated>2017-09-27T03:58:28.000Z</updated>
+    <updated>2017-09-27T05:56:34.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Understand yourself in order to better understanding others<br>知己方能解人</blockquote><br>　　本篇简单介绍一款流量抓取神器—justniffer，其能在线抓取流量也能离线分析数据包。justniffer与网络抓包神器wireshark相比，用法更为简单且对网络影响较小。面对海量的流量，我们需要经常从中分析出恶意请求，从而去做好防御，因此我在此记录justniffer的一些基础用法，以做备份查阅。<br><a id="more"></a></p>
 <h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:oreste-notelli/ppa </div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install justniffer</div></pre></td></tr></table></figure>
 <h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><h4 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">justniffer -i eth5 -u -l <span class="string">"%request.header.host  %request.method %request.url  %response.grep(\r\n\r\n(.*)) %request.grep(\r\n\r\n(.*))"</span></div></pre></td></tr></table></figure>
 <h4 id="重点参数"><a href="#重点参数" class="headerlink" title="重点参数"></a>重点参数</h4><ul>
-<li>-i 指定监听的端口</li>
+<li>-i 指定监听的网络接口</li>
 <li>-l 指定日志输出格式</li>
 <li>-u 将不可打印的字符解析为.</li>
 </ul>
