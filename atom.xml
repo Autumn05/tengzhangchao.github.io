@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-10-11T03:50:00.000Z</updated>
+  <updated>2017-10-30T12:14:26.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python 正则表达式</title>
+    <link href="http://thief.one/2017/10/30/1/"/>
+    <id>http://thief.one/2017/10/30/1/</id>
+    <published>2017-10-30T11:43:54.000Z</published>
+    <updated>2017-10-30T12:14:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">悄悄问圣僧，女儿美不美</blockquote><br>　　好久没有更新文章啦，主要是实在不知道写点啥。最近忙着搞安全开发，很多知识的学习都暂时停滞了，因此也没啥新知识可以分享的。想起之前一直有人问我怎么写正则表达式，我就在本篇结合Python语言，总结下正则表达式到底该怎么写吧。<br><a id="more"></a></p>
+<p>匆匆写了一下，来没来得及系统的整理，先将就着看，之后凑时间丰富一下。</p>
+<h3 id="正则规则"><a href="#正则规则" class="headerlink" title="正则规则"></a>正则规则</h3><p>想要写好正则表达式，先学习下它的规则吧！<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[]:指定一个字符集,<span class="string">'[abc\s\d]'</span>中，a,b,c任意一个满足便可以。</div><div class="line">^:匹配行首,<span class="string">'[^abc]'</span>中，除了a,b,c，其他的都可以;<span class="string">'^hello'</span>表示行首是hello的字符串。</div><div class="line">$:匹配行尾,<span class="string">'boy$'</span>表示行尾是boy的字符串。</div><div class="line">\:转义字符</div><div class="line">\d:[0-9]</div><div class="line">\w:[a-zA-Z0-9_]</div><div class="line">\s:空格或者tab或者换行，也包括\r\n</div><div class="line">&#123;&#125;:重复,a&#123;8&#125;=aaaaaaaa;b&#123;1,3&#125;:重复1-3次。</div><div class="line">*:指定前一个字符匹配0次或多次。<span class="string">'ab*'</span>,可以匹配a，ab，abb，abbbb等。</div><div class="line">+:指定前一个字符匹配1次或多次。</div><div class="line">?:指定前一个字符匹配0次或1次，加载重复后面可以最小匹配。</div><div class="line">.:表示任意字符（换行符\n除外re.DOTALL可以匹配所有字符串，包括换行；re.compile(r<span class="string">".*"</span>,re.DOTALL)</div><div class="line">(?i)：在正则表达式前面加上这个，便可以忽略大小写;如:res=r<span class="string">"(?i)[abc]"</span></div><div class="line">(asp|php|jsp)：表示或者，跟[abc]的区别在于它是匹配一个字符串，而[]只是单个字符。</div><div class="line">r<span class="string">'((?[\d]*)&#123;2,3&#125;)'</span>:在内括号前加上?:,结果只匹配外面括号的内容。</div></pre></td></tr></table></figure></p>
+<h3 id="Python中使用正则"><a href="#Python中使用正则" class="headerlink" title="Python中使用正则"></a>Python中使用正则</h3><p>我们知道正则并不是python特有的，很多编程语言都有正则。而在Python中想要使用正则，需要借助re模块。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">import re</div><div class="line"></div><div class="line"><span class="comment"># 直接匹配</span></div><div class="line">a=re.search(res,<span class="string">"11111111"</span>)               </div><div class="line"><span class="keyword">if</span> a:</div><div class="line">    <span class="built_in">print</span> a.group()</div><div class="line"></div><div class="line"><span class="comment"># 编译 （加快匹配速度）</span></div><div class="line">p_tel=re.compile(res)               将正则表达式编译，提高运行速度。</div><div class="line">p_tel.findall(<span class="string">"010-12345678"</span>)       找到RE匹配的所有子串，并作为列表返回。</div><div class="line">p_tel.match(<span class="string">"01211211"</span>)             决定RE是否在字符串刚开始的位置匹配。</div><div class="line">p_tel.search(<span class="string">"13133131"</span>)            扫描字符串，找到这个RE匹配的位置。</div><div class="line">p_tel.group(num=0)                  返回全部匹配对象。（或指定编号是num的子组）</div><div class="line">p_tel.sub(pattern,string)           对正则表达式中所有匹配string的用pattern替换。</div><div class="line">p_tel.split(pattern，string) 根据正则表达式pattern中的分隔符把字符string分隔为一个列表。</div></pre></td></tr></table></figure></p>
+<h3 id="贪婪模式"><a href="#贪婪模式" class="headerlink" title="贪婪模式"></a>贪婪模式</h3><p>需要特别指出的是，正则匹配默认是贪婪匹配，也就是匹配尽可能多的字符。<br>例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; re.match(r<span class="string">'^(\d+)(0*)$'</span>, <span class="string">'123400'</span>).groups()</div><div class="line">(<span class="string">'123400'</span>, <span class="string">''</span>)</div></pre></td></tr></table></figure></p>
+<p>说明：由于\d+采用贪婪匹配，直接把后面的0全部匹配了，结果0*只能匹配空字符串了。必须让\d+采用非贪婪匹配（也就是尽可能少匹配），才能把后面的0匹配出来，加个?就可以让\d+采用非贪婪匹配：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; re.match(r<span class="string">'^(\d+?)(0*)$'</span>, <span class="string">'123400'</span>).groups()</div><div class="line">(<span class="string">'1234'</span>, <span class="string">'00'</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="正则实例"><a href="#正则实例" class="headerlink" title="正则实例"></a>正则实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">匹配IP地址的正则表达式 re=/(\d+)\.(\d+)\.(\d+)\.(\d+)/g</div><div class="line">匹配空行的正则表达式：\n[\s| ]*\r</div><div class="line">匹配HTML标记的正则表达式：/&lt;(.*)&gt;.*&lt;\/\1&gt;|&lt;(.*) \/&gt;/</div><div class="line">匹配首尾空格的正则表达式：(^\s*)|(\s*$)</div><div class="line">匹配中文字符的正则表达式： [\u4e00-\u9fa5] <span class="comment">#python中需要转换为unicode</span></div><div class="line">匹配双字节字符(包括汉字在内)：[^\x00-\xff]</div><div class="line"></div><div class="line">unicode正则写法：</div><div class="line">res=ur<span class="string">"[\u4e00-\u9fa5]"</span></div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;悄悄问圣僧，女儿美不美&lt;/blockquote&gt;&lt;br&gt;　　好久没有更新文章啦，主要是实在不知道写点啥。最近忙着搞安全开发，很多知识的学习都暂时停滞了，因此也没啥新知识可以分享的。想起之前一直有人问我怎么写正则表达式，我就在本篇结合Python语言，总结下正则表达式到底该怎么写吧。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
+    
+    
+      <category term="正则表达式" scheme="http://thief.one/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>ssh、telnet、ftp安装使用小记</title>
@@ -938,61 +967,6 @@
       <category term="nginx" scheme="http://thief.one/tags/nginx/"/>
     
       <category term="Django" scheme="http://thief.one/tags/Django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>【玩转linux系列】awk、grep、sed</title>
-    <link href="http://thief.one/2017/08/12/1/"/>
-    <id>http://thief.one/2017/08/12/1/</id>
-    <published>2017-08-12T02:41:19.000Z</published>
-    <updated>2017-09-01T11:25:37.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Learn and live<br>活着，为了学习<br></blockquote><br>　　awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linux命令之一。三者的功能都是处理文本，但侧重点各不相同，其中属awk功能最强大，但也最复杂。grep更适合单纯的查找或匹配文本，sed更适合编辑匹配到的文本，awk更适合格式化文本，对文本进行较复杂格式处理。<br><a id="more"></a><br>以下所有实验输出，均以测试文件test.log内容为基准：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">20170102 admin,password Open</div><div class="line">20170801 nmask,nmask close</div><div class="line">20180902 nm4k,<span class="built_in">test</span> filter</div></pre></td></tr></table></figure></p>
-<h3 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h3><p>AWK是一种处理文本文件的语言，是一个强大的文本分析工具;awk是以列为划分计数的，$0表示所有列，$1表示第一列，$2表示第二列。</p>
-<h4 id="awk参数"><a href="#awk参数" class="headerlink" title="awk参数"></a>awk参数</h4><ul>
-<li>-F 指定输入文件折分隔符，如-F:</li>
-<li>-v 赋值一个用户定义变量，如-va=1</li>
-<li>-f 从脚本文件中读取awk命令</li>
-</ul>
-<p>注：只列举最常用的参数</p>
-<h4 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h4><p>每行按空格分割列，并输出第1、4列<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ awk <span class="string">'&#123;print $1,$4&#125;'</span> test.log</div><div class="line">或者</div><div class="line">$ cat test.log | awk <span class="string">'&#123;print $1,$4&#125;'</span></div></pre></td></tr></table></figure></p>
-<h4 id="自定义分隔符"><a href="#自定义分隔符" class="headerlink" title="自定义分隔符"></a>自定义分隔符</h4><p>使用”,”进行分割，参数用-F<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">awk -F, <span class="string">'&#123;print $1,$2&#125;'</span> test.log</div></pre></td></tr></table></figure></p>
-<p>使用多个分隔符，先使用空格分割，然后对分割结果再使用”,”分割<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ awk -F <span class="string">'[ ,]'</span>  <span class="string">'&#123;print $1,$2,$3&#125;'</span>  test.log  <span class="comment">#注意逗号前面有一个空格</span></div></pre></td></tr></table></figure></p>
-<p><img src="/upload_image/20170812/1.png" alt=""></p>
-<h4 id="设置变量"><a href="#设置变量" class="headerlink" title="设置变量"></a>设置变量</h4><p>设置awk自定义变量，用参数-v<br>例子：设置变量a为1<br><img src="/upload_image/20170812/2.png" alt=""><br>注意：-v a之间要空格。</p>
-<p>字符串拼接：（用””而不是+）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat test.txt | awk -v a=\<span class="string">" '&#123;print a"</span><span class="string">"<span class="variable">$0</span>"</span><span class="string">"a&#125;'</span></div></pre></td></tr></table></figure></p>
-<h4 id="逻辑判断"><a href="#逻辑判断" class="headerlink" title="逻辑判断"></a>逻辑判断</h4><p>输出第一列为20170801的记录<br><img src="/upload_image/20170812/3.png" alt=""></p>
-<p>输出第二列不是nmask,nmask的记录<br><img src="/upload_image/20170812/4.png" alt=""></p>
-<h4 id="内建变量"><a href="#内建变量" class="headerlink" title="内建变量"></a>内建变量</h4><p>NR参数：输出行号<br><img src="/upload_image/20170812/5.png" alt=""></p>
-<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><p>输出第二列中包含nm开头的所有记录<br><img src="/upload_image/20170812/6.png" alt=""><br>输出包含2017开头的记录<br><img src="/upload_image/20170812/7.png" alt=""><br>注意：这里没有～，因为没有指定是哪一列</p>
-<p>忽略大小写{INGORECASE=1}<br><img src="/upload_image/20170812/8.png" alt=""><br>匹配取反 !~<br><img src="/upload_image/20170812/9.png" alt=""></p>
-<h4 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h4><h5 id="substr字符串截取"><a href="#substr字符串截取" class="headerlink" title="substr字符串截取"></a>substr字符串截取</h5><p>截取第一列的第一到第四个字符<br><img src="/upload_image/20170812/10.png" alt=""></p>
-<h5 id="split切分字符串"><a href="#split切分字符串" class="headerlink" title="split切分字符串"></a>split切分字符串</h5><p>以逗号分隔第2列的数据，并输出分别输出第2列的内容<br><img src="/upload_image/20170812/11.png" alt=""></p>
-<h5 id="gsub替换"><a href="#gsub替换" class="headerlink" title="gsub替换"></a>gsub替换</h5><p>将第2列中的nmask替换成nMask<br><img src="/upload_image/20170812/12.png" alt=""></p>
-<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>Linux grep命令用于查找文件里符合条件的字符串。</p>
-<h4 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h4><p>递归查询<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -r nmask /etc/  <span class="comment">#查看/etc目录下内容包含nmask的文件</span></div></pre></td></tr></table></figure></p>
-<p>查询取反<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">grep -v <span class="built_in">test</span>  test.log</div></pre></td></tr></table></figure></p>
-<h3 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h3><p>Linux sed命令是利用script来处理文本文件。</p>
-<h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><p>-e 以选项中指定的script来处理输入的文本文件。<br>-f 以选项中指定的script文件来处理输入的文本文件。<br>-h 显示帮助。<br>-n 仅显示script处理后的结果。<br>-V 显示版本信息。</p>
-<h4 id="动作"><a href="#动作" class="headerlink" title="动作"></a>动作</h4><p>a ：新增， a 的后面可以接字串，而这些字串会在下一行出现<br>i ：插入， i 的后面可以接字串，而这些字串会在上一行出现<br>c ：取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行<br>d ：删除<br>s ：取代，通常这个s的动作可以搭配正规表示法！如 s/old/new/g</p>
-<h4 id="插入操作"><a href="#插入操作" class="headerlink" title="插入操作"></a>插入操作</h4><p>在test.log文件的第4行后插入一行，内容为nmask<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed -e 4a\nmask test.log</div></pre></td></tr></table></figure></p>
-<h4 id="删除操作"><a href="#删除操作" class="headerlink" title="删除操作"></a>删除操作</h4><p>删除test.log的第2行、第3行数据<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat test.log | sed <span class="string">'2,3d'</span></div></pre></td></tr></table></figure></p>
-<p>匹配删除，删除行中有nmask字符串的<br><img src="/upload_image/20170812/13.png" alt=""></p>
-<h4 id="替换操作"><a href="#替换操作" class="headerlink" title="替换操作"></a>替换操作</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sed <span class="string">'s/要被取代的字串/新的字串/g'</span></div></pre></td></tr></table></figure>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.runoob.com/linux/linux-comm-awk.html" target="_blank" rel="external">http://www.runoob.com/linux/linux-comm-awk.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Learn and live&lt;br&gt;活着，为了学习&lt;br&gt;&lt;/blockquote&gt;&lt;br&gt;　　awk、grep、sed是linux操作文本的三大利器，也是必须掌握的linux命令之一。三者的功能都是处理文本，但侧重点各不相同，其中属awk功能最强大，但也最复杂。grep更适合单纯的查找或匹配文本，sed更适合编辑匹配到的文本，awk更适合格式化文本，对文本进行较复杂格式处理。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
-    
-    
-      <category term="linux" scheme="http://thief.one/tags/linux/"/>
     
   </entry>
   
