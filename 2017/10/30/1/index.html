@@ -130,7 +130,7 @@
 <meta property="og:site_name" content="nMask&#39;s Blog">
 <meta property="og:description" content="悄悄问圣僧，女儿美不美　　好久没有更新文章啦，主要是实在不知道写点啥。最近忙着搞安全开发，很多知识的学习都暂时停滞了，因此也没啥新知识可以分享的。想起之前一直有人问我怎么写正则表达式，我就在本篇结合Python语言，总结下正则表达式到底该怎么写吧。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-30T12:14:26.000Z">
+<meta property="og:updated_time" content="2017-10-30T12:17:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python 正则表达式">
 <meta name="twitter:description" content="悄悄问圣僧，女儿美不美　　好久没有更新文章啦，主要是实在不知道写点啥。最近忙着搞安全开发，很多知识的学习都暂时停滞了，因此也没啥新知识可以分享的。想起之前一直有人问我怎么写正则表达式，我就在本篇结合Python语言，总结下正则表达式到底该怎么写吧。">
@@ -437,6 +437,7 @@
 <h3 id="贪婪模式"><a href="#贪婪模式" class="headerlink" title="贪婪模式"></a>贪婪模式</h3><p>需要特别指出的是，正则匹配默认是贪婪匹配，也就是匹配尽可能多的字符。<br>例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; re.match(r<span class="string">'^(\d+)(0*)$'</span>, <span class="string">'123400'</span>).groups()</div><div class="line">(<span class="string">'123400'</span>, <span class="string">''</span>)</div></pre></td></tr></table></figure></p>
 <p>说明：由于\d+采用贪婪匹配，直接把后面的0全部匹配了，结果0*只能匹配空字符串了。必须让\d+采用非贪婪匹配（也就是尽可能少匹配），才能把后面的0匹配出来，加个?就可以让\d+采用非贪婪匹配：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; re.match(r<span class="string">'^(\d+?)(0*)$'</span>, <span class="string">'123400'</span>).groups()</div><div class="line">(<span class="string">'1234'</span>, <span class="string">'00'</span>)</div></pre></td></tr></table></figure></p>
 <h3 id="正则实例"><a href="#正则实例" class="headerlink" title="正则实例"></a>正则实例</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">匹配IP地址的正则表达式 re=/(\d+)\.(\d+)\.(\d+)\.(\d+)/g</div><div class="line">匹配空行的正则表达式：\n[\s| ]*\r</div><div class="line">匹配HTML标记的正则表达式：/&lt;(.*)&gt;.*&lt;\/\1&gt;|&lt;(.*) \/&gt;/</div><div class="line">匹配首尾空格的正则表达式：(^\s*)|(\s*$)</div><div class="line">匹配中文字符的正则表达式： [\u4e00-\u9fa5] <span class="comment">#python中需要转换为unicode</span></div><div class="line">匹配双字节字符(包括汉字在内)：[^\x00-\xff]</div><div class="line"></div><div class="line">unicode正则写法：</div><div class="line">res=ur<span class="string">"[\u4e00-\u9fa5]"</span></div></pre></td></tr></table></figure>
+<h3 id="正则平台"><a href="#正则平台" class="headerlink" title="正则平台"></a>正则平台</h3><p>建议在代码中使用正则前，先测试下正则的质量。为了方便使用，我自己写了一个在线工具，需要的可以用用：<a href="http://tool.nmask.cn/python_re/" target="_blank" rel="external">http://tool.nmask.cn/python_re/</a></p>
 
       
     </div>
@@ -802,7 +803,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#正则规则"><span class="nav-number">1.</span> <span class="nav-text">正则规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python中使用正则"><span class="nav-number">2.</span> <span class="nav-text">Python中使用正则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贪婪模式"><span class="nav-number">3.</span> <span class="nav-text">贪婪模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则实例"><span class="nav-number">4.</span> <span class="nav-text">正则实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#正则规则"><span class="nav-number">1.</span> <span class="nav-text">正则规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python中使用正则"><span class="nav-number">2.</span> <span class="nav-text">Python中使用正则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#贪婪模式"><span class="nav-number">3.</span> <span class="nav-text">贪婪模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则实例"><span class="nav-number">4.</span> <span class="nav-text">正则实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正则平台"><span class="nav-number">5.</span> <span class="nav-text">正则平台</span></a></li></ol></div>
             
           </div>
         </section>
