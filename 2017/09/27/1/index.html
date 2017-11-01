@@ -130,7 +130,7 @@
 <meta property="og:site_name" content="nMask&#39;s Blog">
 <meta property="og:description" content="Understand yourself in order to better understanding others知己方能解人　　本篇简单介绍一款流量抓取神器—justniffer，其能在线抓取流量也能离线分析数据包。justniffer与网络抓包神器wireshark相比，用法更为简单且对网络影响较小。面对海量的流量，我们需要经常从中分析出恶意请求，从而去做好防御，因此我在此记录justni">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-27T05:56:34.000Z">
+<meta property="og:updated_time" content="2017-11-01T03:21:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="justniffer抓取流量大法">
 <meta name="twitter:description" content="Understand yourself in order to better understanding others知己方能解人　　本篇简单介绍一款流量抓取神器—justniffer，其能在线抓取流量也能离线分析数据包。justniffer与网络抓包神器wireshark相比，用法更为简单且对网络影响较小。面对海量的流量，我们需要经常从中分析出恶意请求，从而去做好防御，因此我在此记录justni">
@@ -451,6 +451,7 @@
 <h4 id="处理日志文件"><a href="#处理日志文件" class="headerlink" title="处理日志文件"></a>处理日志文件</h4><p>打开/log/20170927.log文件，我们看到的每一行的内容格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">GET NMASK www.baidu.com NMASK /test.html NMASK response_body=&#123;<span class="string">"result"</span>:<span class="string">"123"</span>&#125; NMASK request_body=&#123;<span class="string">"get"</span>:<span class="string">"123"</span>&#125;</div></pre></td></tr></table></figure></p>
 <p>说明：每一行文件内容都包含一份流量信息，流量信息分为五个内容，每个内容间用NMASK（特殊字符串，可自定义）隔开。然后我们便可以写python脚本，遍历日志文件，并用split(“NMASK”)获取每一个流量信息了。</p>
 <p>更多的配置信息、命令参数，可参考：<a href="http://www.jianshu.com/p/02021de8f82e" target="_blank" rel="external">http://www.jianshu.com/p/02021de8f82e</a></p>
+<h3 id="Python使用justniffer"><a href="#Python使用justniffer" class="headerlink" title="Python使用justniffer"></a>Python使用justniffer</h3><p>需要借助subprocess模块：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">import subprocess</div><div class="line"></div><div class="line">popen=subprocess.Popen(<span class="string">"justniffer -i eth0 -u -l '%request.header.host nmask %request.method nmask %request.url nmask %response.grep(\r\n\r\n(.*))' | awk -F nmask '<span class="variable">$1</span> !~ /^-/ &#123;print&#125;'"</span>,shell=True,stdout=subprocess.PIPE)</div><div class="line"></div><div class="line"><span class="keyword">while</span> 1:</div><div class="line">    p=popen.stdout.readline() <span class="comment">#一行一行取</span></div><div class="line">    <span class="built_in">print</span> p <span class="comment">#可自定义函数去处理流量</span></div><div class="line">    <span class="keyword">if</span> not p:</div><div class="line">        <span class="built_in">break</span></div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -468,7 +469,7 @@
   <p><span>本文标题:</span><a href="/2017/09/27/1/">justniffer抓取流量大法</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 nMask 的个人博客">nMask</a></p>
   <p><span>发布时间:</span>2017年09月27日 - 11:09</p>
-  <p><span>最后更新:</span>2017年09月27日 - 13:09</p>
+  <p><span>最后更新:</span>2017年11月01日 - 11:11</p>
   <p><span>原始链接:</span><a href="/2017/09/27/1/" title="justniffer抓取流量大法">http://thief.one/2017/09/27/1/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://thief.one/2017/09/27/1/"  aria-label="复制成功！"></i></span>
   </p>
@@ -820,7 +821,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install"><span class="nav-number">1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage"><span class="nav-number">2.</span> <span class="nav-text">Usage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础命令"><span class="nav-number">2.1.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重点参数"><span class="nav-number">2.2.</span> <span class="nav-text">重点参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志格式"><span class="nav-number">2.3.</span> <span class="nav-text">日志格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后期处理"><span class="nav-number">3.</span> <span class="nav-text">后期处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#抓取流量存入文件"><span class="nav-number">3.1.</span> <span class="nav-text">抓取流量存入文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理日志文件"><span class="nav-number">3.2.</span> <span class="nav-text">处理日志文件</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install"><span class="nav-number">1.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage"><span class="nav-number">2.</span> <span class="nav-text">Usage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础命令"><span class="nav-number">2.1.</span> <span class="nav-text">基础命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重点参数"><span class="nav-number">2.2.</span> <span class="nav-text">重点参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#日志格式"><span class="nav-number">2.3.</span> <span class="nav-text">日志格式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后期处理"><span class="nav-number">3.</span> <span class="nav-text">后期处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#抓取流量存入文件"><span class="nav-number">3.1.</span> <span class="nav-text">抓取流量存入文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理日志文件"><span class="nav-number">3.2.</span> <span class="nav-text">处理日志文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python使用justniffer"><span class="nav-number">4.</span> <span class="nav-text">Python使用justniffer</span></a></li></ol></div>
             
           </div>
         </section>
