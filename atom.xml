@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-10-31T05:37:21.000Z</updated>
+  <updated>2017-11-02T04:56:52.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nmask&#39;tool框架开源说明</title>
+    <link href="http://thief.one/2017/11/02/1/"/>
+    <id>http://thief.one/2017/11/02/1/</id>
+    <published>2017-11-02T04:40:15.000Z</published>
+    <updated>2017-11-02T04:56:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">这是一篇内容很短的文章</blockquote><br>　　事情的起因是有热心网友问起<a href="http://tool.nmask.cn" target="_blank" rel="external">nmask’tool</a>网站框架源码是否能够开源？本着分享的精神，我自然是很乐意开源的。只不过目前代码还没有梳理得很完善，扩展起来可能会比较麻烦，后期有时间我会把框架完善一下。关于此项目的任何进展，都会在本篇更新，尽情期待！<br><a id="more"></a><br>　　当然其实这也谈不上是框架，无非是自己用Django写的一个小应用，当初没有考虑太多扩展的东西。如果大家觉得看着还行，可以去github上clone一份代码，自己搭建起来玩玩。当然我更希望大家能一起来完善这个工具平台（暂且称之为平台），多多贡献功能插件。<br>　　我当初开发这个工具平台的初衷是整合一些已有的功能，以web的形式免费向大家提供服务，避免重复造轮子。此工具平台主要侧重于安全类的功能开发，当然目前来看还是开发类的功能比较多，这也是因为我最近工作繁忙，还没来得及去更新安全类的一些功能。</p>
+<p>项目GITHUB地址：<a href="https://github.com/tengzhangchao/tool-nmask" target="_blank" rel="external">https://github.com/tengzhangchao/tool-nmask</a></p>
+<p>说明：关于如何进行功能扩展？我后期会整理一份开发文档，目前大家可以先自行研究研究代码。有任何项目上的问题，可以开issues提问，或者进<a href="http://home.nmask.cn" target="_blank" rel="external">群</a>交流，也可以发送邮件，当然最方便的就是在文章下方留言啦。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;这是一篇内容很短的文章&lt;/blockquote&gt;&lt;br&gt;　　事情的起因是有热心网友问起&lt;a href=&quot;http://tool.nmask.cn&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;nmask’tool&lt;/a&gt;网站框架源码是否能够开源？本着分享的精神，我自然是很乐意开源的。只不过目前代码还没有梳理得很完善，扩展起来可能会比较麻烦，后期有时间我会把框架完善一下。关于此项目的任何进展，都会在本篇更新，尽情期待！&lt;br&gt;
+    
+    </summary>
+    
+      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
+    
+    
+      <category term="nmask&#39;tool" scheme="http://thief.one/tags/nmask-tool/"/>
+    
+  </entry>
   
   <entry>
     <title>Python 正则表达式</title>
@@ -894,81 +919,6 @@
     
     
       <category term="linux" scheme="http://thief.one/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>nginx+uwsgi部署Django</title>
-    <link href="http://thief.one/2017/08/21/1/"/>
-    <id>http://thief.one/2017/08/21/1/</id>
-    <published>2017-08-21T12:31:59.000Z</published>
-    <updated>2017-09-01T12:56:23.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Constant dropping wears the stone<br>滴水穿石</blockquote><br>　　本文用来记录Django部署的一些笔记，文中描述的系统环境为Ubuntu，采用的服务器为nginx以及用uwsgi来连接Django，这也是目前Django比较主流的部署套餐。<br><a id="more"></a></p>
-<h3 id="部署连接原理"><a href="#部署连接原理" class="headerlink" title="部署连接原理"></a>部署连接原理</h3><p>浏览器发起web请求&lt;——&gt;nginx接收请求&lt;——&gt;uwsgi处理请求&lt;—–&gt;django程序</p>
-<h3 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h3><h4 id="nginx"><a href="#nginx" class="headerlink" title="nginx"></a>nginx</h4><p>安装nginx<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install nginx</div></pre></td></tr></table></figure></p>
-<p>运行并查看状态<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div><div class="line">/etc/init.d/nginx status</div></pre></td></tr></table></figure></p>
-<h4 id="Uwsgi"><a href="#Uwsgi" class="headerlink" title="Uwsgi"></a>Uwsgi</h4><p>先安装python-dev，否则uwsgi安装可能会报错<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install python-dev</div></pre></td></tr></table></figure></p>
-<p>安装uwsgi<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install uwsgi</div></pre></td></tr></table></figure></p>
-<p>安装完后添加环境变量:<br>打开文件：sudo vim .bashrc，添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> PATH=/home/nmask/.<span class="built_in">local</span>/bin/:<span class="variable">$PATH</span></div></pre></td></tr></table></figure></p>
-<p>然后运行source .bashrc使之生效，就可以在命令行直接运行uwsgi</p>
-<h3 id="环境测试"><a href="#环境测试" class="headerlink" title="环境测试"></a>环境测试</h3><h4 id="测试nginx"><a href="#测试nginx" class="headerlink" title="测试nginx"></a>测试nginx</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div></pre></td></tr></table></figure>
-<p>打开<em><a href="http://localhost:80" target="_blank" rel="external">http://localhost:80</a></em>，能看到nginx说明nginx安装成功。</p>
-<h4 id="测试uwsgi"><a href="#测试uwsgi" class="headerlink" title="测试uwsgi"></a>测试uwsgi</h4><p>项目根目录下创建test.py文件，写入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def application(env, start_response):</div><div class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>,<span class="string">'text/html'</span>)])</div><div class="line">    <span class="built_in">return</span> <span class="string">"Hello World”</span></div></pre></td></tr></table></figure></p>
-<p>项目根目录下运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :8001 --wsgi-file test.py</div></pre></td></tr></table></figure></p>
-<p>访问<em><a href="http://localhost:8001" target="_blank" rel="external">http://localhost:8001</a></em>，如果能看到hello world，说明uwsgi安装成功。</p>
-<h5 id="利用uwsgi运行django项目"><a href="#利用uwsgi运行django项目" class="headerlink" title="利用uwsgi运行django项目"></a>利用uwsgi运行django项目</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --http :8001 --<span class="built_in">chdir</span> /home/nmask/mydjango --wsgi-file mydjango/wsgi.py --master --processes 4 --threads 2 --stats 127.0.0.1:8080</div></pre></td></tr></table></figure>
-<p>常用选项：</p>
-<ul>
-<li>http ： 协议类型和端口号</li>
-<li>processes ： 开启的进程数量</li>
-<li>workers ： 开启的进程数量，等同于processes（官网的说法是spawn the specified number ofworkers / processes）</li>
-<li>chdir ： 指定运行目录（chdir to specified directory before apps loading）</li>
-<li>wsgi-file ： 载入wsgi-file（load .wsgi file）</li>
-<li>stats ： 在指定的地址上，开启状态服务（enable the stats server on the specified address）</li>
-<li>threads ： 运行线程。由于GIL的存在，我觉得这个真心没啥用。（run each worker in prethreaded mode with the specified number of threads）</li>
-<li>master ： 允许主进程存在（enable master process）</li>
-<li>daemonize ： 使进程在后台运行，并将日志打到指定的日志文件或者udp服务器（daemonize uWSGI）。实际上最常用的，还是把运行记录输出到一个本地文件上。</li>
-<li>pidfile ： 指定pid文件的位置，记录主进程的pid号。</li>
-<li>vacuum ： 当服务器退出的时候自动清理环境，删除unix socket文件和pid文件（try to remove all of the generated file/sockets）</li>
-</ul>
-<h3 id="文件配置"><a href="#文件配置" class="headerlink" title="文件配置"></a>文件配置</h3><h4 id="myweb-uwsgi-ini"><a href="#myweb-uwsgi-ini" class="headerlink" title="myweb_uwsgi.ini"></a>myweb_uwsgi.ini</h4><p>项目根目录下创建：myweb_uwsgi.ini文件，写入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># myweb_uwsgi.ini file</span></div><div class="line">[uwsgi]</div><div class="line"></div><div class="line"><span class="comment"># Django-related settings</span></div><div class="line"></div><div class="line">socket = :8000</div><div class="line"></div><div class="line"><span class="comment"># the base directory (full path)</span></div><div class="line"><span class="built_in">chdir</span>           = /home/nmask/mydjango</div><div class="line"><span class="comment"># Django s wsgi file</span></div><div class="line">module          = mydjango.wsgi</div><div class="line"></div><div class="line"><span class="comment"># process-related settings</span></div><div class="line"><span class="comment"># master</span></div><div class="line">master          = <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment"># maximum number of worker processes</span></div><div class="line">processes       = 4</div><div class="line"></div><div class="line"><span class="comment"># ... with appropriate permissions - may be needed</span></div><div class="line"><span class="comment"># chmod-socket    = 664</span></div><div class="line"><span class="comment"># clear environment on exit</span></div><div class="line">vacuum          = <span class="literal">true</span></div></pre></td></tr></table></figure></p>
-<p>利用uwsgi运行django：（与前面命令行的方式一样，这样为了方便写成了文件）<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --ini myweb_uwsgi.ini</div></pre></td></tr></table></figure></p>
-<p>配置文件参数：</p>
-<ul>
-<li>socket:指uwsgi运行的端口</li>
-<li>Chdir:运行的目录</li>
-<li>Module：运行的文件</li>
-</ul>
-<h4 id="配置nginx"><a href="#配置nginx" class="headerlink" title="配置nginx"></a>配置nginx</h4><p>打开/etc/nginx/nginx.conf，http内添加以下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">    listen         8890; </div><div class="line">    server_name    127.0.0.1 </div><div class="line">    charset UTF-8;</div><div class="line">    access_log      /var/<span class="built_in">log</span>/nginx/myweb_access.log;</div><div class="line">    error_log       /var/<span class="built_in">log</span>/nginx/myweb_error.log;</div><div class="line"></div><div class="line">    client_max_body_size 75M;</div><div class="line"></div><div class="line">    location / &#123; </div><div class="line">        include uwsgi_params;</div><div class="line">        uwsgi_pass 127.0.0.1:8000;</div><div class="line">        uwsgi_read_timeout 2;</div><div class="line">    &#125;   </div><div class="line">    location /static &#123;</div><div class="line">        expires 30d;</div><div class="line">        autoindex on; </div><div class="line">        add_header Cache-Control private;</div><div class="line">        <span class="built_in">alias</span> /home/fnngj/pydj/myweb/static/;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
-<p>说明：这里的8000端口是uwsgi的端口，nginx运行将开启8890端口，也就是nginx的8890端口与uwsgi的8000端口相互通信。</p>
-<h3 id="部署运行"><a href="#部署运行" class="headerlink" title="部署运行"></a>部署运行</h3><p>运行uwsgi：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup uwsgi --ini myweb_uwsgi.ini &amp;</div></pre></td></tr></table></figure></p>
-<p>运行nginx:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/etc/init.d/nginx start</div></pre></td></tr></table></figure></p>
-<p>最后访问<em><a href="http://localhost:8890" target="_blank" rel="external">http://localhost:8890</a></em>，可以看到django项目已经被运行在nginx上了。</p>
-<p>注意：<em>在更新Django代码后，最好重启一下uwsgi进程，避免出现不可预知的Bug！</em></p>
-<h3 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h3><ul>
-<li>如果服务器是映射的，nginx配置文件里面的server_name要写外网的IP或者域名</li>
-<li>不要在python虚拟环境中使用uwsgi，会有一些问题，当然也可以解决，参考：<a href="https://stackoverflow.com/questions/14194859/importerror-no-module-named-django-core-wsgi-for-uwsgi" target="_blank" rel="external">https://stackoverflow.com/questions/14194859/importerror-no-module-named-django-core-wsgi-for-uwsgi</a></li>
-</ul>
-<h3 id="报错"><a href="#报错" class="headerlink" title="报错"></a>报错</h3><h4 id="No-module-named-django-core-wsgi"><a href="#No-module-named-django-core-wsgi" class="headerlink" title="No module named django.core.wsgi"></a>No module named django.core.wsgi</h4><p>启动uwsgi时报以下错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ImportError: No module named django.core.wsgi <span class="keyword">for</span> uwsgi</div></pre></td></tr></table></figure></p>
-<p>uwsgi在python虚拟环境中启动时，配置文件里面要加虚拟的路径。<br>打开django.init（自己创建）写入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">home=/path/to/venv/</div></pre></td></tr></table></figure></p>
-<p>运行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">uwsgi --ini django.ini --protocol=http</div></pre></td></tr></table></figure></p>
-<h4 id="uwsgi-http-is-ambiguous"><a href="#uwsgi-http-is-ambiguous" class="headerlink" title="uwsgi http is ambiguous"></a>uwsgi http is ambiguous</h4><p>这也是因为虚拟环境的原因，建议退出python的虚拟环境，然后pip install uwsgi。</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://www.cnblogs.com/fnng/p/5268633.html" target="_blank" rel="external">http://www.cnblogs.com/fnng/p/5268633.html</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Constant dropping wears the stone&lt;br&gt;滴水穿石&lt;/blockquote&gt;&lt;br&gt;　　本文用来记录Django部署的一些笔记，文中描述的系统环境为Ubuntu，采用的服务器为nginx以及用uwsgi来连接Django，这也是目前Django比较主流的部署套餐。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="技术研究" scheme="http://thief.one/categories/%E6%8A%80%E6%9C%AF%E7%A0%94%E7%A9%B6/"/>
-    
-    
-      <category term="nginx" scheme="http://thief.one/tags/nginx/"/>
-    
-      <category term="Django" scheme="http://thief.one/tags/Django/"/>
     
   </entry>
   
