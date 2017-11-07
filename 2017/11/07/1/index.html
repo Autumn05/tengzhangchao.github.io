@@ -122,18 +122,18 @@
 
 
 
-<meta name="description" content="妈妈再也不用担心我的正则啦!　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。">
+<meta name="description" content="妈妈再也不用担心我的正则啦!　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。有想学习正则语法的麻烦青年，请移步：Python 正则表达式">
 <meta name="keywords" content="正则,CreateRe">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自动生成正则大法暨CreateRe模块使用说明">
 <meta property="og:url" content="http://thief.one/2017/11/07/1/index.html">
 <meta property="og:site_name" content="nMask&#39;s Blog">
-<meta property="og:description" content="妈妈再也不用担心我的正则啦!　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。">
+<meta property="og:description" content="妈妈再也不用担心我的正则啦!　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。有想学习正则语法的麻烦青年，请移步：Python 正则表达式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-07T12:16:47.000Z">
+<meta property="og:updated_time" content="2017-11-07T12:23:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自动生成正则大法暨CreateRe模块使用说明">
-<meta name="twitter:description" content="妈妈再也不用担心我的正则啦!　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。">
+<meta name="twitter:description" content="妈妈再也不用担心我的正则啦!　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。有想学习正则语法的麻烦青年，请移步：Python 正则表达式">
 
 
 
@@ -430,7 +430,7 @@
       
 
       
-        <p><blockquote class="blockquote-center">妈妈再也不用担心我的正则啦!</blockquote><br>　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。<br><a id="more"></a></p>
+        <p><blockquote class="blockquote-center">妈妈再也不用担心我的正则啦!</blockquote><br>　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。有想学习正则语法的麻烦青年，请移步：<a href="https://thief.one/2017/10/30/1/">Python 正则表达式</a><br><a id="more"></a></p>
 <h3 id="CreateRe模块介绍"><a href="#CreateRe模块介绍" class="headerlink" title="CreateRe模块介绍"></a>CreateRe模块介绍</h3><p>　　Python生成正则表达式模块，此模块用来逆向的生成正则表达式。只需要传入待匹配的字符串，以及预期想要匹配出的结果列表，即可以生成一个正则表达式。<br>　　当然目前模块还不够成熟，具体表现在：第一生成能力有限（复杂的可能生成不了），第二是生成的正则表达式不够简便（我们知道同一个匹配效果，可以有很多种正则表达式去实现，高手往往能写出最短最优化的正则，而此模块尚处于入门阶段），只适合正则初学者使用。</p>
 <h3 id="CreateRe模块使用"><a href="#CreateRe模块使用" class="headerlink" title="CreateRe模块使用"></a>CreateRe模块使用</h3><h4 id="Download"><a href="#Download" class="headerlink" title="Download"></a>Download</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/tengzhangchao/CreateRe.git</div></pre></td></tr></table></figure>
 <h4 id="Import-Module导入模块"><a href="#Import-Module导入模块" class="headerlink" title="Import Module导入模块"></a>Import Module导入模块</h4><p>导入CreateRe模块，使用实例，可参考项目中的test.py文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">from CreateRe import create_re</div></pre></td></tr></table></figure></p>
@@ -455,6 +455,7 @@
 <li>check_result 利用正则表达式生成结果与预期相比较，若返回False则表示失败，返回结果列表则表示成功</li>
 </ul>
 <h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a href="https://github.com/tengzhangchao/CreateRe" target="_blank" rel="external">https://github.com/tengzhangchao/CreateRe</a></p>
+<h3 id="在线正则测试"><a href="#在线正则测试" class="headerlink" title="在线正则测试"></a>在线正则测试</h3><p><a href="http://tool.nmask.cn/python_re/" target="_blank" rel="external">http://tool.nmask.cn/python_re/</a></p>
 
       
     </div>
@@ -826,7 +827,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CreateRe模块介绍"><span class="nav-number">1.</span> <span class="nav-text">CreateRe模块介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CreateRe模块使用"><span class="nav-number">2.</span> <span class="nav-text">CreateRe模块使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Download"><span class="nav-number">2.1.</span> <span class="nav-text">Download</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Import-Module导入模块"><span class="nav-number">2.2.</span> <span class="nav-text">Import Module导入模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成正则表达式"><span class="nav-number">2.3.</span> <span class="nav-text">生成正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#run函数参数说明"><span class="nav-number">2.4.</span> <span class="nav-text">run函数参数说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示说明"><span class="nav-number">2.5.</span> <span class="nav-text">演示说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取模块内置的正则表达式"><span class="nav-number">2.6.</span> <span class="nav-text">获取模块内置的正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模块返回值"><span class="nav-number">2.7.</span> <span class="nav-text">模块返回值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目地址"><span class="nav-number">3.</span> <span class="nav-text">项目地址</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CreateRe模块介绍"><span class="nav-number">1.</span> <span class="nav-text">CreateRe模块介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CreateRe模块使用"><span class="nav-number">2.</span> <span class="nav-text">CreateRe模块使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Download"><span class="nav-number">2.1.</span> <span class="nav-text">Download</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Import-Module导入模块"><span class="nav-number">2.2.</span> <span class="nav-text">Import Module导入模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成正则表达式"><span class="nav-number">2.3.</span> <span class="nav-text">生成正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#run函数参数说明"><span class="nav-number">2.4.</span> <span class="nav-text">run函数参数说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#演示说明"><span class="nav-number">2.5.</span> <span class="nav-text">演示说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#获取模块内置的正则表达式"><span class="nav-number">2.6.</span> <span class="nav-text">获取模块内置的正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模块返回值"><span class="nav-number">2.7.</span> <span class="nav-text">模块返回值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目地址"><span class="nav-number">3.</span> <span class="nav-text">项目地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在线正则测试"><span class="nav-number">4.</span> <span class="nav-text">在线正则测试</span></a></li></ol></div>
             
           </div>
         </section>
