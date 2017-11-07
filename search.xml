@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[自动生成正则大法暨CreateRe模块使用说明]]></title>
+    <url>../../../../../../../../2017/11/07/1/</url>
+    <content type="text"><![CDATA[妈妈再也不用担心我的正则啦! 老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。 CreateRe模块介绍 Python生成正则表达式模块，此模块用来逆向的生成正则表达式。只需要传入待匹配的字符串，以及预期想要匹配出的结果列表，即可以生成一个正则表达式。 当然目前模块还不够成熟，具体表现在：第一生成能力有限（复杂的可能生成不了），第二是生成的正则表达式不够简便（我们知道同一个匹配效果，可以有很多种正则表达式去实现，高手往往能写出最短最优化的正则，而此模块尚处于入门阶段），只适合正则初学者使用。 CreateRe模块使用Download1git clone https://github.com/tengzhangchao/CreateRe.git Import Module导入模块导入CreateRe模块，使用实例，可参考项目中的test.py文件1from CreateRe import create_re 生成正则表达式123456789# 待匹配的字符串STRING = u""# 预想匹配结果列表S = [""]cur=create_re() #实例化类RES=cur.run(STRING,S,tag=True) #生成正则表达式check_result=cur.check_res(RES,tag=True) #Check正则表达式,返回匹配后的结果 run函数参数说明 STRING 待匹配的字符串，必须为unicode格式 S 预想正则匹配结果列表，必须为List，且如果List中有中文选项，则需要为unicode格式 tag 贪婪匹配的开关，具体区别下面会介绍 演示说明1234567891011121314STRING = u'''http://thief.one nmaskhttp://tool.nmask.cn nm4khttp://home.nmask.cn nmask'''S = ["http://tool.nmask.cn"]tag=Falsecur=create_re()RES=cur.run(STRING,S,tag=tag)check_result=cur.check_res(RES,tag=tag)print RESprint check_result 运行结果：12([a-z]&#123;4&#125;\:/&#123;2&#125;[a-z]&#123;4&#125;\.[a-z]&#123;5&#125;\.[a-z][a-z]) nm4[u'http://tool.nmask.cn'] 当改变tag的值，tag=True，运行结果：12([a-z]&#123;4&#125;\:/&#123;2&#125;[a-z]&#123;4&#125;\.[a-z]&#123;5&#125;\.[a-z][a-z])[u'http://tool.nmask.cn', u'http://home.nmask.cn'] 说明：tag=True表示开启贪婪匹配，即生成的正则将会尽可能多的匹配出结果，缺省为False。 S的值也可以指定多个:1234567891011121314STRING = u'''http://thief.one nmaskhttp://tool.nmask.cn nm4khttp://home.nmask.cn nmask'''S = ["http://tool.nmask.cn","http://thief.one"]tag=Truecur=create_re()RES=cur.run(STRING,S,tag=tag)check_result=cur.check_res(RES,tag=tag)print RESprint check_res 运行结果:12([a-z]&#123;4&#125;\:/&#123;2&#125;[a-z]&#123;4&#125;(?:.?)&#123;2&#125;[a-z]&#123;3&#125;(?:.?)&#123;4&#125;) [u'http://thief.one', u'http://tool.nmask.cn', u'http://home.nmask.cn'] 如果将tag改为False，则结果为：12([a-z]&#123;4&#125;\:/&#123;2&#125;[a-z]&#123;4&#125;(?:.?)&#123;2&#125;[a-z]&#123;3&#125;(?:.?)&#123;4&#125;) False 返回check_res=False表示生成的正则表达式，并不能匹配出想要的结果；可以将tag改为True尝试。 获取模块内置的正则表达式12345678cur=create_re()print cur.get_res("email") #邮箱print cur.get_res("phone") #电话print cur.get_res("name") #姓名print cur.get_res("id_15") #身份证 15位print cur.get_res("id_18") #身份证 18位print cur.get_res("car_id") #车牌print cur.get_res("address") #家庭住址 模块返回值1234tag=Truecur=create_re()RES=cur.run(STRING,S,tag=tag)check_result=cur.check_res(RES,tag=tag) RES 模块生成的正则表达式 check_result 利用正则表达式生成结果与预期相比较，若返回False则表示失败，返回结果列表则表示成功 项目地址https://github.com/tengzhangchao/CreateRe]]></content>
+      <categories>
+        <category>编程之道</category>
+      </categories>
+      <tags>
+        <tag>正则</tag>
+        <tag>CreateRe</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[nmask'tool框架开源说明]]></title>
     <url>../../../../../../../../2017/11/02/1/</url>
     <content type="text"><![CDATA[这是一篇内容很短的文章 事情的起因是有热心网友问起nmask’tool网站框架源码是否能够开源？本着分享的精神，我自然是很乐意开源的。只不过目前代码还没有梳理得很完善，扩展起来可能会比较麻烦，后期有时间我会把框架完善一下。关于此项目的任何进展，都会在本篇更新，尽情期待！ 当然其实这也谈不上是框架，无非是自己用Django写的一个小应用，当初没有考虑太多扩展的东西。如果大家觉得看着还行，可以去github上clone一份代码，自己搭建起来玩玩。当然我更希望大家能一起来完善这个工具平台（暂且称之为平台），多多贡献功能插件。 我当初开发这个工具平台的初衷是整合一些已有的功能，以web的形式免费向大家提供服务，避免重复造轮子。此工具平台主要侧重于安全类的功能开发，当然目前来看还是开发类的功能比较多，这也是因为我最近工作繁忙，还没来得及去更新安全类的一些功能。 项目GITHUB地址：https://github.com/tengzhangchao/tool-nmask 说明：关于如何进行功能扩展？我后期会整理一份开发文档，目前大家可以先自行研究研究代码。有任何项目上的问题，可以开issues提问，或者进群交流，也可以发送邮件，当然最方便的就是在文章下方留言啦。]]></content>
