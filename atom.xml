@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-11-08T08:12:43.000Z</updated>
+  <updated>2017-11-08T08:22:51.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://thief.one/2017/11/08/1/"/>
     <id>http://thief.one/2017/11/08/1/</id>
     <published>2017-11-08T07:57:44.000Z</published>
-    <updated>2017-11-08T08:12:43.000Z</updated>
+    <updated>2017-11-08T08:22:51.000Z</updated>
     
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center"></blockquote><br>　　相信使用过python的朋友一定熟悉pip，用它可以方便的管理下载第三方包。那么如何上传自己的Python package到pypi网站呢？即可以使用pip命令下载到自己的package包？<br><a id="more"></a></p>
+    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">斑驳的夜色在说什么<br>谁能告诉我如何选择</blockquote><br>　　相信使用过python的朋友一定熟悉pip，用它可以方便的管理下载第三方包。那么如何上传自己的Python package到pypi网站呢？即可以使用pip命令下载到自己的package包？<br><a id="more"></a></p>
 <h3 id="注册pypi网站的账号"><a href="#注册pypi网站的账号" class="headerlink" title="注册pypi网站的账号"></a>注册pypi网站的账号</h3><p>访问：<a href="https://pypi.python.org/pypi?%3Aaction=register_form" target="_blank" rel="external">https://pypi.python.org/pypi?%3Aaction=register_form</a> 注册一个账号。</p>
 <h3 id="打包package"><a href="#打包package" class="headerlink" title="打包package"></a>打包package</h3><p>我们需要将自己写好的python文件，打包成.tar.gz以及.whl的压缩包。</p>
 <h4 id="安twine"><a href="#安twine" class="headerlink" title="安twine"></a>安twine</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">pip install twine</div></pre></td></tr></table></figure>
@@ -39,7 +39,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;&lt;/blockquote&gt;&lt;br&gt;　　相信使用过python的朋友一定熟悉pip，用它可以方便的管理下载第三方包。那么如何上传自己的Python package到pypi网站呢？即可以使用pip命令下载到自己的package包？&lt;br&gt;
+      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;斑驳的夜色在说什么&lt;br&gt;谁能告诉我如何选择&lt;/blockquote&gt;&lt;br&gt;　　相信使用过python的朋友一定熟悉pip，用它可以方便的管理下载第三方包。那么如何上传自己的Python package到pypi网站呢？即可以使用pip命令下载到自己的package包？&lt;br&gt;
     
     </summary>
     
