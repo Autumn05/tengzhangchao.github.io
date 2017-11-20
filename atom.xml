@@ -161,7 +161,7 @@
     <link href="http://thief.one/2017/11/07/1/"/>
     <id>http://thief.one/2017/11/07/1/</id>
     <published>2017-11-07T12:06:46.000Z</published>
-    <updated>2017-11-07T12:23:16.000Z</updated>
+    <updated>2017-11-20T06:18:04.000Z</updated>
     
     <content type="html"><![CDATA[<p><blockquote class="blockquote-center">妈妈再也不用担心我的正则啦!</blockquote><br>　　老早以前就想写个自动生成正则表达式的Python模块出来，但思前想后也没有一个很好的技术方案。今晨突然灵光一闪，一气呵成下写了个CreateRe模块。说实话生成正则的能力一般，此模块能生成简单的正则表达式，适合初学者，可供压根不懂正则表达式也不想学正则的有为青年使用，简单方便一键生成。有想学习正则语法的麻烦青年，请移步：<a href="https://thief.one/2017/10/30/1/">Python 正则表达式</a><br><a id="more"></a></p>
 <h3 id="CreateRe模块介绍"><a href="#CreateRe模块介绍" class="headerlink" title="CreateRe模块介绍"></a>CreateRe模块介绍</h3><p>　　Python生成正则表达式模块，此模块用来逆向的生成正则表达式。只需要传入待匹配的字符串，以及预期想要匹配出的结果列表，即可以生成一个正则表达式。<br>　　当然目前模块还不够成熟，具体表现在：第一生成能力有限（复杂的可能生成不了），第二是生成的正则表达式不够简便（我们知道同一个匹配效果，可以有很多种正则表达式去实现，高手往往能写出最短最优化的正则，而此模块尚处于入门阶段），只适合正则初学者使用。</p>
