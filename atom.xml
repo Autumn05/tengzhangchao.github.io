@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://thief.one/"/>
-  <updated>2017-12-11T09:53:04.000Z</updated>
+  <updated>2018-01-11T12:29:30.000Z</updated>
   <id>http://thief.one/</id>
   
   <author>
@@ -14,6 +14,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用Whatweb获取Web指纹信息</title>
+    <link href="http://thief.one/2018/01/11/1/"/>
+    <id>http://thief.one/2018/01/11/1/</id>
+    <published>2018-01-11T11:50:06.000Z</published>
+    <updated>2018-01-11T12:29:30.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote class="blockquote-center">我都寂寞多久了还是没好<br>感觉全世界都在窃窃嘲笑</blockquote>
+
+<p>　　又是很久没有更新博客啦，为啥呢？因为在忙开发、开发、开发。我最近在研究指纹扫描以及漏洞扫描方面的设计与开发，从前端、后端到数据存储、消息队列再到分布式部署，感觉自己简直快成全栈了。不过开发过程中也有很多收获，有时间我会写博客分享一下。<br><a id="more"></a><br>　　那么今天写点啥呢？就分享个很老的安全工具吧——whatweb，相信很多朋友应该知道，用来扫web指纹的。为啥会用到它，因为项目需要啊，其实也可以不用，因为我自己写了很多扫描指纹的插件，这个只是作为备案选择而已。但既然用到了，那就理所当然要为它打call。好了，照旧先介绍如何安装，再介绍如何使用，本文重点在于环境安装，以及如何在python代码中比较<code>优雅</code>的使用whatweb。</p>
+<h3 id="安装升级ruby"><a href="#安装升级ruby" class="headerlink" title="安装升级ruby"></a>安装升级ruby</h3><p>whatweb是用ruby开发的，因此服务器上需要安装ruby，且对版本有要求，貌似必须2.0以上（没记错的话）。目前很多服务器内置的ruby是1.8的，或者用yum install ruby安装的也是1.8的，因此需要安装或者升级版本到2.0以上才行。</p>
+<h4 id="升级方案one（推荐）"><a href="#升级方案one（推荐）" class="headerlink" title="升级方案one（推荐）"></a>升级方案one（推荐）</h4><p>先删除原来的ruby：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum remove ruby ruby-devel</div></pre></td></tr></table></figure></p>
+<p>下载ruby安装包，并进行编译安装：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">wget http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.2.tar.gz</div><div class="line">tar xvfvz ruby-2.1.2.tar.gz</div><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>将ruby添加到环境变量，ruby安装在/usr/local/bin/目录下，因此编辑 ~/.bash_profile文件，添加一下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=<span class="variable">$PATH</span>:/usr/<span class="built_in">local</span>/bin/</div></pre></td></tr></table></figure></p>
+<p>不要忘了生效一下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> ~/.bash_profile</div></pre></td></tr></table></figure></p>
+<p>参考：<a href="http://ask.xmodulo.com/upgrade-ruby-centos.html" target="_blank" rel="external">http://ask.xmodulo.com/upgrade-ruby-centos.html</a></p>
+<h4 id="升级方案two"><a href="#升级方案two" class="headerlink" title="升级方案two"></a>升级方案two</h4><p>先安装rvm，这是ruby的包管理器:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ curl -L get.rvm.io | bash -s stable  </div><div class="line">$ <span class="built_in">source</span> ~/.bash_profile</div></pre></td></tr></table></figure></p>
+<p>测试是否安装成功:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rvm -v</div></pre></td></tr></table></figure></p>
+<p>利用rvm升级ruby:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ruby -v  <span class="comment">#查看当前ruby版本  </span></div><div class="line">rvm list known  <span class="comment">#列出已知的ruby版本</span></div><div class="line">rvm install 2.0 <span class="comment">#安装ruby 2.0</span></div></pre></td></tr></table></figure></p>
+<h3 id="安装whatweb"><a href="#安装whatweb" class="headerlink" title="安装whatweb"></a>安装whatweb</h3><p>说起来这个就很简单，直接去github上clone下项目：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> https://github.com/urbanadventurer/WhatWeb.git</div></pre></td></tr></table></figure></p>
+<p>项目内已经有编译好的可执行文件，whatweb，只需要添加个环境变量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PATH=<span class="variable">$PATH</span>:/root/WhatWeb-master/</div></pre></td></tr></table></figure></p>
+<h3 id="使用whatweb"><a href="#使用whatweb" class="headerlink" title="使用whatweb"></a>使用whatweb</h3><p>具体详细的使用方式就要参考<a href="https://github.com/urbanadventurer/WhatWeb" target="_blank" rel="external">github</a>了，我这边只介绍怎么在python中使用whatweb。</p>
+<p>废话不多说，直接上代码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#! -*- coding:utf-8 -*-</span></div><div class="line"></div><div class="line">import commands</div><div class="line">import re</div><div class="line"></div><div class="line"><span class="comment"># 正则表达式</span></div><div class="line">p_httpserver=re.compile(r<span class="string">"HTTPServer\x1b\[0m\[\x1b\[1m\x1b\[36m([^,]+?)\x1b\[0m\]"</span>)</div><div class="line">p_title=re.compile(r<span class="string">"Title\x1b\[0m\[\x1b\[1m\x1b\[33m(.+?)\x1b\[0m\]"</span>)</div><div class="line">p_ip=re.compile(r<span class="string">"IP\x1b\[0m\[\x1b\[37m([^,]+?)\x1b\[0m\]"</span>)</div><div class="line">p_country=re.compile(r<span class="string">"Country\x1b\[0m\[\x1b\[37m([^,]+?)\x1b\[0m\]"</span>)</div><div class="line">p_cookies=re.compile(r<span class="string">"Cookies\x1b\[0m\[\x1b\[37m([^,]+?)\x1b\[0m\]"</span>)</div><div class="line">p_x_powered_by=re.compile(r<span class="string">"X-Powered-By\x1b\[0m\[\x1b\[37m([^,]+?)\x1b\[0m\]"</span>)</div><div class="line"></div><div class="line">def re_grep(p,content):</div><div class="line">  <span class="comment"># 正则处理</span></div><div class="line">  L=p.findall(content)</div><div class="line">  <span class="keyword">if</span> len(L)&gt;0:</div><div class="line">    <span class="built_in">return</span> L[0]</div><div class="line">  <span class="keyword">else</span>:</div><div class="line">    <span class="built_in">return</span> <span class="string">""</span></div><div class="line"></div><div class="line">def whatweb(url):</div><div class="line">    <span class="comment"># whatweb扫描</span></div><div class="line">    result=<span class="string">""</span></div><div class="line">    httpserver=<span class="string">""</span></div><div class="line">    title=<span class="string">""</span></div><div class="line">    ip=<span class="string">""</span></div><div class="line">    cookies=<span class="string">""</span></div><div class="line">    country=<span class="string">""</span></div><div class="line">    power_by=<span class="string">""</span></div><div class="line"></div><div class="line">    try:</div><div class="line">        status,result=commands.getstatusoutput(<span class="string">'whatweb '</span>+url)</div><div class="line">        <span class="comment"># print status,result</span></div><div class="line">    except IndexError,e:</div><div class="line">        <span class="built_in">print</span> e</div><div class="line">    <span class="keyword">else</span>:   </div><div class="line">        httpserver=re_grep(p_httpserver,result)</div><div class="line">        title=re_grep(p_title,result)</div><div class="line">        ip=re_grep(p_ip,result)</div><div class="line">        country=re_grep(p_country,result)</div><div class="line">        cookies=re_grep(p_cookies,result)</div><div class="line">        power_by=re_grep(p_x_powered_by,result)</div><div class="line"></div><div class="line">    <span class="built_in">return</span> httpserver,title,cookies,country,power_by</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</div><div class="line"></div><div class="line">    result=whatweb(<span class="string">"thief.one"</span>)</div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</div><div class="line">        <span class="built_in">print</span> i</div></pre></td></tr></table></figure></p>
+<p>说明：解释一下代码，主要就是一个正则表达式，因为运行whatweb会直接将结果打印，当然也有其他命令可以让其结果输出到文本等，但如果想要批量自动化扫描的话，需要实时获取whatweb的内容，生成文件的方式显然不行，因此我用了commands库，让python执行系统命令并获取返回结果，然后就是几个正则对结果的匹配。</p>
+<p>结束之语：又水了一篇，嗯嗯！</p>
+<p><code>如果有朋友有更好地在python代码中使用whatweb的方法，麻烦告知，我是被whatweb的输出折腾的够呛，因此才选择了用正则，无奈之举。</code></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote class=&quot;blockquote-center&quot;&gt;我都寂寞多久了还是没好&lt;br&gt;感觉全世界都在窃窃嘲笑&lt;/blockquote&gt;
+
+&lt;p&gt;　　又是很久没有更新博客啦，为啥呢？因为在忙开发、开发、开发。我最近在研究指纹扫描以及漏洞扫描方面的设计与开发，从前端、后端到数据存储、消息队列再到分布式部署，感觉自己简直快成全栈了。不过开发过程中也有很多收获，有时间我会写博客分享一下。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
+    
+    
+      <category term="whatweb" scheme="http://thief.one/tags/whatweb/"/>
+    
+  </entry>
   
   <entry>
     <title>HTTP-API认证，Python实现方案</title>
@@ -821,55 +864,6 @@
     <summary type="html">
     
       &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Live well, love lots, and laugh often&lt;br&gt;善待生活，热爱一切，经常开怀大笑&lt;/blockquote&gt;&lt;br&gt;　　本篇主要用来记录Django模型相关部分的笔记，模型可以简单理解为数据操作，即从数据库中获取数据，向数据库中存储数据等。django默认使用sqlit3，支持mysql、postgreSQL等数据库。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="编程之道" scheme="http://thief.one/categories/%E7%BC%96%E7%A8%8B%E4%B9%8B%E9%81%93/"/>
-    
-    
-      <category term="django" scheme="http://thief.one/tags/django/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Django基础之起步</title>
-    <link href="http://thief.one/2017/09/14/1/"/>
-    <id>http://thief.one/2017/09/14/1/</id>
-    <published>2017-09-14T11:45:07.000Z</published>
-    <updated>2017-09-14T12:43:42.000Z</updated>
-    
-    <content type="html"><![CDATA[<p><blockquote class="blockquote-center">Do one thing at a time, and do well<br>一次只做一件事，做到最好！</blockquote><br>　　学习使用Python已有2年时间，但至今还没拿它开发出什么像样的项目，大多时候只是用来写写脚本，感觉有点大材小用。因此最近打算好好研究研究python中的Web框架—Django，之所以选择Django而不是flask，也只是偶然，仅此而已。接下来的一段时间我会更新关于Django的一些笔记，内容没有一定的顺序，学到哪记到哪。<br><a id="more"></a></p>
-<h3 id="Django介绍"><a href="#Django介绍" class="headerlink" title="Django介绍"></a>Django介绍</h3><p>　　太多介绍性的内容就不写了，主要想对纠结学django还是flask甚至其他框架的同学说一声，学啥框架不重要，就好像学什么语言一样，一门通门门通。无论Django还是flask都很强大，也足够我们写一个项目</p>
-<h3 id="Django的MTV框架"><a href="#Django的MTV框架" class="headerlink" title="Django的MTV框架"></a>Django的MTV框架</h3><p>　　Django是使用MVC框架设计的，但更准确地说应该是基于MTV框架，即模型(model)－视图(view)－模版(Template)。简单介绍，模型就是数据库（负责数据存储），视图就是后端（负责数据处理），模版就是前端（负责数据展示），模型与视图在Django中分别对应着models.py、views.py，而模版需要自己在templates目录下创建html文件，views.py中的函数渲染templates中的Html模板，得到动态内容的网页。<br>　　一个Django页面的搜索功能，整个流程是这样的：从模版获取用户输入—&gt;请求传递到视图—&gt;视图向模型获取数据—–&gt;视图对数据进行处理—-&gt;返回给模型显示。</p>
-<h3 id="Django安装"><a href="#Django安装" class="headerlink" title="Django安装"></a>Django安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">安装pip:</div><div class="line">sudo apt-get install python-pip</div><div class="line">或者</div><div class="line">yum install python-pip</div><div class="line"></div><div class="line">然后安装django:</div><div class="line">pip install django</div></pre></td></tr></table></figure>
-<p>说明：建议使用Python虚拟环境搭建django。</p>
-<h3 id="Django常用命令"><a href="#Django常用命令" class="headerlink" title="Django常用命令"></a>Django常用命令</h3><p>新建项目以及app：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">django-admin.py startproject project_name 新建项目</div><div class="line">python manage.py startapp app_name 新建APP</div></pre></td></tr></table></figure></p>
-<p>数据库操作：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#创建更改的文件</span></div><div class="line">python manage.py makemigrations</div><div class="line"><span class="comment">#将生成的py文件应用到数据库</span></div><div class="line">python manage.py migrate</div><div class="line"><span class="comment">#清空数据库</span></div><div class="line">python manage.py flush</div></pre></td></tr></table></figure></p>
-<p>使用内置服务器:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">python manage.py runserver</div><div class="line">python manage.py runserver 8080</div><div class="line">python manage.py runserver 10.0.0.1:80</div></pre></td></tr></table></figure></p>
-<p>创建管理员：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">python manage.py createsuperuser</div><div class="line">python manage.py changepassword username</div></pre></td></tr></table></figure></p>
-<p>数据导入导出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">python manage.py dumpdata appname &gt; appname.json</div><div class="line">python manage.py loaddata appname.json</div></pre></td></tr></table></figure></p>
-<p>项目环境终端：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py shell</div></pre></td></tr></table></figure></p>
-<p>说明：可以在这个 shell 里面调用当前项目的 models.py 中的api。</p>
-<p>数据库命令行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py dbshell</div></pre></td></tr></table></figure></p>
-<p>可以在命令行中执行sql语句。</p>
-<h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">django-admin startproject mysite(项目名称)</div></pre></td></tr></table></figure>
-<p>注意：目录不能带有中文。<br>开启内置服务器：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python  manage.py runserver (ip:port)       <span class="comment">#默认为8000</span></div></pre></td></tr></table></figure></p>
-<p>访问:<a href="http://localhost:8000" target="_blank" rel="external">http://localhost:8000</a></p>
-<h3 id="创建应用"><a href="#创建应用" class="headerlink" title="创建应用"></a>创建应用</h3><p>一个项目中可以有多个应用，一个应用即一个web应用程序。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py startapp  webapp</div></pre></td></tr></table></figure></p>
-<p>说明：会在manage.py同级目录下创建一个webapp文件夹。</p>
-<h3 id="setting-py"><a href="#setting-py" class="headerlink" title="setting.py"></a>setting.py</h3><p>将新定义的app，这里为webapp添加到setting.py中:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'django.contrib.admin'</span>,</div><div class="line">    <span class="string">'django.contrib.auth'</span>,</div><div class="line">    <span class="string">'django.contrib.contenttypes'</span>,</div><div class="line">    <span class="string">'django.contrib.sessions'</span>,</div><div class="line">    <span class="string">'django.contrib.messages'</span>,</div><div class="line">    <span class="string">'django.contrib.staticfiles'</span>,</div><div class="line"> </div><div class="line">    <span class="string">'webapp'</span>,</div><div class="line">)</div></pre></td></tr></table></figure></p>
-<p>说明：添加app是为了让django知道，我们创建了一个新的app应用，让它能够加载app。</p>
-<h3 id="view-py"><a href="#view-py" class="headerlink" title="view.py"></a>view.py</h3><p>定义视图函数(views.py):<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">from django.http import HttpResponse</div><div class="line"> </div><div class="line">def index(request):</div><div class="line">    <span class="built_in">return</span> HttpResponse(<span class="string">"This is a test page!"</span>)</div></pre></td></tr></table></figure></p>
-<p>说明：视图函数(view.py)就是在服务端完成的一些列功能的函数，它接收一个request请求，返回一个response。</p>
-<h3 id="urls-py"><a href="#urls-py" class="headerlink" title="urls.py"></a>urls.py</h3><p>定义url，修改urls.py:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">from django.conf.urls import url</div><div class="line">from django.contrib import admin</div><div class="line">from webapp import views</div><div class="line"> </div><div class="line">urlpatterns = [</div><div class="line">    url(r<span class="string">'^$'</span>, views.index),</div><div class="line">    url(r<span class="string">'^admin/'</span>, admin.site.urls),</div><div class="line">]</div></pre></td></tr></table></figure></p>
-<p>说明：urls.py是定义django路由的文件，此路由不是网络中的路由，简单来说就是url，定义了当我们请求哪些url的时候，对应去执行view中的哪些函数。</p>
-<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="http://code.ziqiangxuetang.com/django/django-tutorial.html" target="_blank" rel="external">http://code.ziqiangxuetang.com/django/django-tutorial.html</a></p>
-<p><em>本篇只做最基础的Django介绍，至于MVC每一层具体的使用方式以及配置、安全、部署等问题，后面会逐一成文介绍</em></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;blockquote class=&quot;blockquote-center&quot;&gt;Do one thing at a time, and do well&lt;br&gt;一次只做一件事，做到最好！&lt;/blockquote&gt;&lt;br&gt;　　学习使用Python已有2年时间，但至今还没拿它开发出什么像样的项目，大多时候只是用来写写脚本，感觉有点大材小用。因此最近打算好好研究研究python中的Web框架—Django，之所以选择Django而不是flask，也只是偶然，仅此而已。接下来的一段时间我会更新关于Django的一些笔记，内容没有一定的顺序，学到哪记到哪。&lt;br&gt;
     
     </summary>
     
