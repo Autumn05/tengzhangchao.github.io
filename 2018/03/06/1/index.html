@@ -104,7 +104,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Puppeteer,Headless Chrome," />
+  <meta name="keywords" content="Headless Chrome,Puppeteer," />
 
 
 
@@ -123,14 +123,14 @@
 
 
 <meta name="description" content="我已爬遍了全世界，而你却迟迟不见  　　自从Google在chrome59版本后加入了 Headless Chrome，类似phantomjs、selenium等工具作者都放弃了维护自身的产品（原因可参考文章 QtWebkit or Headless Chrome）。因此作为使用者的我们也是时候放弃phantomjs，转而研究Headless Chrome了。由于网上对于Headless Chro">
-<meta name="keywords" content="Puppeteer,Headless Chrome">
+<meta name="keywords" content="Headless Chrome,Puppeteer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Headless Chrome and Puppeteer">
 <meta property="og:url" content="http://thief.one/2018/03/06/1/index.html">
 <meta property="og:site_name" content="nMask&#39;s Blog">
 <meta property="og:description" content="我已爬遍了全世界，而你却迟迟不见  　　自从Google在chrome59版本后加入了 Headless Chrome，类似phantomjs、selenium等工具作者都放弃了维护自身的产品（原因可参考文章 QtWebkit or Headless Chrome）。因此作为使用者的我们也是时候放弃phantomjs，转而研究Headless Chrome了。由于网上对于Headless Chro">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T09:54:38.000Z">
+<meta property="og:updated_time" content="2018-03-06T11:13:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Headless Chrome and Puppeteer">
 <meta name="twitter:description" content="我已爬遍了全世界，而你却迟迟不见  　　自从Google在chrome59版本后加入了 Headless Chrome，类似phantomjs、selenium等工具作者都放弃了维护自身的产品（原因可参考文章 QtWebkit or Headless Chrome）。因此作为使用者的我们也是时候放弃phantomjs，转而研究Headless Chrome了。由于网上对于Headless Chro">
@@ -454,7 +454,7 @@
 <h4 id="访问一个网页并进行js交互（REPL模式）"><a href="#访问一个网页并进行js交互（REPL模式）" class="headerlink" title="访问一个网页并进行js交互（REPL模式）"></a>访问一个网页并进行js交互（REPL模式）</h4><p>–repl 标志可以使 Headless Chrome 运行在一个你可以使用浏览器评估 JS 表达式的模式下。执行下面的命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chrome --headless --<span class="built_in">disable</span>-gpu --repl https://thief.one</div><div class="line">&gt;&gt;&gt; location.href</div><div class="line">&#123;<span class="string">"result"</span>:&#123;<span class="string">"type"</span>:<span class="string">"string"</span>,<span class="string">"value"</span>:<span class="string">"https://thief.one"</span>&#125;&#125;</div><div class="line">&gt;&gt;&gt; quit</div></pre></td></tr></table></figure></p>
 <h4 id="启动一个监听端口"><a href="#启动一个监听端口" class="headerlink" title="启动一个监听端口"></a>启动一个监听端口</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chrome --remote-debugging-port=9222</div></pre></td></tr></table></figure>
 <p>可以通过浏览器打开：<a href="http://127.0.0.1:9222" target="_blank" rel="external">http://127.0.0.1:9222</a> </p>
-<h3 id="Headless-Chrome-API"><a href="#Headless-Chrome-API" class="headerlink" title="Headless Chrome API"></a>Headless Chrome API</h3><p>以上演示了使用命令行的方式操作headless chrome，那么怎么在代码中使用它呢？官方提供了一个node api工具–<a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="external">puppeteer</a>。</p>
+<h3 id="Headless-Chrome-API"><a href="#Headless-Chrome-API" class="headerlink" title="Headless Chrome API"></a>Headless Chrome API</h3><p>以上演示了使用命令行的方式操作headless chrome，那么怎么在代码中使用它呢？<br>官方提供了一个node api工具 <a href="https://github.com/GoogleChrome/puppeteer" target="_blank" rel="external">puppeteer</a><br>除此之外有非官方的 <a href="https://github.com/yujiosaka/headless-chrome-crawler" target="_blank" rel="external">headless-chrome-crawler</a>、 <a href="https://github.com/fate0/pychrome" target="_blank" rel="external">pychrome</a></p>
 <h4 id="puppeteer-介绍"><a href="#puppeteer-介绍" class="headerlink" title="puppeteer 介绍"></a>puppeteer 介绍</h4><p>Puppeteer 是一个由 Chrome 团队开发的 Node 库。它提供了一个高层次的 API 来控制无需显示版（或 完全版）的 Chrome。它与其他自动化测试库，如 Phantom 和 NightmareJS 相类似，但是只适用于最新版本的 Chrome。</p>
 <h4 id="puppeteer-安装"><a href="#puppeteer-安装" class="headerlink" title="puppeteer 安装"></a>puppeteer 安装</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">yum install npm</div><div class="line">npm i --save puppeteer</div></pre></td></tr></table></figure>
 <p>安装完puppeteer，默认会自动安装最新版本的chromium。</p>
@@ -491,7 +491,7 @@
   <p><span>本文标题:</span><a href="/2018/03/06/1/">Headless Chrome and Puppeteer</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 nMask 的个人博客">nMask</a></p>
   <p><span>发布时间:</span>2018年03月06日 - 13:03</p>
-  <p><span>最后更新:</span>2018年03月06日 - 17:03</p>
+  <p><span>最后更新:</span>2018年03月06日 - 19:03</p>
   <p><span>原始链接:</span><a href="/2018/03/06/1/" title="Headless Chrome and Puppeteer">http://thief.one/2018/03/06/1/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://thief.one/2018/03/06/1/"  aria-label="复制成功！"></i></span>
   </p>
@@ -538,9 +538,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Puppeteer/" rel="tag"><i class="fa fa-tag"></i>Puppeteer</a>
-          
             <a href="/tags/Headless-Chrome/" rel="tag"><i class="fa fa-tag"></i>Headless Chrome</a>
+          
+            <a href="/tags/Puppeteer/" rel="tag"><i class="fa fa-tag"></i>Puppeteer</a>
           
         </div>
       
@@ -643,7 +643,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">122</span>
+                <span class="site-state-item-count">121</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
