@@ -130,7 +130,7 @@
 <meta property="og:site_name" content="nMask&#39;s Blog">
 <meta property="og:description" content="我已爬遍了全世界，而你却迟迟不见  　　自从Google在chrome59版本后加入了 Headless Chrome，类似phantomjs、selenium等工具作者都放弃了维护自身的产品（原因可参考文章 QtWebkit or Headless Chrome）。因此作为使用者的我们也是时候放弃phantomjs，转而研究Headless Chrome了。由于网上对于Headless Chro">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-07T07:29:19.000Z">
+<meta property="og:updated_time" content="2018-03-07T07:39:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Headless Chrome and API">
 <meta name="twitter:description" content="我已爬遍了全世界，而你却迟迟不见  　　自从Google在chrome59版本后加入了 Headless Chrome，类似phantomjs、selenium等工具作者都放弃了维护自身的产品（原因可参考文章 QtWebkit or Headless Chrome）。因此作为使用者的我们也是时候放弃phantomjs，转而研究Headless Chrome了。由于网上对于Headless Chro">
@@ -494,6 +494,7 @@
 <h4 id="系统仍然需要安装Xvfb吗？"><a href="#系统仍然需要安装Xvfb吗？" class="headerlink" title="系统仍然需要安装Xvfb吗？"></a>系统仍然需要安装Xvfb吗？</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">不需要，Headless Chrome 不使用窗口，所以不需要像 Xvfb 这样的显示服务器。</div><div class="line"></div><div class="line">你问什么是 Xvfb？</div><div class="line">Xvfb 是一个用于类 Unix 系统的运行于内存之内的显示服务器，可以让你运行图形应用程序（如 Chrome），而无需附加的物理显示器。许多人使用 Xvfb 运行早期版本的 Chrome 进行 “headless” 测试。</div></pre></td></tr></table></figure>
 <h4 id="如何创建一个运行-Headless-Chrome-的-Docker-容器？"><a href="#如何创建一个运行-Headless-Chrome-的-Docker-容器？" class="headerlink" title="如何创建一个运行 Headless Chrome 的 Docker 容器？"></a>如何创建一个运行 Headless Chrome 的 Docker 容器？</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">查看 lighthouse-ci。它有一个使用 Ubuntu 作为基础镜像的 Dockerfile 示例，并且在 App Engine Flexible 容器中安装和运行了 Lighthouse。</div></pre></td></tr></table></figure>
 <h4 id="headless-chrome和-PhantomJS-有什么关系？"><a href="#headless-chrome和-PhantomJS-有什么关系？" class="headerlink" title="headless chrome和 PhantomJS 有什么关系？"></a>headless chrome和 PhantomJS 有什么关系？</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Headless Chrome 和 PhantomJS 是类似的工具。它们都可以用来在无需显示的环境中进行自动化测试。两者的主要不同在于 Phantom 使用了一个较老版本的 WebKit 作为它的渲染引擎，而 Headless Chrome 使用了最新版本的 Blink。</div></pre></td></tr></table></figure>
+<p><code>下篇将介绍分布式漏扫爬虫框架的设计与实现，以及写爬虫过程中需要注意的点</code></p>
 <h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><p><a href="https://zhuanlan.zhihu.com/p/29207391" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/29207391</a><br><a href="https://developers.google.com/web/updates/2017/04/headless-chrome" target="_blank" rel="external">https://developers.google.com/web/updates/2017/04/headless-chrome</a><br><a href="https://juejin.im/entry/58fd5e645c497d005803b6a4" target="_blank" rel="external">https://juejin.im/entry/58fd5e645c497d005803b6a4</a><br><a href="http://csbun.github.io/blog/2017/09/puppeteer/" target="_blank" rel="external">http://csbun.github.io/blog/2017/09/puppeteer/</a></p>
 
       
